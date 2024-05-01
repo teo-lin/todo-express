@@ -1,0 +1,20 @@
+{
+  "lastListId": "U3",
+  "lists": [
+    {
+      "listId": "L1",
+      "listName": "Grocery list",
+      "isShared": false
+    },
+    {
+      "listId": "L2",
+      "listName": "Shopping list",
+      "isShared": false
+    },
+    {
+      "listId": "L3",
+      "listName": "Work list",
+      "isShared": true
+    }
+  ]
+}
