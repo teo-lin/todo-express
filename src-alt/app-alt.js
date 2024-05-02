@@ -6,33 +6,6 @@ const PATH_TASKS = path.join(__dirname, './tasks.json')
 const PATH_LISTS = path.join(__dirname, './lists.json')
 const PORT = 3333
 
-// ROUTER
-const app = express()
-const userRouter = express.Router()
-const taskRouter = express.Router()
-const listRouter = express.Router()
-
-// MIDDLEWARE
-app.use(express.json())
-app.use('/users', userRouter)
-app.use('/tasks', taskRouter)
-app.use('/lists', listRouter)
-
-// ROUTES
-userRouter.post('/register', createUser)
-userRouter.get('/user/:id', retrieveUser)
-userRouter.put('/user/:id', updateUser)
-userRouter.delete('/user/:id', deleteUser)
-taskRouter.post('/create', createTask)
-taskRouter.get('/task/:id', retrieveTask)
-taskRouter.put('/task/:id', updateTask)
-taskRouter.delete('/task/:id', deleteTask)
-taskRouter.patch('/task/:id/complete', completeTask)
-listRouter.post('/create', createList)
-listRouter.get('/list/:id', retrieveList)
-listRouter.put('/list/:id', updateList)
-listRouter.delete('/list/:id', deleteList)
-
 // ROUTING FUNCTIONS
 async function createUser(req, res) {
 	try {
@@ -242,6 +215,33 @@ function db_getData(filePath) {
 function db_setData(filePath, data) {
 	fs.writeFileSync(filePath, JSON.stringify(data), 'utf8')
 }
+
+// ROUTER
+const app = express()
+const userRouter = express.Router()
+const taskRouter = express.Router()
+const listRouter = express.Router()
+
+// MIDDLEWARE
+app.use(express.json())
+app.use('/users', userRouter)
+app.use('/tasks', taskRouter)
+app.use('/lists', listRouter)
+
+// ROUTES
+userRouter.post('/register', createUser)
+userRouter.get('/user/:id', retrieveUser)
+userRouter.put('/user/:id', updateUser)
+userRouter.delete('/user/:id', deleteUser)
+taskRouter.post('/create', createTask)
+taskRouter.get('/task/:id', retrieveTask)
+taskRouter.put('/task/:id', updateTask)
+taskRouter.delete('/task/:id', deleteTask)
+taskRouter.patch('/task/:id/complete', completeTask)
+listRouter.post('/create', createList)
+listRouter.get('/list/:id', retrieveList)
+listRouter.put('/list/:id', updateList)
+listRouter.delete('/list/:id', deleteList)
 
 // SERVER
 app.listen(PORT, () =>
