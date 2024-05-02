@@ -76,3 +76,4 @@ pids
 .yarn/install-state.gz
 .pnp.*
 tmp
+package-lock.json
