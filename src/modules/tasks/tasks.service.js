@@ -5,7 +5,7 @@ const PATH = path.join(__dirname, '../database/tasks.json')
 async function createTask(taskData) {
 	const tasksData = db.getData(PATH)
 	const nextTaskId = `T${1 + Number(tasksData.lastTaskId.slice(1))}`
-	const newTask = { id: nextTaskId, ...taskData }
+	const newTask = { taskId: nextTaskId, ...taskData }
 	tasksData.tasks.push(newTask)
 	tasksData.lastTaskId = nextTaskId
 	db.setData(PATH, tasksData)

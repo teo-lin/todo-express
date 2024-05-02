@@ -1,5 +1,5 @@
 {
-	"lastTaskId": "T7",
+	"lastTaskId": "T6",
 	"tasks": [
 		{
 			"taskId": "T1",
@@ -42,7 +42,6 @@
 			"userId": "U3",
 			"taskName": "What's up doc?",
 			"isComplete": false
-		},
-		{ "id": "T7", "listId": "L1", "userId": "U1", "taskName": "Buy eggs" }
+		}
 	]
 }

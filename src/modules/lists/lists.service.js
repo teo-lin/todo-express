@@ -5,7 +5,7 @@ const PATH = path.join(__dirname, '../database/lists.json')
 async function createList(listData) {
 	const listsData = db.getData(PATH)
 	const nextListId = `L${1 + Number(listsData.lastListId.slice(1))}`
-	const newList = { id: nextListId, ...listData }
+	const newList = { listId: nextListId, ...listData }
 	listsData.lists.push(newList)
 	listsData.lastListId = nextListId
 	db.setData(PATH, listsData)

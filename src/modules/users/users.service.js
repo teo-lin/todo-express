@@ -5,7 +5,7 @@ const PATH = path.join(__dirname, '../database/users.json')
 async function createUser(userData) {
 	const usersData = db.getData(PATH)
 	const nextUserId = `U${1 + Number(usersData.lastUserId.slice(1))}`
-	const newUser = { id: nextUserId, ...userData }
+	const newUser = { userId: nextUserId, ...userData }
 	usersData.users.push(newUser)
 	usersData.lastUserId = nextUserId
 	db.setData(PATH, usersData)

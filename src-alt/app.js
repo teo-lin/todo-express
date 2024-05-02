@@ -148,7 +148,7 @@ async function deleteList(req, res) {
 async function usersService_createUser(userData) {
 	const usersData = db_getData(PATH_USERS)
 	const nextUserId = `U${1 + Number(usersData.lastUserId.slice(1))}`
-	const newUser = { id: nextUserId, ...userData }
+	const newUser = { userId: nextUserId, ...userData }
 	usersData.users.push(newUser)
 	usersData.lastUserId = nextUserId
 	db_setData(PATH_USERS, usersData)
@@ -179,7 +179,7 @@ async function usersService_deleteUser(userId) {
 async function listsService_createList(listData) {
 	const listsData = db_getData(PATH_LISTS)
 	const nextListId = `L${1 + Number(listsData.lastListId.slice(1))}`
-	const newList = { id: nextListId, ...listData }
+	const newList = { listId: nextListId, ...listData }
 	listsData.lists.push(newList)
 	listsData.lastListId = nextListId
 	db_setData(PATH_LISTS, listsData)
@@ -205,7 +205,7 @@ async function listsService_deleteList(listId) {
 async function tasksService_createTask(taskData) {
 	const tasksData = db_getData(PATH_TASKS)
 	const nextTaskId = `T${1 + Number(tasksData.lastTaskId.slice(1))}`
-	const newTask = { id: nextTaskId, ...taskData }
+	const newTask = { taskId: nextTaskId, ...taskData }
 	tasksData.tasks.push(newTask)
 	tasksData.lastTaskId = nextTaskId
 	db_setData(PATH_TASKS, tasksData)
