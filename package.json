@@ -4,13 +4,9 @@
   "description": "Sandbox Todo API build with Express",
   "main": "src/app.js",
   "scripts": {
-    "start": "node $npm_package_main",
-    "start-dev": "nodemon src/app.js",
-    "build": "node generate-description.js && tsc",
-    "test": "REPLACE_ME",
-    "coverage": "REPLACE_ME",
-    "debug": "nodemon --inspect=9229 src/app.js",
-    "watch": "REPLACE_ME"
+    "start": "nodemon src/app.js",
+    "start-alt": "nodemon src-alt/app.js",
+    "debug": "nodemon --inspect=9229 src/app.js"
   },
   "author": "Teolin",
   "license": "Apache-2.0",
