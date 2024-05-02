@@ -5,8 +5,8 @@
   "main": "src/app.js",
   "scripts": {
     "start": "nodemon src/app.js",
-    "start-alt": "nodemon src-alt/app.js",
-    "start-oop": "nodemon src-oop/app.js",
+    "start-alt": "nodemon src-alt/app-alt.js",
+    "start-oop": "nodemon src-alt/app-oop.js",
     "debug": "nodemon --inspect=9229 src/app.js"
   },
   "author": "Teolin",
