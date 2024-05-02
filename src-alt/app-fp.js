@@ -1,6 +1,7 @@
 const express = require('express')
 const fs = require('fs')
 const path = require('path')
+
 const PATH_USERS = path.join(__dirname, './users.json')
 const PATH_TASKS = path.join(__dirname, './tasks.json')
 const PATH_LISTS = path.join(__dirname, './lists.json')
@@ -217,31 +218,27 @@ function db_setData(filePath, data) {
 }
 
 // ROUTER
-const app = express()
-const userRouter = express.Router()
-const taskRouter = express.Router()
-const listRouter = express.Router()
+const app = express();
+const router = express.Router();
 
 // MIDDLEWARE
-app.use(express.json())
-app.use('/users', userRouter)
-app.use('/tasks', taskRouter)
-app.use('/lists', listRouter)
+app.use(express.json());
+app.use('/', router);
 
 // ROUTES
-userRouter.post('/register', createUser)
-userRouter.get('/user/:id', retrieveUser)
-userRouter.put('/user/:id', updateUser)
-userRouter.delete('/user/:id', deleteUser)
-taskRouter.post('/create', createTask)
-taskRouter.get('/task/:id', retrieveTask)
-taskRouter.put('/task/:id', updateTask)
-taskRouter.delete('/task/:id', deleteTask)
-taskRouter.patch('/task/:id/complete', completeTask)
-listRouter.post('/create', createList)
-listRouter.get('/list/:id', retrieveList)
-listRouter.put('/list/:id', updateList)
-listRouter.delete('/list/:id', deleteList)
+router.post('/users/register', createUser)
+router.get('/users/user/:id', retrieveUser)
+router.put('/users/user/:id', updateUser)
+router.delete('/users/user/:id', deleteUser)
+router.post('/tasks/create', createTask)
+router.get('/tasks/task/:id', retrieveTask)
+router.put('/tasks/task/:id', updateTask)
+router.delete('/tasks/task/:id', deleteTask)
+router.patch('/tasks/task/:id/complete', completeTask)
+router.post('/lists/create', createList)
+router.get('/lists/list/:id', retrieveList)
+router.put('/lists/list/:id', updateList)
+router.delete('/lists/list/:id', deleteList)
 
 // SERVER
 app.listen(PORT, () =>

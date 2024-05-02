@@ -1,6 +1,7 @@
 const express = require('express')
 const fs = require('fs')
 const path = require('path')
+
 const PATH_USERS = path.join(__dirname, './users.json')
 const PATH_TASKS = path.join(__dirname, './tasks.json')
 const PATH_LISTS = path.join(__dirname, './lists.json')
@@ -240,30 +241,26 @@ class DatabaseService {
 
 // ROUTER
 const app = express()
-const userRouter = express.Router()
-const taskRouter = express.Router()
-const listRouter = express.Router()
+const router = express.Router()
 
 // MIDDLEWARE
 app.use(express.json())
-app.use('/users', userRouter)
-app.use('/tasks', taskRouter)
-app.use('/lists', listRouter)
+app.use('/', router)
 
 // ROUTES
-userRouter.post('/register', UserController.createUser)
-userRouter.get('/user/:id', UserController.retrieveUser)
-userRouter.put('/user/:id', UserController.updateUser)
-userRouter.delete('/user/:id', UserController.deleteUser)
-taskRouter.post('/create', TaskController.createTask)
-taskRouter.get('/task/:id', TaskController.retrieveTask)
-taskRouter.put('/task/:id', TaskController.updateTask)
-taskRouter.delete('/task/:id', TaskController.deleteTask)
-taskRouter.patch('/task/:id/complete', TaskController.completeTask)
-listRouter.post('/create', ListController.createList)
-listRouter.get('/list/:id', ListController.retrieveList)
-listRouter.put('/list/:id', ListController.updateList)
-listRouter.delete('/list/:id', ListController.deleteList)
+router.post('/users/register', UserController.createUser)
+router.get('/users/user/:id', UserController.retrieveUser)
+router.put('/users/user/:id', UserController.updateUser)
+router.delete('/users/user/:id', UserController.deleteUser)
+router.post('/tasks/create', TaskController.createTask)
+router.get('/tasks/task/:id', TaskController.retrieveTask)
+router.put('/tasks/task/:id', TaskController.updateTask)
+router.delete('/tasks/task/:id', TaskController.deleteTask)
+router.patch('/tasks/task/:id/complete', TaskController.completeTask)
+router.post('/lists/create', ListController.createList)
+router.get('/lists/list/:id', ListController.retrieveList)
+router.put('/lists/list/:id', ListController.updateList)
+router.delete('/lists/list/:id', ListController.deleteList)
 
 // SERVER
 app.listen(PORT, () =>
