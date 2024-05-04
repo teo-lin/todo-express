@@ -1,0 +1,6 @@
+node_modules
+dist
+build
+src01-FP-onDisk
+src02-OOP-onDisk
+src03-OOP-inMemory
