@@ -2,9 +2,7 @@ const express = require('express')
 const fs = require('fs')
 const path = require('path')
 
-const PATH_USERS = path.join(__dirname, './users.json')
-const PATH_TASKS = path.join(__dirname, './tasks.json')
-const PATH_LISTS = path.join(__dirname, './lists.json')
+const PATH = path.join(__dirname, './db.json')
 const PORT = 3333
 
 // ROUTING FUNCTIONS
@@ -120,94 +118,94 @@ async function deleteList(req, res) {
 
 // SERVICES
 async function usersService_createUser(userData) {
-	const usersData = db_getData(PATH_USERS)
+	const usersData = db_getData(PATH)
 	const nextUserId = `U${1 + Number(usersData.lastUserId.slice(1))}`
 	const newUser = { userId: nextUserId, ...userData }
 	usersData.users.push(newUser)
 	usersData.lastUserId = nextUserId
-	db_setData(PATH_USERS, usersData)
+	db_setData(PATH, usersData)
 	delete newUser.passWord
 	return newUser
 }
 async function usersService_retrieveUser(userId) {
-	const usersData = db_getData(PATH_USERS)
+	const usersData = db_getData(PATH)
 	const user = usersData.users.find((user) => user.userId === userId)
 	delete user.passWord
 	return user
 }
 async function usersService_updateUser(userId, userData) {
-	const usersData = db_getData(PATH_USERS)
+	const usersData = db_getData(PATH)
 	const userIndex = usersData.users.findIndex((user) => user.userId === userId)
 	if (userIndex === -1) throw new Error('User not found')
 	usersData.users[userIndex] = { ...usersData.users[userIndex], ...userData }
-	db_setData(PATH_USERS, usersData)
+	db_setData(PATH, usersData)
 	const user = usersData.users[userIndex]
 	delete user.passWord
 	return user
 }
 async function usersService_deleteUser(userId) {
-	const usersData = db_getData(PATH_USERS)
+	const usersData = db_getData(PATH)
 	usersData.users = usersData.users.filter((user) => user.userId !== userId)
-	db_setData(PATH_USERS, usersData)
+	db_setData(PATH, usersData)
 }
 async function listsService_createList(listData) {
-	const listsData = db_getData(PATH_LISTS)
+	const listsData = db_getData(PATH)
 	const nextListId = `L${1 + Number(listsData.lastListId.slice(1))}`
 	const newList = { listId: nextListId, ...listData }
 	listsData.lists.push(newList)
 	listsData.lastListId = nextListId
-	db_setData(PATH_LISTS, listsData)
+	db_setData(PATH, listsData)
 	return newList
 }
 async function listsService_retrieveList(listId) {
-	const listsData = db_getData(PATH_LISTS)
+	const listsData = db_getData(PATH)
 	return listsData.lists.find((list) => list.listId === listId)
 }
 async function listsService_updateList(listId, listData) {
-	const listsData = db_getData(PATH_LISTS)
+	const listsData = db_getData(PATH)
 	const listIndex = listsData.lists.findIndex((list) => list.listId === listId)
 	if (listIndex === -1) throw new Error('List not found')
 	listsData.lists[listIndex] = { ...listsData.lists[listIndex], ...listData }
-	db_setData(PATH_LISTS, listsData)
+	db_setData(PATH, listsData)
 	return listsData.lists[listIndex]
 }
 async function listsService_deleteList(listId) {
-	const listsData = db_getData(PATH_LISTS)
+	const listsData = db_getData(PATH)
 	listsData.lists = listsData.lists.filter((list) => list.listId !== listId)
-	db_setData(PATH_LISTS, listsData)
+	db_setData(PATH, listsData)
 }
 async function tasksService_createTask(taskData) {
-	const tasksData = db_getData(PATH_TASKS)
+	const tasksData = db_getData(PATH)
 	const nextTaskId = `T${1 + Number(tasksData.lastTaskId.slice(1))}`
 	const newTask = { taskId: nextTaskId, ...taskData }
 	tasksData.tasks.push(newTask)
 	tasksData.lastTaskId = nextTaskId
-	db_setData(PATH_TASKS, tasksData)
+	db_setData(PATH, tasksData)
 	return newTask
 }
 async function tasksService_retrieveTask(taskId) {
-	const tasksData = db_getData(PATH_TASKS)
+	const tasksData = db_getData(PATH)
 	return tasksData.tasks.find((task) => task.taskId === taskId)
 }
 async function tasksService_updateTask(taskId, taskData) {
-	const tasksData = db_getData(PATH_TASKS)
+	const tasksData = db_getData(PATH)
 	const taskIndex = tasksData.tasks.findIndex((task) => task.taskId === taskId)
 	if (taskIndex === -1) throw new Error('Task not found')
 	tasksData.tasks[taskIndex] = { ...tasksData.tasks[taskIndex], ...taskData }
-	db_setData(PATH_TASKS, tasksData)
+	db_setData(PATH, tasksData)
 	return tasksData.tasks[taskIndex]
 }
 async function tasksService_deleteTask(taskId) {
-	const tasksData = db_getData(PATH_TASKS)
+	const tasksData = db_getData(PATH)
 	tasksData.tasks = tasksData.tasks.filter((task) => task.taskId !== taskId)
-	db_setData(PATH_TASKS, tasksData)
+	db_setData(PATH, tasksData)
 }
 async function tasksService_completeTask(taskId) {
-	const tasksData = db_getData(PATH_TASKS)
+	const tasksData = db_getData(PATH)
 	const taskIndex = tasksData.tasks.findIndex((task) => task.taskId === taskId)
 	if (taskIndex === -1) throw new Error('Task not found')
 	tasksData.tasks[taskIndex].isComplete = true
-	db_setData(PATH_TASKS, tasksData)
+	db_setData(PATH, tasksData)
 	return tasksData.tasks[taskIndex]
 }
 function db_getData(filePath) {

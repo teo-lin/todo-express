@@ -2,23 +2,46 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"command": "npm start",
-			"name": "run npm start",
+			"type": "node",
 			"request": "launch",
-			"type": "node-terminal"
+			"name": "nodemon:app",
+			"runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.12.2/bin/nodemon",
+			"program": "${workspaceFolder}/src/app.js",
+			"restart": true,
+			"console": "internalConsole",
+			"env": {
+				"NODE_ENV": "development"
+			}
 		},
 		{
 			"type": "node",
 			"request": "launch",
-			"name": "nodemon",
-			"runtimeExecutable": "${workspaceFolder}/node_modules/nodemon/bin/nodemon.js",
-			"program": "${workspaceFolder}/app.js",
+			"name": "nodemon:app-oop",
+			"runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.12.2/bin/nodemon",
+			"program": "${workspaceFolder}/src-10-db-on-disk/app-oop.js",
 			"restart": true,
 			"console": "integratedTerminal",
-			"internalConsoleOptions": "neverOpen",
 			"env": {
 				"NODE_ENV": "development"
 			}
-		}
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "nodemon:app-fp",
+			"runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.12.2/bin/nodemon",
+			"program": "${workspaceFolder}/src-10-db-on-disk/app-fp.js",
+			"restart": true,
+			"console": "integratedTerminal",
+			"env": {
+				"NODE_ENV": "development"
+			}
+		},
+		{
+			"command": "npm start",
+			"name": "node",
+			"request": "launch",
+			"type": "node-terminal"
+		},
 	]
 }
