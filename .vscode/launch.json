@@ -16,9 +16,9 @@
 		{
 			"type": "node",
 			"request": "launch",
-			"name": "nodemon:app-oop",
+			"name": "nodemon:app-01",
 			"runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.12.2/bin/nodemon",
-			"program": "${workspaceFolder}/src-10-db-on-disk/app-oop.js",
+			"program": "${workspaceFolder}/src01-FP-onDisk/app.js",
 			"restart": true,
 			"console": "integratedTerminal",
 			"env": {
@@ -28,9 +28,21 @@
 		{
 			"type": "node",
 			"request": "launch",
-			"name": "nodemon:app-fp",
+			"name": "nodemon:app-02",
 			"runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.12.2/bin/nodemon",
-			"program": "${workspaceFolder}/src-10-db-on-disk/app-fp.js",
+			"program": "${workspaceFolder}/src02-OOP-onDisk/app.js",
+			"restart": true,
+			"console": "integratedTerminal",
+			"env": {
+				"NODE_ENV": "development"
+			}
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "nodemon:app-03",
+			"runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.12.2/bin/nodemon",
+			"program": "${workspaceFolder}/src03-OOP-inMemory/app.js",
 			"restart": true,
 			"console": "integratedTerminal",
 			"env": {
@@ -42,6 +54,6 @@
 			"name": "node",
 			"request": "launch",
 			"type": "node-terminal"
-		},
+		}
 	]
 }
