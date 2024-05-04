@@ -5,21 +5,21 @@
   "users": [
     {
       "userId": "U1",
-      "userName": "user1",
-      "passWord": "pass1",
-      "fullName": "John Doe"
+      "username": "user1",
+      "password": "pass1",
+      "fullname": "John Doe"
     },
     {
       "userId": "U2",
-      "userName": "user2",
-      "passWord": "pass2",
-      "fullName": "Jane Doe"
+      "username": "user2",
+      "password": "pass2",
+      "fullname": "Jane Doe"
     },
     {
       "userId": "U3",
-      "userName": "user3",
-      "passWord": "pass3",
-      "fullName": "Bob Smith"
+      "username": "user3",
+      "password": "pass3",
+      "fullname": "Bob Smith"
     }
   ],
   "lists": [

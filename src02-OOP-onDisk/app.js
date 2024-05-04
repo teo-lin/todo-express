@@ -125,109 +125,110 @@ class ListController {
 // SERVICES
 class UserService {
 	static async createUser(userData) {
-		const usersData = DatabaseService.getData(PATH)
-		const nextUserId = `U${1 + Number(usersData.lastUserId.slice(1))}`
+		const data = DatabaseService.getData(PATH)
+		const nextUserId = `U${1 + Number(data.lastUserId.slice(1))}`
 		const newUser = { userId: nextUserId, ...userData }
-		usersData.users.push(newUser)
-		usersData.lastUserId = nextUserId
-		DatabaseService.setData(PATH, usersData)
-		delete newUser.passWord
+		data.users.push(newUser)
+		data.lastUserId = nextUserId
+		DatabaseService.setData(PATH, data)
+		delete newUser.password
 		return newUser
 	}
 	static async retrieveUser(userId) {
-		const usersData = DatabaseService.getData(PATH)
-		const user = usersData.users.find((user) => user.userId === userId)
-		delete user.passWord
+		const data = DatabaseService.getData(PATH)
+		const user = data.users.find((user) => user.userId === userId)
+		delete user.password
 		return user
 	}
 	static async updateUser(userId, userData) {
-		const usersData = DatabaseService.getData(PATH)
-		const userIndex = usersData.users.findIndex(
+		const data = DatabaseService.getData(PATH)
+		const userIndex = data.users.findIndex(
 			(user) => user.userId === userId
 		)
 		if (userIndex === -1) throw new Error('User not found')
-		usersData.users[userIndex] = { ...usersData.users[userIndex], ...userData }
-		DatabaseService.setData(PATH, usersData)
-		const user = usersData.users[userIndex]
-		delete user.passWord
+		data.users[userIndex] = { ...data.users[userIndex], ...userData }
+		DatabaseService.setData(PATH, data)
+		const user = data.users[userIndex]
+		delete user.password
 		return user
 	}
 	static async deleteUser(userId) {
-		const usersData = DatabaseService.getData(PATH)
-		usersData.users = usersData.users.filter((user) => user.userId !== userId)
-		DatabaseService.setData(PATH, usersData)
+		const data = DatabaseService.getData(PATH)
+		data.users = data.users.filter((user) => user.userId !== userId)
+		DatabaseService.setData(PATH, data)
 	}
 }
 class ListService {
 	static async createList(listData) {
-		const listsData = DatabaseService.getData(PATH)
-		const nextListId = `L${1 + Number(listsData.lastListId.slice(1))}`
+		const data = DatabaseService.getData(PATH)
+		const nextListId = `L${1 + Number(data.lastListId.slice(1))}`
 		const newList = { listId: nextListId, ...listData }
-		listsData.lists.push(newList)
-		listsData.lastListId = nextListId
-		DatabaseService.setData(PATH, listsData)
+		data.lists.push(newList)
+		data.lastListId = nextListId
+		DatabaseService.setData(PATH, data)
 		return newList
 	}
 	static async retrieveList(listId) {
-		const listsData = DatabaseService.getData(PATH)
-		return listsData.lists.find((list) => list.listId === listId)
+		const data = DatabaseService.getData(PATH)
+		return data.lists.find((list) => list.listId === listId)
 	}
 	static async updateList(listId, listData) {
-		const listsData = DatabaseService.getData(PATH)
-		const listIndex = listsData.lists.findIndex(
+		const data = DatabaseService.getData(PATH)
+		const listIndex = data.lists.findIndex(
 			(list) => list.listId === listId
 		)
 		if (listIndex === -1) throw new Error('List not found')
-		listsData.lists[listIndex] = { ...listsData.lists[listIndex], ...listData }
-		DatabaseService.setData(PATH, listsData)
-		return listsData.lists[listIndex]
+		data.lists[listIndex] = { ...data.lists[listIndex], ...listData }
+		DatabaseService.setData(PATH, data)
+		return data.lists[listIndex]
 	}
 	static async deleteList(listId) {
-		const listsData = DatabaseService.getData(PATH)
-		listsData.lists = listsData.lists.filter((list) => list.listId !== listId)
-		DatabaseService.setData(PATH, listsData)
+		const data = DatabaseService.getData(PATH)
+		data.lists = data.lists.filter((list) => list.listId !== listId)
+		DatabaseService.setData(PATH, data)
 	}
 }
 class TaskService {
 	static async createTask(taskData) {
-		const tasksData = DatabaseService.getData(PATH)
-		const nextTaskId = `T${1 + Number(tasksData.lastTaskId.slice(1))}`
+		const data = DatabaseService.getData(PATH)
+		const nextTaskId = `T${1 + Number(data.lastTaskId.slice(1))}`
 		const newTask = { taskId: nextTaskId, ...taskData }
-		tasksData.tasks.push(newTask)
-		tasksData.lastTaskId = nextTaskId
-		DatabaseService.setData(PATH, tasksData)
+		data.tasks.push(newTask)
+		data.lastTaskId = nextTaskId
+		DatabaseService.setData(PATH, data)
 		return newTask
 	}
 	static async retrieveTask(taskId) {
-		const tasksData = DatabaseService.getData(PATH)
-		return tasksData.tasks.find((task) => task.taskId === taskId)
+		const data = DatabaseService.getData(PATH)
+		return data.tasks.find((task) => task.taskId === taskId)
 	}
 	static async updateTask(taskId, taskData) {
-		const tasksData = DatabaseService.getData(PATH)
-		const taskIndex = tasksData.tasks.findIndex(
+		const data = DatabaseService.getData(PATH)
+		const taskIndex = data.tasks.findIndex(
 			(task) => task.taskId === taskId
 		)
 		if (taskIndex === -1) throw new Error('Task not found')
-		tasksData.tasks[taskIndex] = { ...tasksData.tasks[taskIndex], ...taskData }
-		DatabaseService.setData(PATH, tasksData)
-		return tasksData.tasks[taskIndex]
+		data.tasks[taskIndex] = { ...data.tasks[taskIndex], ...taskData }
+		DatabaseService.setData(PATH, data)
+		return data.tasks[taskIndex]
 	}
 	static async deleteTask(taskId) {
-		const tasksData = DatabaseService.getData(PATH)
-		tasksData.tasks = tasksData.tasks.filter((task) => task.taskId !== taskId)
-		DatabaseService.setData(PATH, tasksData)
+		const data = DatabaseService.getData(PATH)
+		data.tasks = data.tasks.filter((task) => task.taskId !== taskId)
+		DatabaseService.setData(PATH, data)
 	}
 	static async completeTask(taskId) {
-		const tasksData = DatabaseService.getData(PATH)
-		const taskIndex = tasksData.tasks.findIndex(
+		const data = DatabaseService.getData(PATH)
+		const taskIndex = data.tasks.findIndex(
 			(task) => task.taskId === taskId
 		)
 		if (taskIndex === -1) throw new Error('Task not found')
-		tasksData.tasks[taskIndex].isComplete = true
-		DatabaseService.setData(PATH, tasksData)
-		return tasksData.tasks[taskIndex]
+		data.tasks[taskIndex].isComplete = true
+		DatabaseService.setData(PATH, data)
+		return data.tasks[taskIndex]
 	}
 }
+
 class DatabaseService {
 	static getData(filePath) {
 		return JSON.parse(fs.readFileSync(filePath, 'utf8'))

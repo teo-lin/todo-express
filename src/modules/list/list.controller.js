@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const listsService = require('./lists.service')
+const listService = require('./list.service')
 
 router.post('/create', createList)
 router.get('/list/:id', retrieveList)
@@ -9,7 +9,7 @@ router.delete('/list/:id', deleteList)
 
 async function createList(req, res) {
 	try {
-		const newList = await listsService.createList(req.body)
+		const newList = await listService.createList(req.body)
 		res.status(201).json(newList)
 	} catch (error) {
 		res.status(500).json({ message: error.message })
@@ -17,7 +17,7 @@ async function createList(req, res) {
 }
 async function retrieveList(req, res) {
 	try {
-		const list = await listsService.retrieveList(req.params.id)
+		const list = await listService.retrieveList(req.params.id)
 		if (!list) return res.status(404).json({ message: 'List not found' })
 		res.json(list)
 	} catch (error) {
@@ -26,7 +26,7 @@ async function retrieveList(req, res) {
 }
 async function updateList(req, res) {
 	try {
-		const updatedList = await listsService.updateList(req.params.id, req.body)
+		const updatedList = await listService.updateList(req.params.id, req.body)
 		res.json(updatedList)
 	} catch (error) {
 		res.status(500).json({ message: error.message })
@@ -34,7 +34,7 @@ async function updateList(req, res) {
 }
 async function deleteList(req, res) {
 	try {
-		await listsService.deleteList(req.params.id)
+		await listService.deleteList(req.params.id)
 		res.json({ message: 'List deleted successfully' })
 	} catch (error) {
 		res.status(500).json({ message: error.message })

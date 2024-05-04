@@ -1,7 +1,7 @@
 const express = require('express')
-const usersRouter = require('./modules/users/users.controller')
-const tasksRouter = require('./modules/tasks/tasks.controller')
-const listsRouter = require('./modules/lists/lists.controller')
+const usersRouter = require('./modules/user/user.controller')
+const tasksRouter = require('./modules/task/task.controller')
+const listsRouter = require('./modules/list/list.controller')
 
 const app = express()
 const PORT = 3333
