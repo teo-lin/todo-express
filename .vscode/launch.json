@@ -18,7 +18,7 @@
 			"request": "launch",
 			"name": "nodemon:app-01",
 			"runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.12.2/bin/nodemon",
-			"program": "${workspaceFolder}/src01-FP-onDisk/app.js",
+			"program": "${workspaceFolder}/src-01/app.js",
 			"restart": true,
 			"console": "integratedTerminal",
 			"env": {
@@ -30,7 +30,7 @@
 			"request": "launch",
 			"name": "nodemon:app-02",
 			"runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.12.2/bin/nodemon",
-			"program": "${workspaceFolder}/src02-OOP-onDisk/app.js",
+			"program": "${workspaceFolder}/src-02/app.js",
 			"restart": true,
 			"console": "integratedTerminal",
 			"env": {
@@ -42,7 +42,7 @@
 			"request": "launch",
 			"name": "nodemon:app-03",
 			"runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.12.2/bin/nodemon",
-			"program": "${workspaceFolder}/src03-OOP-inMemory/app.js",
+			"program": "${workspaceFolder}/src-03/app.js",
 			"restart": true,
 			"console": "integratedTerminal",
 			"env": {

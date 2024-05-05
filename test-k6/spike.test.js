@@ -4,8 +4,8 @@ const ROOT = 'http://localhost:3333'
 export const options = {
 	insecureSkipTLSVerify: true,
 	noConnectionReuse: false,
-	duration: '10m',
-	vus: 10000, // concurrent Virtual Users
+	duration: '100s',
+	vus: 100, // concurrent Virtual Users
 }
 
 export default function () {

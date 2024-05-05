@@ -1,0 +1,487 @@
+{
+	"info": {
+		"_postman_id": "fe0c8088-9575-4813-8112-23f77e3c3dee",
+		"name": "todo-apps",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32799413"
+	},
+	"item": [
+		{
+			"name": "register user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response body matches expected user data\", function () {",
+							"    const requestUrl = pm.request.url.toString();",
+							"    console.log(\"Request URL:\", requestUrl);",
+							"    ",
+							"    pm.response.to.have.status(201);",
+							"    ",
+							"    const expectedUserData = {",
+							"        username: \"user4\",",
+							"        fullname: \"Gillian Beck\"",
+							"    };",
+							"",
+							"    const responseBody = pm.response.json();",
+							"",
+							"    pm.expect(responseBody.username).to.eql(expectedUserData.username);",
+							"    pm.expect(responseBody.fullname).to.eql(expectedUserData.fullname);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"name": "cache-control",
+						"sortOrder": 2,
+						"infoTitle": "We recommend using this header",
+						"info": "Postman added \"Cache-Control: no-cache\" as a precautionary measure to prevent the server from returning stale response when one makes repeated requests.\n\nYou can remove this header in the app settings or enter a new one with a different value.",
+						"allowedToToggle": false,
+						"disableEdit": true,
+						"previewSettingsLink": "Go to settings",
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"system": true,
+						"type": "text",
+						"id": 0,
+						"uuid": "75e4952f-1c35-4bc4-aba1-6495ed233f1b"
+					},
+					{
+						"name": "postman-token",
+						"sortOrder": 3,
+						"infoTitle": "We recommend using this header",
+						"info": "The Postman-Token header appends a random UUID to every outgoing request. Postman adds this header for API developers to better debug requests sent and to ensure separate requests appear distinct to the receiving server.\n\nYou can remove this header in the app settings.",
+						"allowedToToggle": false,
+						"disableEdit": true,
+						"previewSettingsLink": "Go to settings",
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"system": true,
+						"type": "text",
+						"id": 1,
+						"uuid": "498d991a-5c86-462a-8b7b-e5a33ab2e0d7"
+					},
+					{
+						"name": "content-type",
+						"sortOrder": 4,
+						"infoTitle": "This header was automatically added",
+						"info": "The Content-Type header is added to help the server identify the media type of the request body that is present in this request.\n\nUse the request body tab to control the value or to remove this header.",
+						"allowedToToggle": true,
+						"disableEdit": true,
+						"previewSettingsLink": "Go to body",
+						"key": "Content-Type",
+						"value": "text/plain",
+						"system": true,
+						"type": "text",
+						"id": 2,
+						"disabled": true,
+						"uuid": "02d8cef2-0fcc-4185-b377-8bc248964dbf"
+					},
+					{
+						"name": "content-length",
+						"sortOrder": 5,
+						"infoTitle": "This header was automatically added",
+						"info": "The Content-Length header was added to indicate to the server the size of the request body that is added to this request. Server uses this value to parse the request body accurately.\n\nYou can remove the header or enter a new one with a different value.",
+						"allowedToToggle": true,
+						"disableEdit": true,
+						"previewSettingsLink": "Go to body",
+						"key": "Content-Length",
+						"value": "<calculated when request is sent>",
+						"system": true,
+						"type": "text",
+						"id": 3,
+						"uuid": "fc694b9d-71c8-4016-9c5d-bd6baabbde46"
+					},
+					{
+						"name": "host",
+						"sortOrder": 6,
+						"infoTitle": "We recommend using this header",
+						"info": "The Host header is added to identify the domain name for which a request is being sent to the server. This header is implicitly sent by every HTTP client.\n\nYou can remove the header or enter a new one with a different value. It is most likely that without this header, your request will return an HTTP 400 error.",
+						"allowedToToggle": true,
+						"disableEdit": true,
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"system": true,
+						"type": "text",
+						"id": 4,
+						"uuid": "ec054c73-d5ef-41ba-95f7-716a8c88cd53"
+					},
+					{
+						"name": "user-agent",
+						"sortOrder": 7,
+						"infoTitle": "We recommend using this header",
+						"info": "The User-Agent header is added to help the server identify Postman as the HTTP requesting application or client.\n\nIt is recommended that this header be sent, but you can remove the header or enter a new one with a different value.",
+						"allowedToToggle": true,
+						"disableEdit": true,
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.32.1",
+						"system": true,
+						"type": "text",
+						"id": 5,
+						"uuid": "322cbdd2-daaf-4914-b856-4a46bb437efc"
+					},
+					{
+						"name": "accept",
+						"sortOrder": 8,
+						"infoTitle": "We recommend using this header",
+						"info": "The \"Accept: */*\" header is added to tell the server that Postman can understand and process all forms of response content types.\n\nIt is recommended that this header be sent, but you can remove the header or enter a new one with a different value.",
+						"allowedToToggle": true,
+						"disableEdit": true,
+						"key": "Accept",
+						"value": "*/*",
+						"system": true,
+						"type": "text",
+						"id": 6,
+						"uuid": "54c23d6e-fa6e-4a32-a53b-d0fa1bf4a191"
+					},
+					{
+						"name": "accept-encoding",
+						"sortOrder": 9,
+						"infoTitle": "We recommend using this header",
+						"info": "The Accept-Encoding header is added to indicate to the server that Postman HTTP client supports a defined list of content-encoding or compression algorithms as response.\n\nYou can remove the header or enter a new one with a different value. Doing that may not accurately render the response within the app.",
+						"allowedToToggle": true,
+						"disableEdit": true,
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"system": true,
+						"type": "text",
+						"id": 7,
+						"uuid": "5a4f2819-092a-426c-84f0-36112097f376"
+					},
+					{
+						"name": "connection",
+						"sortOrder": 10,
+						"infoTitle": "We recommend using this header",
+						"info": "Postman added the Connection header to indicate the server to keep the underlying network connection open once the current response is received. This allows Postman to reuse the same connection for faster response times in subsequent requests to the same server.\n\nYou can remove this header or enter a new one with a different value, such as `Connection: Close` to control this behaviour.",
+						"allowedToToggle": true,
+						"disableEdit": true,
+						"key": "Connection",
+						"value": "keep-alive",
+						"system": true,
+						"type": "text",
+						"id": 8,
+						"uuid": "01564321-1770-4737-ba90-73bd8f7974db"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"user4\",\n    \"password\": \"pass4\",\n    \"fullname\": \"Gillian Beck\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3333/users/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrieve user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response body matches expected user data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    ",
+							"    const expectedUserData = {",
+							"        userId: \"U4\",",
+							"        username: \"user4\",",
+							"        fullname: \"Gillian Beck\"",
+							"    };",
+							"",
+							"    const responseBody = pm.response.json();",
+							"",
+							"    pm.expect(responseBody.userId).to.eql(expectedUserData.userId);",
+							"    pm.expect(responseBody.username).to.eql(expectedUserData.username);",
+							"    pm.expect(responseBody.fullname).to.eql(expectedUserData.fullname);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3333/users/user/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"users",
+						"user",
+						":id"
+					],
+					"variable": [
+						{
+							"id": 0,
+							"key": "id",
+							"value": "U4",
+							"type": "string",
+							"uuid": "ac5fd43a-37ae-49be-9814-93437ea9c398"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response body matches expected updated user data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    ",
+							"    const expectedUserData = {",
+							"        username: \"user4\",",
+							"        fullname: \"James Dean\",",
+							"        isAdmin: false",
+							"    };",
+							"",
+							"    const responseBody = pm.response.json();",
+							"",
+							"    pm.expect(responseBody.username).to.eql(expectedUserData.username);",
+							"    pm.expect(responseBody.fullname).to.eql(expectedUserData.fullname);",
+							"    pm.expect(responseBody.isAdmin).to.eql(expectedUserData.isAdmin);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"fullname\": \"James Dean\",\n    \"isAdmin\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3333/users/user/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"users",
+						"user",
+						":id"
+					],
+					"variable": [
+						{
+							"id": 0,
+							"key": "id",
+							"value": "U4",
+							"type": "string",
+							"uuid": "0482b264-70e0-4a38-bda8-f57dcb63c9ef"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response body matches expected message for user deletion\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    ",
+							"    const expectedMessage = {",
+							"        message: \"User deleted successfully\"",
+							"    };",
+							"",
+							"    const responseBody = pm.response.json();",
+							"",
+							"    pm.expect(responseBody.message).to.eql(expectedMessage.message);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3333/users/user/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"users",
+						"user",
+						":id"
+					],
+					"variable": [
+						{
+							"id": 0,
+							"key": "id",
+							"value": "U4",
+							"type": "string",
+							"uuid": "b07e6416-34c5-4159-9aa8-0e52e90550f0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response body matches expected data for task creation\", function () {",
+							"    pm.response.to.have.status(201);",
+							"    ",
+							"    const expectedData = {",
+							"        listId: \"L1\",",
+							"        userId: \"U1\",",
+							"        taskName: \"Buy eggs\"",
+							"    };",
+							"",
+							"    const responseBody = pm.response.json();",
+							"",
+							"    pm.expect(responseBody.listId).to.eql(expectedData.listId);",
+							"    pm.expect(responseBody.userId).to.eql(expectedData.userId);",
+							"    pm.expect(responseBody.taskName).to.eql(expectedData.taskName);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"listId\": \"L1\",\n    \"userId\": \"U1\",\n    \"taskName\": \"Buy eggs\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3333/tasks/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"tasks",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "complete task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response body matches expected data for task completion\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    ",
+							"    const expectedData = {",
+							"        taskId: \"T1\",",
+							"        listId: \"L1\",",
+							"        userId: \"U1\",",
+							"        taskName: \"Buy milk\",",
+							"        isComplete: true",
+							"    };",
+							"",
+							"    const responseBody = pm.response.json();",
+							"",
+							"    pm.expect(responseBody.taskId).to.eql(expectedData.taskId);",
+							"    pm.expect(responseBody.listId).to.eql(expectedData.listId);",
+							"    pm.expect(responseBody.userId).to.eql(expectedData.userId);",
+							"    pm.expect(responseBody.taskName).to.eql(expectedData.taskName);",
+							"    pm.expect(responseBody.isComplete).to.eql(expectedData.isComplete);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3333/tasks/task/:id/complete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"tasks",
+						"task",
+						":id",
+						"complete"
+					],
+					"variable": [
+						{
+							"id": 0,
+							"key": "id",
+							"value": "T1",
+							"type": "string",
+							"uuid": "36560dc7-066d-4851-b6c9-6eb2b11c72b7"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

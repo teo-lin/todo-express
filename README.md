@@ -1,49 +1,56 @@
 # Barebones Todo App built with Express
-This repository will contain multiple versions of the same app, so that it can be easily benchmarked later on. The main version will always be the latest version, with all the features. Alternate versions will live in alternate source folders (src-*)
+This repository will contain multiple versions of the same app, so that it can be easily benchmarked later on. The main version will always be the latest version, with all the features. Alternate versions will live in alternate source folders (src-*). A brief description of the alternative is visible as a top folder (beginning with double dot) in each src folder. These are NOT the same as tagged versions, they are forks of the main app. They should normally live in their own repository, but, for learning and comparison purposes, it's easier to host them here.
 
-## Running the app
-- first, install dependencies
-```sh
-npm install
-```
-- then run it with
-```sh
-npm run start
-```
+For now, we have the following implementations:
+- src: the latest version will always live here
+- src-00: A typical implementation of an express project, mainly relying on functions and separation of concerns. Actually, an even more typical structure would be to modularize the code based on MVC: controllers folder (Controller), services folder (Model), and the View would be the front-end, typically Swagger or an actual front-end.
+- src01: the single file version of our first FP implementation, with on-disk storage.
+- src02: the single file version of the OOP implementation, with on-disk storage.
+- src03: the single file version of the OOP implementation, with in-memory ephemeral storage (i.e. - the data is never saved to disk, it only survives for the lifetime of the Docker container - this is going to be useful for load testing)
+- src04-...: future versions
 
-## Running the app in a Docker container
-- first, install dependencies and build image:
+# SETUP
+Before running it, you need to install dependencies and build the app:
 ```sh
-npm install
+npm run setup
+
+# you may need to add nodemon to $PATH:
+export PATH="/Users/REPLACE.WITH.YOUR.USER.NAME/.nvm/versions/node/v20.12.2/bin:$PATH"
+```
+The setup script will run all these commands for you:
+```sh
 open --background -a Docker
-npm run build:docker
-```
-- the run it with
-```sh
-npm run start:docker
+rm -rf node_modules build dist out coverage package-lock.json
+npm install
+npm install --global nodemon
+docker build --tag todo-app .
 ```
 
-## Debugging the app
-- to run it in dev mode, with hot reload, (you need nodemon installed globally):
+# RUN
+After setup, pick and run the app of your choice:
+```sh
+# main app (runs with node)
+npm run start
+
+# main app in docker (runs with node)
+npm run start:docker
+
+# one of the alternative implementations (these start with nodemon by default)
+npm run start:00
+npm run start:01
+npm run start:02
+# ... and so on
+```
+
+## DEBUG
+- to run it in dev mode, with hot reload (nodemon)
 ```sh
 npm run start:dev
 ```
 - to run it in debug mode, first make sure nodemon is added to your $PATH variable (only once), then run it in debug mode. On a Mac, you should do:
 ```sh
-# add to $PATH:
-export PATH="/Users/REPLACE.WITH.YOUR.USER.NAME/.nvm/versions/node/v20.12.2/bin:$PATH"
-
 # debug with VSCode's debug mode or:
 npm run debug
-```
-
-## Single-file versions (OOP & FP)
-There are two alternative versions of the basic app, only there for learning and comparison. These are single-file-app versions, one is in FP (Functional Programming), the other is in OOP (Object Oriented Programming). They are both stored in src-alt, and can be started with:
-```sh
-// FP:
-npm run start:fp
-// OOP:
-npm run start:oop
 ```
 
 ## K6 Testing
@@ -61,7 +68,7 @@ We'll use it for:
 
 To use it, install k6 on your machine (https://k6.io/docs/get-started/installation), then run a test with one of the following:
 ```sh
-npm run test:load
+npm run test:normal
 npm run test:stress
 npm run test:spike
 npm run test:endurance

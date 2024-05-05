@@ -17,5 +17,5 @@ COPY . .
 EXPOSE 3333
 
 # Define the entry point for the container
-CMD ["node", "src/app.js"]
+CMD ["node", "src/app"]
 
