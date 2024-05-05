@@ -7,7 +7,7 @@
     "build:docker": "docker build --tag todo-app .",
     "start:docker": "docker run --detach --name todo-container --publish 3333:3333 --memory 4g --cpus 4 todo-app",
     "setup": "open --background -a Docker && npm run reset && npm install && npm install --global nodemon && docker build --tag todo-app .",
-    "reset": "rm -rf node_modules build dist out coverage package-lock.json && docker stop todo-container && docker rm todo-container && docker rmi todo-app",
+    "reset": "rm -rf node_modules build dist out coverage package-lock.json && docker stop todo-container && docker rm todo-container || true && docker rmi todo-app || true",
     "start": "node src/app.js",
     "start:dev": "nodemon src/app.js",
     "start:00": "nodemon src-00/app.js",
