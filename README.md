@@ -1,7 +1,7 @@
 # Barebones Todo App built with Express
 This repository will contain multiple versions of the same app, so that it can be easily benchmarked later on. The main version will always be the latest version, with all the features. Alternate versions will live in alternate source folders (src-*). A brief description of the alternative is visible as a top folder (beginning with double dot) in each src folder. These are NOT the same as tagged versions, they are forks of the main app. They should normally live in their own repository, but, for learning and comparison purposes, it's easier to host them here.
 
-For now, we have the following implementations:
+For now, we may have the following implementations:
 - src: the latest version will always live here
 - src-00: A typical implementation of an express project, mainly relying on functions and separation of concerns. Actually, an even more typical structure would be to modularize the code based on MVC: controllers folder (Controller), services folder (Model), and the View would be the front-end, typically Swagger or an actual front-end.
 - src01: the single file version of our first FP implementation, with on-disk storage.
@@ -21,6 +21,9 @@ The setup script will run all these commands for you:
 ```sh
 open --background -a Docker
 rm -rf node_modules build dist out coverage package-lock.json
+docker stop todo-container
+docker rm todo-container || true
+docker rmi todo-app || true
 npm install
 npm install --global nodemon
 docker build --tag todo-app .
