@@ -1,13 +1,25 @@
 {
-  "name": "todo-express",
-  "version": "1.3.0",
-  "description": "Sandbox Todo App API built with Express",
-  "main": "src/app.js",
+  "name": "todo-template",
+  "version": "1.0.0",
+  "description": "Sandbox Todo App API",
+  "keywords": [
+    "backend",
+    "frameworks",
+    "comparison",
+    "benchmark"
+  ],
+  "author": "Teolin Codreanu",
+  "url": "https://www.linkedin.com/in/teolin-codreanu/recent-activity/articles/",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teo-lin/todo-express"
+  },
+  "config": {
+    "port": "3333",
+    "framework": "express"
+  },
   "scripts": {
-    "build:docker": "docker build --tag todo-app .",
-    "start:docker": "docker run --detach --name todo-container --publish 3333:3333 --memory 4g --cpus 4 todo-app",
-    "setup": "open --background -a Docker && npm run reset && npm install && npm install --global nodemon && docker build --tag todo-app .",
-    "reset": "rm -rf node_modules build dist out coverage package-lock.json && docker stop todo-container && docker rm todo-container || true && docker rmi todo-app || true",
     "start": "node src/app.js",
     "start:dev": "nodemon src/app.js",
     "start:00": "nodemon src-00/app.js",
@@ -21,14 +33,24 @@
     "start:08": "nodemon src-08/app.js",
     "start:09": "nodemon src-09/app.js",
     "start:10": "nodemon src-10/app.js",
-    "debug": "nodemon --inspect=9229 src/app.js",
+    "start:debug": "",
+    "test": "",
+    "test:watch": "",
+    "test:cov": "",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "",
     "test:normal": "k6 run ./test-k6/normal.test.js",
     "test:stress": "k6 run ./test-k6/stress.test.js",
     "test:spike": "k6 run ./test-k6/spike.test.js",
-    "test:endurance": "k6 run ./k6/endurance.test.js"
+    "test:endurance": "k6 run ./k6/endurance.test.js",
+    "lint": "eslint '{src,apps,libs,test}/**/*.ts' --fix",
+    "format": "prettier --write 'src/**/*.ts' 'test/**/*.ts'",
+    "build": "",
+    "build:docker": "docker build --tag todo-app .",
+    "start:docker": "docker run --detach --name todo-container --publish 3333:3333 --memory 4g --cpus 4 todo-app",
+    "setup": "open --background -a Docker && npm run reset && npm install && npm install --global nodemon && docker build --tag todo-app .",
+    "reset": "open --background -a Docker && rm -rf node_modules build dist out coverage package-lock.json && docker stop todo-container && docker rm todo-container || true && docker rmi todo-app || true"
   },
-  "author": "Teolin",
-  "license": "Apache-2.0",
   "dependencies": {
     "express": "^4.19.2"
   }
