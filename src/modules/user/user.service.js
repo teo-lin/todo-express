@@ -1,7 +1,7 @@
 const DatabaseService = require('../database/database.service')
 
 class UserService {
-  static async createUser(userData) {
+  static createUser(userData) {
     const data = DatabaseService.getData()
     const nextUserId = `U${1 + Number(data.lastUserId.slice(1))}`
     const newUser = { userId: nextUserId, ...userData }
@@ -11,13 +11,13 @@ class UserService {
     delete newUser.password
     return newUser
   }
-  static async retrieveUser(userId) {
+  static retrieveUser(userId) {
     const data = DatabaseService.getData()
     const user = data.users.find((user) => user.userId === userId)
     delete user.password
     return user
   }
-  static async updateUser(userId, userData) {
+  static updateUser(userId, userData) {
     const data = DatabaseService.getData()
     const userIndex = data.users.findIndex((user) => user.userId === userId)
     if (userIndex === -1) throw new Error('User not found')
@@ -27,7 +27,7 @@ class UserService {
     delete user.password
     return user
   }
-  static async deleteUser(userId) {
+  static deleteUser(userId) {
     const data = DatabaseService.getData()
     data.users = data.users.filter((user) => user.userId !== userId)
     DatabaseService.setData(data)

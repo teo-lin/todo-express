@@ -1,7 +1,7 @@
 const DatabaseService = require('../database/database.service')
 
 class TaskService {
-  static async createTask(taskData) {
+  static createTask(taskData) {
     const data = DatabaseService.getData()
     const nextTaskId = `T${1 + Number(data.lastTaskId.slice(1))}`
     const newTask = { taskId: nextTaskId, ...taskData }
@@ -10,11 +10,11 @@ class TaskService {
     DatabaseService.setData(data)
     return newTask
   }
-  static async retrieveTask(taskId) {
+  static retrieveTask(taskId) {
     const data = DatabaseService.getData()
     return data.tasks.find((task) => task.taskId === taskId)
   }
-  static async updateTask(taskId, taskData) {
+  static updateTask(taskId, taskData) {
     const data = DatabaseService.getData()
     const taskIndex = data.tasks.findIndex((task) => task.taskId === taskId)
     if (taskIndex === -1) throw new Error('Task not found')
@@ -22,12 +22,12 @@ class TaskService {
     DatabaseService.setData(data)
     return data.tasks[taskIndex]
   }
-  static async deleteTask(taskId) {
+  static deleteTask(taskId) {
     const data = DatabaseService.getData()
     data.tasks = data.tasks.filter((task) => task.taskId !== taskId)
     DatabaseService.setData(data)
   }
-  static async completeTask(taskId) {
+  static completeTask(taskId) {
     const data = DatabaseService.getData()
     const taskIndex = data.tasks.findIndex((task) => task.taskId === taskId)
     if (taskIndex === -1) throw new Error('Task not found')
