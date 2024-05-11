@@ -10,6 +10,7 @@ const app = express()
 
 // MIDDLEWARE
 app.use(express.json())
+app.use((req, res, next) => res.status(404).json({ message: 'Route not found' }))
 
 // ROUTES
 app.use('/users', usersRouter)
