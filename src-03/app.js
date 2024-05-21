@@ -249,7 +249,7 @@ const router = express.Router()
 // MIDDLEWARE
 app.use(express.json())
 app.use('/', router)
-router.use((req, res, next) => res.status(404).json({ message: 'Route not found' }))
+// router.use((req, res, next) => res.status(404).json({ message: 'Route not found' }))
 
 // ROUTES
 router.post('/users/register', UserController.createUser)
