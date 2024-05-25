@@ -3,7 +3,7 @@ const fs = require('fs')
 const path = require('path')
 
 // CONTROLLERS
-class BaseController {
+class Controller {
   static handleRequest(method, code = 200, message = null) {
     return async (req, res) => {
       try {
@@ -17,227 +17,163 @@ class BaseController {
     };
   }
 }
-class UserController extends BaseController {
-  static createUser = BaseController.handleRequest(
-    (req) => UserService.createUser(req.body),
-    201
+class UserController extends Controller {
+  static createUser = Controller.handleRequest(
+    (req) => UserService.createUser(req.body), 201
   );
 
-  static retrieveUser = BaseController.handleRequest(
+  static retrieveUser = Controller.handleRequest(
     (req) => UserService.retrieveUser(req.params.id)
   );
 
-  static updateUser = BaseController.handleRequest(
+  static updateUser = Controller.handleRequest(
     (req) => UserService.updateUser(req.params.id, req.body)
   );
 
-  static deleteUser = BaseController.handleRequest(
+  static deleteUser = Controller.handleRequest(
     (req) => UserService.deleteUser(req.params.id),
-    200,
-    'User deleted successfully'
+    200, 'User deleted successfully'
   );
 }
-class TaskController extends BaseController {
-  static createTask = BaseController.handleRequest(
-    (req) => TaskService.createTask(req.body),
-    201
+class TaskController extends Controller {
+  static createTask = Controller.handleRequest(
+    (req) => TaskService.createTask(req.body), 201
   );
 
-  static retrieveTask = BaseController.handleRequest(
+  static retrieveTask = Controller.handleRequest(
     (req) => TaskService.retrieveTask(req.params.id)
   );
 
-  static updateTask = BaseController.handleRequest(
+  static updateTask = Controller.handleRequest(
     (req) => TaskService.updateTask(req.params.id, req.body)
   );
 
-  static deleteTask = BaseController.handleRequest(
+  static deleteTask = Controller.handleRequest(
     (req) => TaskService.deleteTask(req.params.id),
-    200,
-    'Task deleted successfully'
+    200, 'Task deleted successfully'
   );
 
-  static completeTask = BaseController.handleRequest(
+  static completeTask = Controller.handleRequest(
     (req) => TaskService.completeTask(req.params.id)
   );
 }
-class ListController extends BaseController {
-  static createList = BaseController.handleRequest(
-    (req) => ListService.createList(req.body),
-    201
+class ListController extends Controller {
+  static createList = Controller.handleRequest(
+    (req) => ListService.createList(req.body), 201
   );
 
-  static retrieveList = BaseController.handleRequest(
+  static retrieveList = Controller.handleRequest(
     (req) => ListService.retrieveList(req.params.id)
   );
 
-  static updateList = BaseController.handleRequest(
+  static updateList = Controller.handleRequest(
     (req) => ListService.updateList(req.params.id, req.body)
   );
 
-  static deleteList = BaseController.handleRequest(
+  static deleteList = Controller.handleRequest(
     (req) => ListService.deleteList(req.params.id),
-    200,
-    'List deleted successfully'
+    200, 'List deleted successfully'
   );
 }
 
 // SERVICES
 class BaseService {
-  static create(params) {
-    const { itemData, collectionName, idPrefix, idKey, lastIdKey } = params;
-    const data = DatabaseService.getData();
-    const nextId = `${idPrefix}${1 + Number(data[lastIdKey].slice(1))}`;
-    const newItem = { [idKey]: nextId, ...itemData };
-    data[collectionName].push(newItem);
+  static generateNextId(data, lastIdKey, entityKey) {
+    const nextId = `${entityKey}${1 + Number(data[lastIdKey].slice(1))}`;
     data[lastIdKey] = nextId;
+    return nextId;
+  }
+
+  static create(entityData, entityName, entityKey) {
+    const data = DatabaseService.getData();
+    const nextId = this.generateNextId(data, `last${entityName}Id`, entityKey);
+    const newEntity = { [`${entityName.toLowerCase()}Id`]: nextId, ...entityData };
+    data[`${entityName.toLowerCase()}s`].push(newEntity);
     DatabaseService.setData(data);
-    return newItem;
+    return newEntity;
   }
 
-  static retrieve(params) {
-    const { itemId, collectionName, idKey } = params;
+  static retrieve(id, entityName) {
     const data = DatabaseService.getData();
-    return data[collectionName].find(item => item[idKey] === itemId);
+    return data[`${entityName.toLowerCase()}s`].find((entity) => entity[`${entityName.toLowerCase()}Id`] === id);
   }
 
-  static update(params) {
-    const { itemId, itemData, collectionName, idKey } = params;
+  static update(id, entityData, entityName) {
     const data = DatabaseService.getData();
-    const itemIndex = data[collectionName].findIndex(item => item[idKey] === itemId);
-    if (itemIndex === -1) throw new Error(`${collectionName.slice(0, -1)} not found`);
-    data[collectionName][itemIndex] = { ...data[collectionName][itemIndex], ...itemData };
+    const entities = data[`${entityName.toLowerCase()}s`];
+    const entityIndex = entities.findIndex((entity) => entity[`${entityName.toLowerCase()}Id`] === id);
+    if (entityIndex === -1) throw new Error(`${entityName} not found`);
+    entities[entityIndex] = { ...entities[entityIndex], ...entityData };
     DatabaseService.setData(data);
-    return data[collectionName][itemIndex];
+    return entities[entityIndex];
   }
 
-  static delete(params) {
-    const { itemId, collectionName, idKey } = params;
+  static delete(id, entityName) {
     const data = DatabaseService.getData();
-    data[collectionName] = data[collectionName].filter(item => item[idKey] !== itemId);
+    data[`${entityName.toLowerCase()}s`] = data[`${entityName.toLowerCase()}s`].filter((entity) => entity[`${entityName.toLowerCase()}Id`] !== id);
     DatabaseService.setData(data);
   }
 }
-
 class UserService extends BaseService {
   static createUser(userData) {
-    const newUser = super.create({
-      itemData: userData,
-      collectionName: 'users',
-      idPrefix: 'U',
-      idKey: 'userId',
-      lastIdKey: 'lastUserId'
-    });
+    const newUser = super.create(userData, 'User', 'U');
     delete newUser.password;
     return newUser;
   }
 
   static retrieveUser(userId) {
-    const user = super.retrieve({
-      itemId: userId,
-      collectionName: 'users',
-      idKey: 'userId'
-    });
+    const user = super.retrieve(userId, 'User');
     if (user) delete user.password;
     return user;
   }
 
   static updateUser(userId, userData) {
-    const user = super.update({
-      itemId: userId,
-      itemData: userData,
-      collectionName: 'users',
-      idKey: 'userId'
-    });
-    delete user.password;
-    return user;
+    const updatedUser = super.update(userId, userData, 'User');
+    delete updatedUser.password;
+    return updatedUser;
   }
 
   static deleteUser(userId) {
-    super.delete({
-      itemId: userId,
-      collectionName: 'users',
-      idKey: 'userId'
-    });
+    super.delete(userId, 'User');
   }
 }
-
 class ListService extends BaseService {
   static createList(listData) {
-    return super.create({
-      itemData: listData,
-      collectionName: 'lists',
-      idPrefix: 'L',
-      idKey: 'listId',
-      lastIdKey: 'lastListId'
-    });
+    return super.create(listData, 'List', 'L');
   }
 
   static retrieveList(listId) {
-    return super.retrieve({
-      itemId: listId,
-      collectionName: 'lists',
-      idKey: 'listId'
-    });
+    return super.retrieve(listId, 'List');
   }
 
   static updateList(listId, listData) {
-    return super.update({
-      itemId: listId,
-      itemData: listData,
-      collectionName: 'lists',
-      idKey: 'listId'
-    });
+    return super.update(listId, listData, 'List');
   }
 
   static deleteList(listId) {
-    super.delete({
-      itemId: listId,
-      collectionName: 'lists',
-      idKey: 'listId'
-    });
+    super.delete(listId, 'List');
   }
 }
-
 class TaskService extends BaseService {
   static createTask(taskData) {
-    return super.create({
-      itemData: taskData,
-      collectionName: 'tasks',
-      idPrefix: 'T',
-      idKey: 'taskId',
-      lastIdKey: 'lastTaskId'
-    });
+    return super.create(taskData, 'Task', 'T');
   }
 
   static retrieveTask(taskId) {
-    return super.retrieve({
-      itemId: taskId,
-      collectionName: 'tasks',
-      idKey: 'taskId'
-    });
+    return super.retrieve(taskId, 'Task');
   }
 
   static updateTask(taskId, taskData) {
-    return super.update({
-      itemId: taskId,
-      itemData: taskData,
-      collectionName: 'tasks',
-      idKey: 'taskId'
-    });
+    return super.update(taskId, taskData, 'Task');
   }
 
   static deleteTask(taskId) {
-    super.delete({
-      itemId: taskId,
-      collectionName: 'tasks',
-      idKey: 'taskId'
-    });
+    super.delete(taskId, 'Task');
   }
 
   static completeTask(taskId) {
     const data = DatabaseService.getData();
-    const taskIndex = data.tasks.findIndex(task => task.taskId === taskId);
+    const taskIndex = data.tasks.findIndex((task) => task.taskId === taskId);
     if (taskIndex === -1) throw new Error('Task not found');
     data.tasks[taskIndex].isComplete = true;
     DatabaseService.setData(data);
