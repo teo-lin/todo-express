@@ -83,103 +83,169 @@ class ListController extends BaseController {
 }
 
 // SERVICES
-class UserService {
+class BaseService {
+  static create(params) {
+    const { itemData, collectionName, idPrefix, idKey, lastIdKey } = params;
+    const data = DatabaseService.getData();
+    const nextId = `${idPrefix}${1 + Number(data[lastIdKey].slice(1))}`;
+    const newItem = { [idKey]: nextId, ...itemData };
+    data[collectionName].push(newItem);
+    data[lastIdKey] = nextId;
+    DatabaseService.setData(data);
+    return newItem;
+  }
+
+  static retrieve(params) {
+    const { itemId, collectionName, idKey } = params;
+    const data = DatabaseService.getData();
+    return data[collectionName].find(item => item[idKey] === itemId);
+  }
+
+  static update(params) {
+    const { itemId, itemData, collectionName, idKey } = params;
+    const data = DatabaseService.getData();
+    const itemIndex = data[collectionName].findIndex(item => item[idKey] === itemId);
+    if (itemIndex === -1) throw new Error(`${collectionName.slice(0, -1)} not found`);
+    data[collectionName][itemIndex] = { ...data[collectionName][itemIndex], ...itemData };
+    DatabaseService.setData(data);
+    return data[collectionName][itemIndex];
+  }
+
+  static delete(params) {
+    const { itemId, collectionName, idKey } = params;
+    const data = DatabaseService.getData();
+    data[collectionName] = data[collectionName].filter(item => item[idKey] !== itemId);
+    DatabaseService.setData(data);
+  }
+}
+
+class UserService extends BaseService {
   static createUser(userData) {
-    const data = DatabaseService.getData()
-    const nextUserId = `U${1 + Number(data.lastUserId.slice(1))}`
-    const newUser = { userId: nextUserId, ...userData }
-    data.users.push(newUser)
-    data.lastUserId = nextUserId
-    DatabaseService.setData(data)
-    delete newUser.password
-    return newUser
+    const newUser = super.create({
+      itemData: userData,
+      collectionName: 'users',
+      idPrefix: 'U',
+      idKey: 'userId',
+      lastIdKey: 'lastUserId'
+    });
+    delete newUser.password;
+    return newUser;
   }
+
   static retrieveUser(userId) {
-    const data = DatabaseService.getData()
-    const user = data.users.find((user) => user.userId === userId)
-    delete user.password
-    return user
+    const user = super.retrieve({
+      itemId: userId,
+      collectionName: 'users',
+      idKey: 'userId'
+    });
+    if (user) delete user.password;
+    return user;
   }
+
   static updateUser(userId, userData) {
-    const data = DatabaseService.getData()
-    const userIndex = data.users.findIndex((user) => user.userId === userId)
-    if (userIndex === -1) throw new Error('User not found')
-    data.users[userIndex] = { ...data.users[userIndex], ...userData }
-    DatabaseService.setData(data)
-    const user = data.users[userIndex]
-    delete user.password
-    return user
+    const user = super.update({
+      itemId: userId,
+      itemData: userData,
+      collectionName: 'users',
+      idKey: 'userId'
+    });
+    delete user.password;
+    return user;
   }
+
   static deleteUser(userId) {
-    const data = DatabaseService.getData()
-    data.users = data.users.filter((user) => user.userId !== userId)
-    DatabaseService.setData(data)
+    super.delete({
+      itemId: userId,
+      collectionName: 'users',
+      idKey: 'userId'
+    });
   }
 }
-class ListService {
+
+class ListService extends BaseService {
   static createList(listData) {
-    const data = DatabaseService.getData()
-    const nextListId = `L${1 + Number(data.lastListId.slice(1))}`
-    const newList = { listId: nextListId, ...listData }
-    data.lists.push(newList)
-    data.lastListId = nextListId
-    DatabaseService.setData(data)
-    return newList
+    return super.create({
+      itemData: listData,
+      collectionName: 'lists',
+      idPrefix: 'L',
+      idKey: 'listId',
+      lastIdKey: 'lastListId'
+    });
   }
+
   static retrieveList(listId) {
-    const data = DatabaseService.getData()
-    return data.lists.find((list) => list.listId === listId)
+    return super.retrieve({
+      itemId: listId,
+      collectionName: 'lists',
+      idKey: 'listId'
+    });
   }
+
   static updateList(listId, listData) {
-    const data = DatabaseService.getData()
-    const listIndex = data.lists.findIndex((list) => list.listId === listId)
-    if (listIndex === -1) throw new Error('List not found')
-    data.lists[listIndex] = { ...data.lists[listIndex], ...listData }
-    DatabaseService.setData(data)
-    return data.lists[listIndex]
+    return super.update({
+      itemId: listId,
+      itemData: listData,
+      collectionName: 'lists',
+      idKey: 'listId'
+    });
   }
+
   static deleteList(listId) {
-    const data = DatabaseService.getData()
-    data.lists = data.lists.filter((list) => list.listId !== listId)
-    DatabaseService.setData(data)
+    super.delete({
+      itemId: listId,
+      collectionName: 'lists',
+      idKey: 'listId'
+    });
   }
 }
-class TaskService {
+
+class TaskService extends BaseService {
   static createTask(taskData) {
-    const data = DatabaseService.getData()
-    const nextTaskId = `T${1 + Number(data.lastTaskId.slice(1))}`
-    const newTask = { taskId: nextTaskId, ...taskData }
-    data.tasks.push(newTask)
-    data.lastTaskId = nextTaskId
-    DatabaseService.setData(data)
-    return newTask
+    return super.create({
+      itemData: taskData,
+      collectionName: 'tasks',
+      idPrefix: 'T',
+      idKey: 'taskId',
+      lastIdKey: 'lastTaskId'
+    });
   }
+
   static retrieveTask(taskId) {
-    const data = DatabaseService.getData()
-    return data.tasks.find((task) => task.taskId === taskId)
+    return super.retrieve({
+      itemId: taskId,
+      collectionName: 'tasks',
+      idKey: 'taskId'
+    });
   }
+
   static updateTask(taskId, taskData) {
-    const data = DatabaseService.getData()
-    const taskIndex = data.tasks.findIndex((task) => task.taskId === taskId)
-    if (taskIndex === -1) throw new Error('Task not found')
-    data.tasks[taskIndex] = { ...data.tasks[taskIndex], ...taskData }
-    DatabaseService.setData(data)
-    return data.tasks[taskIndex]
+    return super.update({
+      itemId: taskId,
+      itemData: taskData,
+      collectionName: 'tasks',
+      idKey: 'taskId'
+    });
   }
+
   static deleteTask(taskId) {
-    const data = DatabaseService.getData()
-    data.tasks = data.tasks.filter((task) => task.taskId !== taskId)
-    DatabaseService.setData(data)
+    super.delete({
+      itemId: taskId,
+      collectionName: 'tasks',
+      idKey: 'taskId'
+    });
   }
+
   static completeTask(taskId) {
-    const data = DatabaseService.getData()
-    const taskIndex = data.tasks.findIndex((task) => task.taskId === taskId)
-    if (taskIndex === -1) throw new Error('Task not found')
-    data.tasks[taskIndex].isComplete = true
-    DatabaseService.setData(data)
-    return data.tasks[taskIndex]
+    const data = DatabaseService.getData();
+    const taskIndex = data.tasks.findIndex(task => task.taskId === taskId);
+    if (taskIndex === -1) throw new Error('Task not found');
+    data.tasks[taskIndex].isComplete = true;
+    DatabaseService.setData(data);
+    return data.tasks[taskIndex];
   }
 }
+
+
 
 class DatabaseService {
   static #db
