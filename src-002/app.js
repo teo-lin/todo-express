@@ -82,7 +82,6 @@ class ListController extends BaseController {
   );
 }
 
-
 // SERVICES
 class UserService {
   static createUser(userData) {
