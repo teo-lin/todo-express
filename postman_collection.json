@@ -1,26 +1,57 @@
 {
 	"info": {
-		"_postman_id": "fe0c8088-9575-4813-8112-23f77e3c3dee",
+		"_postman_id": "cbd24036-e265-49c5-a41d-db1eadc7d40e",
 		"name": "todo-apps",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "32799413"
+		"_exporter_id": "35136888"
 	},
 	"item": [
 		{
-			"name": "create User",
+			"name": "inexistent route",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Response body matches expected user data\", function () {",
-							"    pm.response.to.have.status(201);",
-							"",
-							"    const responseBody = pm.response.json();",
-							"",
-							"    pm.expect(responseBody.username).to.equal(\"user4\");",
-							"    pm.expect(responseBody.fullname).to.equal(\"Gillian Beck\");",
-							"});",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "OPTIONS",
+				"header": [],
+				"url": {
+					"raw": "{{root}}/inexistent/route",
+					"host": [
+						"{{root}}"
+					],
+					"path": [
+						"inexistent",
+						"route"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response body matches expected user data\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"\r",
+							"    const responseBody = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseBody.username).to.equal(\"user4\");\r",
+							"    pm.expect(responseBody.fullname).to.equal(\"Gillian Beck\");\r",
+							"});\r",
 							""
 						],
 						"type": "text/javascript"
@@ -28,66 +59,14 @@
 				}
 			],
 			"request": {
+				"auth": {
+					"type": "inherit"
+				},
 				"method": "POST",
-				"header": [
-					{
-						"key": "Cache-Control",
-						"value": "no-cache",
-						"name": "cache-control",
-						"type": "text"
-					},
-					{
-						"key": "Postman-Token",
-						"value": "<calculated when request is sent>",
-						"name": "postman-token",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "text/plain",
-						"name": "content-type",
-						"type": "text"
-					},
-					{
-						"key": "Content-Length",
-						"value": "<calculated when request is sent>",
-						"name": "content-length",
-						"type": "text"
-					},
-					{
-						"key": "Host",
-						"value": "<calculated when request is sent>",
-						"name": "host",
-						"type": "text"
-					},
-					{
-						"key": "User-Agent",
-						"value": "PostmanRuntime/7.32.1",
-						"name": "user-agent",
-						"type": "text"
-					},
-					{
-						"key": "Accept",
-						"value": "*/*",
-						"name": "accept",
-						"type": "text"
-					},
-					{
-						"key": "Accept-Encoding",
-						"value": "gzip, deflate, br",
-						"name": "accept-encoding",
-						"type": "text"
-					},
-					{
-						"key": "Connection",
-						"value": "keep-alive",
-						"name": "connection",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"username\": \"user4\",\n    \"password\": \"pass4\",\n    \"fullname\": \"Gillian Beck\"\n}",
+					"raw": "{\r\n    \"username\": \"user4\",\r\n    \"password\": \"pass4\",\r\n    \"fullname\": \"Gillian Beck\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
