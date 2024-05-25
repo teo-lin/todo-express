@@ -4,14 +4,13 @@ const path = require('path')
 
 // CONTROLLERS
 class BaseController {
-  static handleRequest(serviceMethod, successStatusCode = 200) {
+  static handleRequest(method, code = 200, message = null) {
     return async (req, res) => {
       try {
-        const result = await serviceMethod(req);
-        if (result === null) {
-          return res.status(404).json({ message: 'Resource not found' });
-        }
-        res.status(successStatusCode).json(result);
+        const result = await method(req);
+        // if (result === null) return res.status(404).json({ message: 'Route not found' });
+        if (message) return res.status(code).json({ message });
+        res.status(code).json(result);
       } catch (error) {
         res.status(500).json({ message: error.message });
       }
@@ -34,7 +33,8 @@ class UserController extends BaseController {
 
   static deleteUser = BaseController.handleRequest(
     (req) => UserService.deleteUser(req.params.id),
-    200
+    200,
+    'User deleted successfully'
   );
 }
 class TaskController extends BaseController {
@@ -53,7 +53,8 @@ class TaskController extends BaseController {
 
   static deleteTask = BaseController.handleRequest(
     (req) => TaskService.deleteTask(req.params.id),
-    200
+    200,
+    'Task deleted successfully'
   );
 
   static completeTask = BaseController.handleRequest(
@@ -76,7 +77,8 @@ class ListController extends BaseController {
 
   static deleteList = BaseController.handleRequest(
     (req) => ListService.deleteList(req.params.id),
-    200
+    200,
+    'List deleted successfully'
   );
 }
 
