@@ -277,5 +277,5 @@ router.put('/lists/list/:id', ListController.updateList);
 router.delete('/lists/list/:id', ListController.deleteList);
 
 // SERVER
-const PORT = 3333;
+const PORT = 3000;
 app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));

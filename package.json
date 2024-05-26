@@ -16,7 +16,7 @@
     "url": "https://github.com/teo-lin/todo-express"
   },
   "config": {
-    "port": "3333",
+    "port": "3000",
     "framework": "express"
   },
   "scripts": {
@@ -47,7 +47,7 @@
     "format": "prettier --write 'src/**/*.ts' 'test/**/*.ts'",
     "build": "tsc",
     "build:docker": "docker build --tag todo-app .",
-    "start:docker": "docker run --detach --name todo-container --publish 3333:3333 --memory 4g --cpus 4 todo-app",
+    "start:docker": "docker run --detach --name todo-container --publish 3000:3000 --memory 4g --cpus 4 todo-app",
     "setup": "open --background -a Docker && npm run reset && npm install && npm install --global nodemon && docker build --tag todo-app .",
     "reset": "open --background -a Docker && rm -rf node_modules build dist out coverage package-lock.json && docker stop todo-container && docker rm todo-container || true && docker rmi todo-app || true"
   },

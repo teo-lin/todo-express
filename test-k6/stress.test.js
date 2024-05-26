@@ -1,12 +1,12 @@
-import http from 'k6/http'
-import { check } from 'k6'
+import http from 'k6/http';
+import { check } from 'k6';
 
-const maxTarget = 2000 // max number of concurrent virtual users
-const duration = '1s'
-const endpoint = 'http://localhost:3333/users/user/U1'
-const stages = []
+const maxTarget = 2000; // max number of concurrent virtual users
+const duration = '1s';
+const endpoint = 'http://localhost:3000/users/user/U1';
+const stages = [];
 for (let target = 100; target <= maxTarget; target += 100) {
-  stages.push({ duration, target })
+  stages.push({ duration, target });
 }
 
 export const options = {
@@ -20,9 +20,9 @@ export const options = {
   http: {
     debug: 'full', // Enable detailed HTTP request logging
   },
-}
+};
 
 export default function () {
-  const res = http.get(endpoint)
-  check(res, { 'status was 200': (r) => r.status == 200 })
+  const res = http.get(endpoint);
+  check(res, { 'status was 200': (r) => r.status == 200 });
 }

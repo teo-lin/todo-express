@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Expose the port your app runs on
-EXPOSE 3333
+EXPOSE 3000
 
 # Define the entry point for the container
 CMD ["node", "src/app"]

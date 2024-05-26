@@ -1,6 +1,6 @@
-const express = require('express')
-const fs = require('fs')
-const path = require('path')
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
 
 // CONTROLLERS
 class BaseController {
@@ -18,61 +18,58 @@ class BaseController {
   }
 }
 class UserController extends BaseController {
-  static createUser = BaseController.handleRequest(
-    (req) => UserService.createUser(req.body), 201
+  static createUser = BaseController.handleRequest((req) => UserService.createUser(req.body), 201);
+
+  static retrieveUser = BaseController.handleRequest((req) =>
+    UserService.retrieveUser(req.params.id)
   );
 
-  static retrieveUser = BaseController.handleRequest(
-    (req) => UserService.retrieveUser(req.params.id)
-  );
-
-  static updateUser = BaseController.handleRequest(
-    (req) => UserService.updateUser(req.params.id, req.body)
+  static updateUser = BaseController.handleRequest((req) =>
+    UserService.updateUser(req.params.id, req.body)
   );
 
   static deleteUser = BaseController.handleRequest(
     (req) => UserService.deleteUser(req.params.id),
-    200, 'User deleted successfully'
+    200,
+    'User deleted successfully'
   );
 }
 class TaskController extends BaseController {
-  static createTask = BaseController.handleRequest(
-    (req) => TaskService.createTask(req.body), 201
+  static createTask = BaseController.handleRequest((req) => TaskService.createTask(req.body), 201);
+
+  static retrieveTask = BaseController.handleRequest((req) =>
+    TaskService.retrieveTask(req.params.id)
   );
 
-  static retrieveTask = BaseController.handleRequest(
-    (req) => TaskService.retrieveTask(req.params.id)
-  );
-
-  static updateTask = BaseController.handleRequest(
-    (req) => TaskService.updateTask(req.params.id, req.body)
+  static updateTask = BaseController.handleRequest((req) =>
+    TaskService.updateTask(req.params.id, req.body)
   );
 
   static deleteTask = BaseController.handleRequest(
     (req) => TaskService.deleteTask(req.params.id),
-    200, 'Task deleted successfully'
+    200,
+    'Task deleted successfully'
   );
 
-  static completeTask = BaseController.handleRequest(
-    (req) => TaskService.completeTask(req.params.id)
+  static completeTask = BaseController.handleRequest((req) =>
+    TaskService.completeTask(req.params.id)
   );
 }
 class ListController extends BaseController {
-  static createList = BaseController.handleRequest(
-    (req) => ListService.createList(req.body), 201
+  static createList = BaseController.handleRequest((req) => ListService.createList(req.body), 201);
+
+  static retrieveList = BaseController.handleRequest((req) =>
+    ListService.retrieveList(req.params.id)
   );
 
-  static retrieveList = BaseController.handleRequest(
-    (req) => ListService.retrieveList(req.params.id)
-  );
-
-  static updateList = BaseController.handleRequest(
-    (req) => ListService.updateList(req.params.id, req.body)
+  static updateList = BaseController.handleRequest((req) =>
+    ListService.updateList(req.params.id, req.body)
   );
 
   static deleteList = BaseController.handleRequest(
     (req) => ListService.deleteList(req.params.id),
-    200, 'List deleted successfully'
+    200,
+    'List deleted successfully'
   );
 }
 
@@ -95,13 +92,17 @@ class BaseService {
 
   static retrieve(id, entityName) {
     const data = DatabaseService.getData();
-    return data[`${entityName.toLowerCase()}s`].find((entity) => entity[`${entityName.toLowerCase()}Id`] === id);
+    return data[`${entityName.toLowerCase()}s`].find(
+      (entity) => entity[`${entityName.toLowerCase()}Id`] === id
+    );
   }
 
   static update(id, entityData, entityName) {
     const data = DatabaseService.getData();
     const entities = data[`${entityName.toLowerCase()}s`];
-    const entityIndex = entities.findIndex((entity) => entity[`${entityName.toLowerCase()}Id`] === id);
+    const entityIndex = entities.findIndex(
+      (entity) => entity[`${entityName.toLowerCase()}Id`] === id
+    );
     if (entityIndex === -1) throw new Error(`${entityName} not found`);
     entities[entityIndex] = { ...entities[entityIndex], ...entityData };
     DatabaseService.setData(data);
@@ -110,7 +111,9 @@ class BaseService {
 
   static delete(id, entityName) {
     const data = DatabaseService.getData();
-    data[`${entityName.toLowerCase()}s`] = data[`${entityName.toLowerCase()}s`].filter((entity) => entity[`${entityName.toLowerCase()}Id`] !== id);
+    data[`${entityName.toLowerCase()}s`] = data[`${entityName.toLowerCase()}s`].filter(
+      (entity) => entity[`${entityName.toLowerCase()}Id`] !== id
+    );
     DatabaseService.setData(data);
   }
 }
@@ -182,53 +185,53 @@ class TaskService extends BaseService {
 }
 
 class DatabaseService {
-  static #db
+  static #db;
 
   static init(filePath) {
-    this.#db = JSON.parse(fs.readFileSync(filePath, 'utf8'))
+    this.#db = JSON.parse(fs.readFileSync(filePath, 'utf8'));
   }
 
   static getData() {
-    return this.#db
+    return this.#db;
   }
 
   static setData(data) {
-    this.#db = data
+    this.#db = data;
   }
 
   static saveToDisk(filePath) {
-    fs.writeFileSync(filePath, JSON.stringify(this.#db), 'utf8')
+    fs.writeFileSync(filePath, JSON.stringify(this.#db), 'utf8');
   }
 }
 
 // DATABASE
-const PATH = path.join(__dirname, './db.json')
-DatabaseService.init(PATH)
+const PATH = path.join(__dirname, './db.json');
+DatabaseService.init(PATH);
 
 // ROUTER
-const app = express()
-const router = express.Router()
+const app = express();
+const router = express.Router();
 
 // MIDDLEWARE
-app.use(express.json())
-app.use('/', router)
+app.use(express.json());
+app.use('/', router);
 // router.use((req, res, next) => res.status(404).json({ message: 'Route not found' }))
 
 // ROUTES
-router.post('/users/register', UserController.createUser)
-router.get('/users/user/:id', UserController.retrieveUser)
-router.put('/users/user/:id', UserController.updateUser)
-router.delete('/users/user/:id', UserController.deleteUser)
-router.post('/tasks/create', TaskController.createTask)
-router.get('/tasks/task/:id', TaskController.retrieveTask)
-router.put('/tasks/task/:id', TaskController.updateTask)
-router.delete('/tasks/task/:id', TaskController.deleteTask)
-router.patch('/tasks/task/:id/complete', TaskController.completeTask)
-router.post('/lists/create', ListController.createList)
-router.get('/lists/list/:id', ListController.retrieveList)
-router.put('/lists/list/:id', ListController.updateList)
-router.delete('/lists/list/:id', ListController.deleteList)
+router.post('/users/register', UserController.createUser);
+router.get('/users/user/:id', UserController.retrieveUser);
+router.put('/users/user/:id', UserController.updateUser);
+router.delete('/users/user/:id', UserController.deleteUser);
+router.post('/tasks/create', TaskController.createTask);
+router.get('/tasks/task/:id', TaskController.retrieveTask);
+router.put('/tasks/task/:id', TaskController.updateTask);
+router.delete('/tasks/task/:id', TaskController.deleteTask);
+router.patch('/tasks/task/:id/complete', TaskController.completeTask);
+router.post('/lists/create', ListController.createList);
+router.get('/lists/list/:id', ListController.retrieveList);
+router.put('/lists/list/:id', ListController.updateList);
+router.delete('/lists/list/:id', ListController.deleteList);
 
 // SERVER
-const PORT = 3333
-app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`))
+const PORT = 3000;
+app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
