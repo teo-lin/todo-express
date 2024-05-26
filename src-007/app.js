@@ -221,8 +221,7 @@ const router = express.Router();
 
 // MIDDLEWARE
 app.use(express.json());
-app.use('/', router);
-router.use((req, res, next) => res.status(404).json({ message: 'Route not found' }));
+app.use('/api', router);
 
 // ROUTES
 router.post('/users/register', createUser);

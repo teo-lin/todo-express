@@ -259,7 +259,7 @@ const router = express.Router();
 
 // MIDDLEWARE
 app.use(express.json());
-app.use('/', router);
+app.use('/api', router);
 
 // ROUTES
 router.post('/users/register', UserController.createUser);

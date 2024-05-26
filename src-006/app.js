@@ -10,12 +10,11 @@ const app = express();
 
 // MIDDLEWARE
 app.use(express.json());
-app.use((req, res, next) => res.status(404).json({ message: 'Route not found' }));
 
 // ROUTES
-app.use('/users', usersRouter);
-app.use('/tasks', tasksRouter);
-app.use('/lists', listsRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/tasks', tasksRouter);
+app.use('/api/lists', listsRouter);
 
 // SERVER
 const PORT = 3000;
