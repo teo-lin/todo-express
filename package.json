@@ -23,7 +23,7 @@
     "start": "node src/app.js",
     "start:dev": "nodemon src/app.js",
     "start:000": "nodemon src-000/app.js",
-    "start:001": "nodemon src-001/app.js",
+    "start:001": "npm run build && ts-node src-001/app.ts",
     "start:002": "nodemon src-002/app.js",
     "start:003": "nodemon src-003/app.js",
     "start:004": "nodemon src-004/app.js",
@@ -45,7 +45,7 @@
     "test:endurance": "k6 run ./k6/endurance.test.js",
     "lint": "eslint '{src,apps,libs,test}/**/*.ts' --fix",
     "format": "prettier --write 'src/**/*.ts' 'test/**/*.ts'",
-    "build": "",
+    "build": "tsc",
     "build:docker": "docker build --tag todo-app .",
     "start:docker": "docker run --detach --name todo-container --publish 3333:3333 --memory 4g --cpus 4 todo-app",
     "setup": "open --background -a Docker && npm run reset && npm install && npm install --global nodemon && docker build --tag todo-app .",
@@ -53,5 +53,9 @@
   },
   "dependencies": {
     "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "ts-node": "^10.9.2"
   }
 }

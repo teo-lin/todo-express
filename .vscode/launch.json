@@ -1,59 +1,59 @@
 {
-	"version": "0.2.0",
-	"configurations": [
-		{
-			"type": "node",
-			"request": "launch",
-			"name": "nodemon:app",
-			"runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.12.2/bin/nodemon",
-			"program": "${workspaceFolder}/src/app.js",
-			"restart": true,
-			"console": "internalConsole",
-			"env": {
-				"NODE_ENV": "development"
-			}
-		},
-		{
-			"type": "node",
-			"request": "launch",
-			"name": "nodemon:app-01",
-			"runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.12.2/bin/nodemon",
-			"program": "${workspaceFolder}/src-01/app.js",
-			"restart": true,
-			"console": "integratedTerminal",
-			"env": {
-				"NODE_ENV": "development"
-			}
-		},
-		{
-			"type": "node",
-			"request": "launch",
-			"name": "nodemon:app-02",
-			"runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.12.2/bin/nodemon",
-			"program": "${workspaceFolder}/src-02/app.js",
-			"restart": true,
-			"console": "integratedTerminal",
-			"env": {
-				"NODE_ENV": "development"
-			}
-		},
-		{
-			"type": "node",
-			"request": "launch",
-			"name": "nodemon:app-03",
-			"runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.12.2/bin/nodemon",
-			"program": "${workspaceFolder}/src-03/app.js",
-			"restart": true,
-			"console": "integratedTerminal",
-			"env": {
-				"NODE_ENV": "development"
-			}
-		},
-		{
-			"command": "npm start",
-			"name": "node",
-			"request": "launch",
-			"type": "node-terminal"
-		}
-	]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "nodemon:app",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.12.2/bin/nodemon",
+      "program": "${workspaceFolder}/src/app.js",
+      "restart": true,
+      "console": "internalConsole",
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "ts-node:001",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run-script",
+        "start:001"
+      ],
+      "restart": true,
+      "sourceMaps": true,
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "nodemon:002",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.12.2/bin/nodemon",
+      "program": "${workspaceFolder}/src-02/app.js",
+      "restart": true,
+      "console": "integratedTerminal",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "nodemon:003",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.12.2/bin/nodemon",
+      "program": "${workspaceFolder}/src-03/app.js",
+      "restart": true,
+      "console": "integratedTerminal",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    {
+      "command": "npm start",
+      "name": "node",
+      "request": "launch",
+      "type": "node-terminal"
+    }
+  ]
 }
