@@ -3,7 +3,7 @@ const fs = require('fs')
 const path = require('path')
 
 // CONTROLLERS
-class Controller {
+class BaseController {
   static handleRequest(method, code = 200, message = null) {
     return async (req, res) => {
       try {
@@ -17,60 +17,60 @@ class Controller {
     };
   }
 }
-class UserController extends Controller {
-  static createUser = Controller.handleRequest(
+class UserController extends BaseController {
+  static createUser = BaseController.handleRequest(
     (req) => UserService.createUser(req.body), 201
   );
 
-  static retrieveUser = Controller.handleRequest(
+  static retrieveUser = BaseController.handleRequest(
     (req) => UserService.retrieveUser(req.params.id)
   );
 
-  static updateUser = Controller.handleRequest(
+  static updateUser = BaseController.handleRequest(
     (req) => UserService.updateUser(req.params.id, req.body)
   );
 
-  static deleteUser = Controller.handleRequest(
+  static deleteUser = BaseController.handleRequest(
     (req) => UserService.deleteUser(req.params.id),
     200, 'User deleted successfully'
   );
 }
-class TaskController extends Controller {
-  static createTask = Controller.handleRequest(
+class TaskController extends BaseController {
+  static createTask = BaseController.handleRequest(
     (req) => TaskService.createTask(req.body), 201
   );
 
-  static retrieveTask = Controller.handleRequest(
+  static retrieveTask = BaseController.handleRequest(
     (req) => TaskService.retrieveTask(req.params.id)
   );
 
-  static updateTask = Controller.handleRequest(
+  static updateTask = BaseController.handleRequest(
     (req) => TaskService.updateTask(req.params.id, req.body)
   );
 
-  static deleteTask = Controller.handleRequest(
+  static deleteTask = BaseController.handleRequest(
     (req) => TaskService.deleteTask(req.params.id),
     200, 'Task deleted successfully'
   );
 
-  static completeTask = Controller.handleRequest(
+  static completeTask = BaseController.handleRequest(
     (req) => TaskService.completeTask(req.params.id)
   );
 }
-class ListController extends Controller {
-  static createList = Controller.handleRequest(
+class ListController extends BaseController {
+  static createList = BaseController.handleRequest(
     (req) => ListService.createList(req.body), 201
   );
 
-  static retrieveList = Controller.handleRequest(
+  static retrieveList = BaseController.handleRequest(
     (req) => ListService.retrieveList(req.params.id)
   );
 
-  static updateList = Controller.handleRequest(
+  static updateList = BaseController.handleRequest(
     (req) => ListService.updateList(req.params.id, req.body)
   );
 
-  static deleteList = Controller.handleRequest(
+  static deleteList = BaseController.handleRequest(
     (req) => ListService.deleteList(req.params.id),
     200, 'List deleted successfully'
   );

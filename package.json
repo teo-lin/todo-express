@@ -38,7 +38,7 @@
     "test:watch": "",
     "test:cov": "",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "",
+    "test:e2e": "newman run postman_collection.json --environment postman_environment.json",
     "test:normal": "k6 run ./test-k6/normal.test.js",
     "test:stress": "k6 run ./test-k6/stress.test.js",
     "test:spike": "k6 run ./test-k6/spike.test.js",
