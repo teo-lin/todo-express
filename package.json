@@ -21,7 +21,7 @@
   },
   "scripts": {
     "start": "node src/app.js",
-    "start:dev": "nodemon src/app.js",
+    "dev": "nodemon src/app.js",
     "start:000": "nodemon src-000/app.js",
     "start:001": "npm run build && ts-node src-001/app.ts",
     "start:002": "nodemon src-002/app.js",
