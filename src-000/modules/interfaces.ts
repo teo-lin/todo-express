@@ -28,5 +28,5 @@ export interface Task {
   isComplete: boolean;
 }
 
-export type ControllerMethod = (req: Request) => Promise<any>;
+export type ControllerMethod = (req: Request) => Promise<unknown>;
 export type Entity = 'User' | 'List' | 'Task';

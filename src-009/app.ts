@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { Express, Router, Request, Response } from 'express';
 import fs from 'fs';
 import path from 'path';
 
@@ -29,12 +29,12 @@ interface Task {
   taskName: string;
   isComplete: boolean;
 }
-type ControllerMethod = (req: Request) => Promise<any>;
+type Method = (req: Request) => Promise<unknown>;
 type Entity = 'User' | 'List' | 'Task';
 
 // CONTROLLERS
 abstract class BaseController {
-  static handleRequest(method: ControllerMethod, code: number = 200, message?: string | undefined) {
+  static handleRequest(method: Method, code: number = 200, message?: string | undefined) {
     return async (req: Request, res: Response) => {
       try {
         const result = await method(req);
@@ -46,6 +46,7 @@ abstract class BaseController {
     };
   }
 }
+
 class UserController extends BaseController {
   static createUser = BaseController.handleRequest((req) => UserService.createUser(req.body), 201);
 
@@ -254,8 +255,8 @@ class DatabaseService {
 DatabaseService.init();
 
 // ROUTER
-const app = express();
-const router = express.Router();
+const app: Express = express();
+const router: Router = express.Router();
 
 // MIDDLEWARE
 app.use(express.json());

@@ -4,13 +4,13 @@ This repository will contain multiple versions of the same app, so that it can b
 
 Base versions, all with in-memory storage:
 
-|          |     | modular | mono<br />(single-file) |                                                                              |
-| -------- | --- | ------- | ----------------------- | ---------------------------------------------------------------------------- |
-| OOP      | .ts | xx0     | xx1                     | DRY OOP, with abstract classes and inheritance                               |
-| OOP      | .js | xx2     | xx3                     | same                                                                         |
-| ~~OOP~~ | .js | xx4     | xx5                     | WET OOP, with lots of repeated code, but easier to understand and modularise |
-| FP       | .js | xx6     | xx7                     | Functional Programming versions                                              |
-| ...      | .?  | xx8     | xx9                     | Framework-specific versions                                                  |
+|     |     | modular | mono<br />(single-file) |                                           |
+| --- | --- | ------- | ----------------------- | ----------------------------------------- |
+| OOP | .ts | xx0     | xx1                     | Object Oriented Programming in TypeScript |
+| OOP | .js | xx2     | xx3                     | Object Oriented Programming in JavaScript |
+| FP  | .ts | xx4     | xx5                     |                                           |
+| FP  | .js | xx6     | xx7                     | Functional Programming versions           |
+| ... | .?  | xx8     | xx9                     | Framework-specific versions               |
 
 00x-04x - benchmarking the impact of using various types of hardware resources on performance and speed:
 

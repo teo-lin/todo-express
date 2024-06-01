@@ -1,46 +1,50 @@
-const express = require('express')
-const UserService = require('./user.service')
+import express, { Router, Request, Response } from 'express';
+import UserService from './user.service';
 
 class UserController {
-  static createUser(req, res) {
+  static async createUser(req: Request, res: Response): Promise<void> {
     try {
-      const newUser = UserService.createUser(req.body)
-      res.status(201).json(newUser)
+      const newUser = await UserService.createUser(req.body);
+      res.status(201).json(newUser);
     } catch (error) {
-      res.status(500).json({ message: error.message })
+      res.status(500).json({ message: error.message });
     }
   }
-  static retrieveUser(req, res) {
+
+  static async retrieveUser(req: Request, res: Response): Promise<Response<any, Record<string, any>>> {
     try {
-      const user = UserService.retrieveUser(req.params.id)
-      if (!user) return res.status(404).json({ message: 'User not found' })
-      res.json(user)
+      const user = await UserService.retrieveUser(req.params.id);
+      if (!user) return res.status(404).json({ message: 'User not found' });
+      return res.json(user);
     } catch (error) {
-      res.status(500).json({ message: error.message })
+      return res.status(500).json({ message: error.message });
     }
   }
-  static updateUser(req, res) {
+
+  static async updateUser(req: Request, res: Response): Promise<void> {
     try {
-      const updatedUser = UserService.updateUser(req.params.id, req.body)
-      res.json(updatedUser)
+      const updatedUser = await UserService.updateUser(req.params.id, req.body);
+      res.json(updatedUser);
     } catch (error) {
-      res.status(500).json({ message: error.message })
+      res.status(500).json({ message: error.message });
     }
   }
-  static deleteUser(req, res) {
+
+  static async deleteUser(req: Request, res: Response): Promise<void> {
     try {
-      UserService.deleteUser(req.params.id)
-      res.json({ message: 'User deleted successfully' })
+      await UserService.deleteUser(req.params.id);
+      res.json({ message: 'User deleted successfully' });
     } catch (error) {
-      res.status(500).json({ message: error.message })
+      res.status(500).json({ message: error.message });
     }
   }
 }
 
-const userRouter = express.Router()
-userRouter.post('/register', UserController.createUser)
-userRouter.get('/user/:id', UserController.retrieveUser)
-userRouter.put('/user/:id', UserController.updateUser)
-userRouter.delete('/user/:id', UserController.deleteUser)
+const userRouter: Router = express.Router();
 
-module.exports = userRouter
+userRouter.post('/register', UserController.createUser);
+userRouter.get('/user/:id', UserController.retrieveUser);
+userRouter.put('/user/:id', UserController.updateUser);
+userRouter.delete('/user/:id', UserController.deleteUser);
+
+export default userRouter;

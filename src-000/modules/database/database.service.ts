@@ -1,8 +1,9 @@
 import { Database } from "../interfaces";
+
 const fs = require('fs');
 const path = require('path');
 
-export class DatabaseService {
+export default class DatabaseService {
   private static db: Database;
   private static PATH = path.join(__dirname, './db.json');
 
