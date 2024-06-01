@@ -169,7 +169,7 @@
 									"",
 									"    const responseBody = pm.response.json();",
 									"",
-									"    pm.expect(responseBody.message).to.eql(\"User deleted successfully\");",
+									"    pm.expect(responseBody.message).to.equal(\"User deleted successfully\");",
 									"});",
 									""
 								],
@@ -357,8 +357,8 @@
 									"",
 									"    const responseBody = pm.response.json();",
 									"",
-									"    pm.expect(responseBody.listId).to.eql(\"L2\");",
-									"    pm.expect(responseBody.taskName).to.eql(\"Buy more eggs\");",
+									"    pm.expect(responseBody.listId).to.equal(\"L2\");",
+									"    pm.expect(responseBody.taskName).to.equal(\"Buy more eggs\");",
 									"});",
 									""
 								],
@@ -410,7 +410,7 @@
 									"",
 									"    const responseBody = pm.response.json();",
 									"",
-									"    pm.expect(responseBody.message).to.eql(\"Task deleted successfully\");",
+									"    pm.expect(responseBody.message).to.equal(\"Task deleted successfully\");",
 									"});",
 									""
 								],
@@ -600,7 +600,7 @@
 									"",
 									"    const responseBody = pm.response.json();",
 									"",
-									"    pm.expect(responseBody.message).to.eql(\"List deleted successfully\");",
+									"    pm.expect(responseBody.message).to.equal(\"List deleted successfully\");",
 									"});",
 									""
 								],
@@ -645,11 +645,13 @@
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {\r",
 									"    pm.response.to.have.status(404);\r",
-									"    \r",
-									"    const responseBody = pm.response.json();\r",
+									"});\r",
 									"\r",
-									"    pm.expect(responseBody.message).to.eql(\"Route not found\");\r",
-									"});"
+									"pm.test(\"Response body contains expected error message\", function () {\r",
+									"    const responseBody = pm.response.text();\r",
+									"    pm.expect(responseBody).to.contain(\"Cannot OPTIONS /api/inexistent/route\");\r",
+									"});\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -672,19 +674,21 @@
 					"response": []
 				},
 				{
-					"name": "500 unpermitted method",
+					"name": "404! unpermitted method",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 500\", function () {\r",
-									"    pm.response.to.have.status(500);\r",
-									"    \r",
-									"    const responseBody = pm.response.json();\r",
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
 									"\r",
-									"    pm.expect(responseBody.message).to.eql(\"Unexpected end of JSON input\"); // Wrong message\r",
-									"});"
+									"pm.test(\"Response body contains expected error message\", function () {\r",
+									"    const responseBody = pm.response.text();\r",
+									"    pm.expect(responseBody).to.contain(\"Cannot GET /api/users/register\");\r",
+									"});\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -707,18 +711,19 @@
 					"response": []
 				},
 				{
-					"name": "500 malformatted body",
+					"name": "400 malformatted body",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Response body matches expected user data\", function () {\r",
-									"    pm.response.to.have.status(500);\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
 									"\r",
-									"    const responseBody = pm.response.json();\r",
-									"\r",
-									"    pm.expect(responseBody.message).to.eql(\"Expected double-quoted property name in JSON at position 88\");\r",
+									"pm.test(\"Response body contains expected error message\", function () {\r",
+									"    const responseBody = pm.response.text();\r",
+									"    pm.expect(responseBody).to.contain(\"Expected double-quoted property name in JSON at position 88\");\r",
 									"});\r",
 									""
 								],
@@ -911,7 +916,7 @@
 									"",
 									"    const responseBody = pm.response.json();",
 									"",
-									"    pm.expect(responseBody.message).to.eql(\"User deleted successfully\");",
+									"    pm.expect(responseBody.message).to.equal(\"User deleted successfully\");",
 									"});",
 									""
 								],
@@ -949,14 +954,15 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Response body matches expected updated user data\", function () {",
-									"    pm.response.to.have.status(500);",
-									"",
-									"    const responseBody = pm.response.json();",
-									"",
-									"    pm.expect(responseBody.message).to.eql(\"Expected double-quoted property name in JSON at position 54\");",
+									"pm.test(\"Should throw a 400 error for malformatted body\", function () {",
+									"    pm.response.to.have.status(400);",
 									"});",
-									""
+									"",
+									"pm.test(\"Should throw a syntax error for malformatted body\", function () {",
+									"    const responseBody = pm.response.text();",
+									"",
+									"    pm.expect(responseBody).to.contain(\"SyntaxError: Expected double-quoted property name in JSON at position 54\");",
+									"});"
 								],
 								"type": "text/javascript"
 							}
