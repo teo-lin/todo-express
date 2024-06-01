@@ -14,7 +14,6 @@ export interface User {
   fullname: string;
 }
 
-
 export interface List {
   listId: string;
   listName: string;

@@ -36,127 +36,132 @@ interface NewTask extends Omit<Task, 'taskId'> {}
 
 // CONTROLLERS
 class UserController {
-  static async createUser(req: Request, res: Response): Promise<void> {
+  static createUser(req: Request, res: Response): void {
     try {
-      const newUser: MaskedUser = await UserService.createUser(req.body);
-      res.status(201).json(newUser);
+      const user: MaskedUser = UserService.createUser(req.body);
+      res.status(201).json(user);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   }
 
-  static async retrieveUser(req: Request, res: Response): Promise<Response<any, Record<string, any>>> {
+  static retrieveUser(req: Request, res: Response): void {
     try {
-      const user: MaskedUser | undefined = await UserService.retrieveUser(req.params.id);
-      if (!user) return res.status(404).json({ message: 'User not found' });
-      return res.json(user);
+      const user: MaskedUser | undefined = UserService.retrieveUser(req.params.id);
+      res.json(user);
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      if (error.message === 'Not Found') res.status(404).json({ message: 'User not found' });
+      else res.status(500).json({ message: error.message });
     }
   }
 
-  static async updateUser(req: Request, res: Response): Promise<void> {
+  static updateUser(req: Request, res: Response): void {
     try {
-      const updatedUser: MaskedUser = await UserService.updateUser(req.params.id, req.body);
-      res.json(updatedUser);
+      const user: MaskedUser = UserService.updateUser(req.params.id, req.body);
+      res.json(user);
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      if (error.message === 'Not Found') res.status(404).json({ message: 'User not found' });
+      else res.status(500).json({ message: error.message });
     }
   }
 
-  static async deleteUser(req: Request, res: Response): Promise<void> {
+  static deleteUser(req: Request, res: Response): void {
     try {
-      await UserService.deleteUser(req.params.id);
+      UserService.deleteUser(req.params.id);
       res.json({ message: 'User deleted successfully' });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      if (error.message === 'Not Found') res.status(404).json({ message: 'User not found' });
+      else res.status(500).json({ message: error.message });
     }
   }
 }
 class TaskController {
-  static createTask(req: Request, res: Response) {
+  static createTask(req: Request, res: Response): void {
     try {
-      const newTask: Task = TaskService.createTask(req.body);
-      res.status(201).json(newTask);
+      const task: Task = TaskService.createTask(req.body);
+      res.status(201).json(task);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   }
 
-  static retrieveTask(req: Request, res: Response) {
+  static retrieveTask(req: Request, res: Response): void {
     try {
       const task: Task | undefined = TaskService.retrieveTask(req.params.id);
-      if (!task) return res.status(404).json({ message: 'Task not found' });
       res.json(task);
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      if (error.message === 'Not Found') res.status(404).json({ message: 'Task not found' });
+      else res.status(500).json({ message: error.message });
     }
   }
 
-  static updateTask(req: Request, res: Response) {
+  static updateTask(req: Request, res: Response): void {
     try {
-      const updatedTask: Task = TaskService.updateTask(req.params.id, req.body);
-      res.json(updatedTask);
+      const task: Task = TaskService.updateTask(req.params.id, req.body);
+      res.json(task);
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      if (error.message === 'Not Found') res.status(404).json({ message: 'Task not found' });
+      else res.status(500).json({ message: error.message });
     }
   }
 
-  static deleteTask(req: Request, res: Response) {
+  static deleteTask(req: Request, res: Response): void {
     try {
       TaskService.deleteTask(req.params.id);
       res.json({ message: 'Task deleted successfully' });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      if (error.message === 'Not Found') res.status(404).json({ message: 'Task not found' });
+      else res.status(500).json({ message: error.message });
     }
   }
 
-  static completeTask(req: Request, res: Response) {
+  static completeTask(req: Request, res: Response): void {
     try {
-      const taskId: string = req.params.id;
-      const task: Task = TaskService.completeTask(taskId);
-      if (!task) return res.status(404).json({ message: 'Task not found' });
+      const task: Task = TaskService.completeTask(req.params.id);
       res.json(task);
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      if (error.message === 'Not Found') res.status(404).json({ message: 'Task not found' });
+      else res.status(500).json({ message: error.message });
     }
   }
 }
 class ListController {
-  static async createList(req: Request, res: Response) {
+  static createList(req: Request, res: Response): void {
     try {
-      const newList: List = await ListService.createList(req.body);
-      res.status(201).json(newList);
+      const list: List = ListService.createList(req.body);
+      res.status(201).json(list);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   }
 
-  static async retrieveList(req: Request, res: Response) {
+  static retrieveList(req: Request, res: Response): void {
     try {
-      const list: List | undefined = await ListService.retrieveList(req.params.id);
-      if (!list) return res.status(404).json({ message: 'List not found' });
+      const list: List | undefined = ListService.retrieveList(req.params.id);
       res.json(list);
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      if (error.message === 'Not Found') res.status(404).json({ message: 'List not found' });
+      else res.status(500).json({ message: error.message });
     }
   }
 
-  static async updateList(req: Request, res: Response) {
+  static updateList(req: Request, res: Response): void {
     try {
-      const updatedList: List = await ListService.updateList(req.params.id, req.body);
-      res.json(updatedList);
+      const list: List = ListService.updateList(req.params.id, req.body);
+      res.json(list);
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      if (error.message === 'Not Found') res.status(404).json({ message: 'List not found' });
+      else res.status(500).json({ message: error.message });
     }
   }
 
-  static async deleteList(req: Request, res: Response) {
+  static deleteList(req: Request, res: Response): void {
     try {
-      await ListService.deleteList(req.params.id);
+      ListService.deleteList(req.params.id);
       res.json({ message: 'List deleted successfully' });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      if (error.message === 'Not Found') res.status(404).json({ message: 'List not found' });
+      else res.status(500).json({ message: error.message });
     }
   }
 }
@@ -166,13 +171,13 @@ class UserService {
   static createUser(userData: NewUser): MaskedUser {
     const data: Database = DatabaseService.getData();
     const nextUserId: string = `U${1 + Number(data.lastUserId.slice(1))}`;
-    const newUser: User = { userId: nextUserId, ...userData };
+    const user: User = { userId: nextUserId, ...userData };
 
-    data.users.push(newUser);
+    data.users.push(user);
     data.lastUserId = nextUserId;
     DatabaseService.setData(data);
 
-    const { password, ...maskedUser } = newUser;
+    const { password, ...maskedUser } = user;
     return maskedUser;
   }
 
@@ -180,7 +185,8 @@ class UserService {
     const data: Database = DatabaseService.getData();
     const user: User | undefined = data.users.find((user: User) => user.userId === userId);
 
-    if (user) {
+    if (!user) throw new Error('Not Found');
+    else {
       const { password, ...maskedUser } = user;
       return maskedUser;
     }
@@ -189,20 +195,23 @@ class UserService {
   static updateUser(userId: string, userData: Partial<User>): MaskedUser {
     const data: Database = DatabaseService.getData();
     const userIndex: number = data.users.findIndex((user: User) => user.userId === userId);
-    if (userIndex === -1) throw new Error('User not found');
-    const updatedUser: User = { ...data.users[userIndex], ...userData };
+    if (userIndex === -1) throw new Error('Not Found');
+    const user: User = { ...data.users[userIndex], ...userData };
 
-    data.users[userIndex] = updatedUser;
+    data.users[userIndex] = user;
     DatabaseService.setData(data);
 
-    const { password, ...userWithoutPassword } = updatedUser;
-    return userWithoutPassword;
+    const { password, ...maskedUser } = user;
+    return maskedUser;
   }
 
   static deleteUser(userId: string): void {
     const data: Database = DatabaseService.getData();
+    const totalRecords = data.users.length;
+
     data.users = data.users.filter((user: User) => user.userId !== userId);
-    DatabaseService.setData(data);
+    if (totalRecords === data.users.length) throw new Error('Not Found');
+    else DatabaseService.setData(data);
   }
 }
 class TaskService {
@@ -221,13 +230,15 @@ class TaskService {
   static retrieveTask(taskId: string): Task | undefined {
     const data: Database = DatabaseService.getData();
 
-    return data.tasks.find((task: Task) => task.taskId === taskId);
+    const task: Task | undefined = data.tasks.find((task: Task) => task.taskId === taskId);
+    if (!task) throw new Error('Not Found');
+    else return task;
   }
 
   static updateTask(taskId: string, taskData: Partial<Task>): Task {
     const data: Database = DatabaseService.getData();
     const taskIndex: number = data.tasks.findIndex((task: any) => task.taskId === taskId);
-    if (taskIndex === -1) throw new Error('Task not found');
+    if (taskIndex === -1) throw new Error('Not Found');
     const updatedTask: Task = { ...data.tasks[taskIndex], ...taskData };
 
     data.tasks[taskIndex] = updatedTask;
@@ -238,18 +249,23 @@ class TaskService {
 
   static deleteTask(taskId: string): void {
     const data: Database = DatabaseService.getData();
+    const totalRecords = data.tasks.length;
+
     data.tasks = data.tasks.filter((task: Task) => task.taskId !== taskId);
-    DatabaseService.setData(data);
+    if (totalRecords === data.tasks.length) throw new Error('Not Found');
+    else DatabaseService.setData(data);
   }
 
   static completeTask(taskId: string): Task {
     const data: Database = DatabaseService.getData();
     const taskIndex: number = data.tasks.findIndex((task: Task) => task.taskId === taskId);
-    if (taskIndex === -1) throw new Error('Task not found');
-    data.tasks[taskIndex].isComplete = true;
 
-    DatabaseService.setData(data);
-    return data.tasks[taskIndex];
+    if (taskIndex === -1) throw new Error('Not Found');
+    else {
+      data.tasks[taskIndex].isComplete = true;
+      DatabaseService.setData(data);
+      return data.tasks[taskIndex];
+    }
   }
 }
 class ListService {
@@ -268,13 +284,15 @@ class ListService {
   static retrieveList(listId: string): List | undefined {
     const data: Database = DatabaseService.getData();
 
-    return data.lists.find((list: List) => list.listId === listId);
+    const list: List | undefined = data.lists.find((list: List) => list.listId === listId);
+    if (!list) throw new Error('Not Found');
+    else return list;
   }
 
   static updateList(listId: string, listData: Partial<List>): List {
     const data: Database = DatabaseService.getData();
     const listIndex: number = data.lists.findIndex((list: any) => list.listId === listId);
-    if (listIndex === -1) throw new Error('List not found');
+    if (listIndex === -1) throw new Error('Not Found');
     const updatedList: List = { ...data.lists[listIndex], ...listData };
 
     data.lists[listIndex] = updatedList;
@@ -285,8 +303,11 @@ class ListService {
 
   static deleteList(listId: string): void {
     const data: Database = DatabaseService.getData();
+    const totalRecords = data.lists.length;
+
     data.lists = data.lists.filter((list: List) => list.listId !== listId);
-    DatabaseService.setData(data);
+    if (totalRecords === data.lists.length) throw new Error('Not Found');
+    else DatabaseService.setData(data);
   }
 }
 

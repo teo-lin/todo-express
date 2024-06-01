@@ -1,14 +1,14 @@
-import { Database } from "../interfaces";
+import { Database } from '../interfaces';
 
 const fs = require('fs');
 const path = require('path');
 
 export default class DatabaseService {
   private static db: Database;
-  private static PATH = path.join(__dirname, './db.json');
+  private static filePath = path.join(__dirname, './db.json');
 
   static init(): void {
-    this.db = JSON.parse(fs.readFileSync(this.PATH, 'utf8'));
+    this.db = JSON.parse(fs.readFileSync(this.filePath, 'utf8'));
   }
 
   static getData(): Database {
@@ -20,6 +20,6 @@ export default class DatabaseService {
   }
 
   static saveToDisk(): void {
-    fs.writeFileSync(this.PATH, JSON.stringify(this.db), 'utf8');
+    fs.writeFileSync(this.filePath, JSON.stringify(this.db), 'utf8');
   }
 }

@@ -1,17 +1,17 @@
 import DatabaseService from '../database/database.service';
 import { Database, User, NewUser, MaskedUser } from '../interfaces';
 
-class UserService {
+export default class UserService {
   static createUser(userData: NewUser): MaskedUser {
     const data: Database = DatabaseService.getData();
     const nextUserId: string = `U${1 + Number(data.lastUserId.slice(1))}`;
-    const newUser: User = { userId: nextUserId, ...userData };
+    const user: User = { userId: nextUserId, ...userData };
 
-    data.users.push(newUser);
+    data.users.push(user);
     data.lastUserId = nextUserId;
     DatabaseService.setData(data);
 
-    const { password, ...maskedUser } = newUser;
+    const { password, ...maskedUser } = user;
     return maskedUser;
   }
 
@@ -19,7 +19,8 @@ class UserService {
     const data: Database = DatabaseService.getData();
     const user: User | undefined = data.users.find((user: User) => user.userId === userId);
 
-    if (user) {
+    if (!user) throw new Error('Not Found');
+    else {
       const { password, ...maskedUser } = user;
       return maskedUser;
     }
@@ -28,21 +29,22 @@ class UserService {
   static updateUser(userId: string, userData: Partial<User>): MaskedUser {
     const data: Database = DatabaseService.getData();
     const userIndex: number = data.users.findIndex((user: User) => user.userId === userId);
-    if (userIndex === -1) throw new Error('User not found');
-    const updatedUser: User = { ...data.users[userIndex], ...userData };
+    if (userIndex === -1) throw new Error('Not Found');
+    const user: User = { ...data.users[userIndex], ...userData };
 
-    data.users[userIndex] = updatedUser;
+    data.users[userIndex] = user;
     DatabaseService.setData(data);
 
-    const { password, ...userWithoutPassword } = updatedUser;
-    return userWithoutPassword;
+    const { password, ...maskedUser } = user;
+    return maskedUser;
   }
 
   static deleteUser(userId: string): void {
     const data: Database = DatabaseService.getData();
+    const totalRecords = data.users.length;
+
     data.users = data.users.filter((user: User) => user.userId !== userId);
-    DatabaseService.setData(data);
+    if (totalRecords === data.users.length) throw new Error('Not Found');
+    else DatabaseService.setData(data);
   }
 }
-
-export default UserService;

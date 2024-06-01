@@ -3,51 +3,52 @@ import TaskService from './task.service';
 import { Task } from '../interfaces';
 
 class TaskController {
-  static createTask(req: Request, res: Response) {
+  static createTask(req: Request, res: Response): void {
     try {
-      const newTask: Task = TaskService.createTask(req.body);
-      res.status(201).json(newTask);
+      const task: Task = TaskService.createTask(req.body);
+      res.status(201).json(task);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   }
 
-  static retrieveTask(req: Request, res: Response) {
+  static retrieveTask(req: Request, res: Response): void {
     try {
       const task: Task | undefined = TaskService.retrieveTask(req.params.id);
-      if (!task) return res.status(404).json({ message: 'Task not found' });
       res.json(task);
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      if (error.message === 'Not Found') res.status(404).json({ message: 'Task not found' });
+      else res.status(500).json({ message: error.message });
     }
   }
 
-  static updateTask(req: Request, res: Response) {
+  static updateTask(req: Request, res: Response): void {
     try {
-      const updatedTask: Task = TaskService.updateTask(req.params.id, req.body);
-      res.json(updatedTask);
+      const task: Task = TaskService.updateTask(req.params.id, req.body);
+      res.json(task);
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      if (error.message === 'Not Found') res.status(404).json({ message: 'Task not found' });
+      else res.status(500).json({ message: error.message });
     }
   }
 
-  static deleteTask(req: Request, res: Response) {
+  static deleteTask(req: Request, res: Response): void {
     try {
       TaskService.deleteTask(req.params.id);
       res.json({ message: 'Task deleted successfully' });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      if (error.message === 'Not Found') res.status(404).json({ message: 'Task not found' });
+      else res.status(500).json({ message: error.message });
     }
   }
 
-  static completeTask(req: Request, res: Response) {
+  static completeTask(req: Request, res: Response): void {
     try {
-      const taskId: string = req.params.id;
-      const task: Task = TaskService.completeTask(taskId);
-      if (!task) return res.status(404).json({ message: 'Task not found' });
+      const task: Task = TaskService.completeTask(req.params.id);
       res.json(task);
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      if (error.message === 'Not Found') res.status(404).json({ message: 'Task not found' });
+      else res.status(500).json({ message: error.message });
     }
   }
 }

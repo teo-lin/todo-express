@@ -3,40 +3,42 @@ import ListService from './list.service';
 import { List } from '../interfaces';
 
 class ListController {
-  static async createList(req: Request, res: Response) {
+  static createList(req: Request, res: Response): void {
     try {
-      const newList: List = await ListService.createList(req.body);
-      res.status(201).json(newList);
+      const list: List = ListService.createList(req.body);
+      res.status(201).json(list);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   }
 
-  static async retrieveList(req: Request, res: Response) {
+  static retrieveList(req: Request, res: Response): void {
     try {
-      const list: List | undefined = await ListService.retrieveList(req.params.id);
-      if (!list) return res.status(404).json({ message: 'List not found' });
+      const list: List | undefined = ListService.retrieveList(req.params.id);
       res.json(list);
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      if (error.message === 'Not Found') res.status(404).json({ message: 'List not found' });
+      else res.status(500).json({ message: error.message });
     }
   }
 
-  static async updateList(req: Request, res: Response) {
+  static updateList(req: Request, res: Response): void {
     try {
-      const updatedList: List = await ListService.updateList(req.params.id, req.body);
-      res.json(updatedList);
+      const list: List = ListService.updateList(req.params.id, req.body);
+      res.json(list);
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      if (error.message === 'Not Found') res.status(404).json({ message: 'List not found' });
+      else res.status(500).json({ message: error.message });
     }
   }
 
-  static async deleteList(req: Request, res: Response) {
+  static deleteList(req: Request, res: Response): void {
     try {
-      await ListService.deleteList(req.params.id);
+      ListService.deleteList(req.params.id);
       res.json({ message: 'List deleted successfully' });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      if (error.message === 'Not Found') res.status(404).json({ message: 'List not found' });
+      else res.status(500).json({ message: error.message });
     }
   }
 }

@@ -1,7 +1,7 @@
 import DatabaseService from '../database/database.service';
 import { Database, NewTask, Task } from '../interfaces';
 
-class TaskService {
+export default class TaskService {
   static createTask(taskData: NewTask): Task {
     const data: Database = DatabaseService.getData();
     const nextTaskId: string = `T${1 + Number(data.lastTaskId.slice(1))}`;
@@ -17,13 +17,15 @@ class TaskService {
   static retrieveTask(taskId: string): Task | undefined {
     const data: Database = DatabaseService.getData();
 
-    return data.tasks.find((task: Task) => task.taskId === taskId);
+    const task: Task | undefined = data.tasks.find((task: Task) => task.taskId === taskId);
+    if (!task) throw new Error('Not Found');
+    else return task;
   }
 
   static updateTask(taskId: string, taskData: Partial<Task>): Task {
     const data: Database = DatabaseService.getData();
     const taskIndex: number = data.tasks.findIndex((task: any) => task.taskId === taskId);
-    if (taskIndex === -1) throw new Error('Task not found');
+    if (taskIndex === -1) throw new Error('Not Found');
     const updatedTask: Task = { ...data.tasks[taskIndex], ...taskData };
 
     data.tasks[taskIndex] = updatedTask;
@@ -34,19 +36,22 @@ class TaskService {
 
   static deleteTask(taskId: string): void {
     const data: Database = DatabaseService.getData();
+    const totalRecords = data.tasks.length;
+
     data.tasks = data.tasks.filter((task: Task) => task.taskId !== taskId);
-    DatabaseService.setData(data);
+    if (totalRecords === data.tasks.length) throw new Error('Not Found');
+    else DatabaseService.setData(data);
   }
 
   static completeTask(taskId: string): Task {
     const data: Database = DatabaseService.getData();
     const taskIndex: number = data.tasks.findIndex((task: Task) => task.taskId === taskId);
-    if (taskIndex === -1) throw new Error('Task not found');
-    data.tasks[taskIndex].isComplete = true;
 
-    DatabaseService.setData(data);
-    return data.tasks[taskIndex];
+    if (taskIndex === -1) throw new Error('Not Found');
+    else {
+      data.tasks[taskIndex].isComplete = true;
+      DatabaseService.setData(data);
+      return data.tasks[taskIndex];
+    }
   }
 }
-
-export default TaskService;
