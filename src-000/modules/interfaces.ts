@@ -14,6 +14,7 @@ export interface User {
   fullname: string;
 }
 
+
 export interface List {
   listId: string;
   listName: string;
@@ -28,5 +29,7 @@ export interface Task {
   isComplete: boolean;
 }
 
-export type ControllerMethod = (req: Request) => Promise<unknown>;
-export type Entity = 'User' | 'List' | 'Task';
+export interface NewUser extends Omit<User, 'userId'> {}
+export interface MaskedUser extends Omit<User, 'password'> {}
+export interface NewList extends Omit<List, 'listId'> {}
+export interface NewTask extends Omit<Task, 'taskId'> {}

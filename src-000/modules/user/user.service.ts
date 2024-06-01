@@ -1,47 +1,46 @@
 import DatabaseService from '../database/database.service';
-import { Request, Response } from 'express';
-import { User, Database } from '../interfaces';
+import { Database, User, NewUser, MaskedUser } from '../interfaces';
 
 class UserService {
-  static createUser(userData: Partial<User>): Partial<User> {
+  static createUser(userData: NewUser): MaskedUser {
     const data: Database = DatabaseService.getData();
-    const nextUserId = `U${1 + Number(data.lastUserId.slice(1))}`;
-    const newUser: Partial<User> = { userId: nextUserId, ...userData };
-    data.users.push(newUser as User);
+    const nextUserId: string = `U${1 + Number(data.lastUserId.slice(1))}`;
+    const newUser: User = { userId: nextUserId, ...userData };
+
+    data.users.push(newUser);
     data.lastUserId = nextUserId;
     DatabaseService.setData(data);
-    delete newUser.password;
-    return newUser;
+
+    const { password, ...maskedUser } = newUser;
+    return maskedUser;
   }
 
-  static retrieveUser(userId: string): Partial<User> | undefined {
+  static retrieveUser(userId: string): MaskedUser | undefined {
     const data: Database = DatabaseService.getData();
-    const user = data.users.find((user: User) => user.userId === userId);
+    const user: User | undefined = data.users.find((user: User) => user.userId === userId);
+
     if (user) {
-      const { password, ...userWithoutPassword } = user;
-      return userWithoutPassword;
+      const { password, ...maskedUser } = user;
+      return maskedUser;
     }
-    return undefined;
   }
 
-  static updateUser(userId: string, userData: Partial<User>): Partial<User> {
+  static updateUser(userId: string, userData: Partial<User>): MaskedUser {
     const data: Database = DatabaseService.getData();
-    const userIndex = data.users.findIndex((user: User) => user.userId === userId);
+    const userIndex: number = data.users.findIndex((user: User) => user.userId === userId);
     if (userIndex === -1) throw new Error('User not found');
-    data.users[userIndex] = { ...data.users[userIndex], ...userData };
+    const updatedUser: User = { ...data.users[userIndex], ...userData };
+
+    data.users[userIndex] = updatedUser;
     DatabaseService.setData(data);
-    const user = data.users[userIndex];
-    if (user) {
-      const { password, ...userWithoutPassword } = user;
-      return userWithoutPassword;
-    }
-    return user;
+
+    const { password, ...userWithoutPassword } = updatedUser;
+    return userWithoutPassword;
   }
 
   static deleteUser(userId: string): void {
     const data: Database = DatabaseService.getData();
-    const updatedUsers = data.users.filter((user: User) => user.userId !== userId);
-    data.users = updatedUsers;
+    data.users = data.users.filter((user: User) => user.userId !== userId);
     DatabaseService.setData(data);
   }
 }

@@ -1,41 +1,49 @@
 import DatabaseService from '../database/database.service';
+import { Database, NewTask, Task } from '../interfaces';
 
 class TaskService {
-  static createTask(taskData: any): any {
-    const data = DatabaseService.getData();
-    const nextTaskId = `T${1 + Number(data.lastTaskId.slice(1))}`;
-    const newTask = { taskId: nextTaskId, ...taskData };
+  static createTask(taskData: NewTask): Task {
+    const data: Database = DatabaseService.getData();
+    const nextTaskId: string = `T${1 + Number(data.lastTaskId.slice(1))}`;
+    const newTask: Task = { taskId: nextTaskId, ...taskData };
+
     data.tasks.push(newTask);
     data.lastTaskId = nextTaskId;
     DatabaseService.setData(data);
+
     return newTask;
   }
 
-  static retrieveTask(taskId: string): any | undefined {
-    const data = DatabaseService.getData();
-    return data.tasks.find((task: any) => task.taskId === taskId);
+  static retrieveTask(taskId: string): Task | undefined {
+    const data: Database = DatabaseService.getData();
+
+    return data.tasks.find((task: Task) => task.taskId === taskId);
   }
 
-  static updateTask(taskId: string, taskData: any): any {
-    const data = DatabaseService.getData();
-    const taskIndex = data.tasks.findIndex((task: any) => task.taskId === taskId);
+  static updateTask(taskId: string, taskData: Partial<Task>): Task {
+    const data: Database = DatabaseService.getData();
+    const taskIndex: number = data.tasks.findIndex((task: any) => task.taskId === taskId);
     if (taskIndex === -1) throw new Error('Task not found');
-    data.tasks[taskIndex] = { ...data.tasks[taskIndex], ...taskData };
+    const updatedTask: Task = { ...data.tasks[taskIndex], ...taskData };
+
+    data.tasks[taskIndex] = updatedTask;
     DatabaseService.setData(data);
-    return data.tasks[taskIndex];
+
+    return updatedTask;
   }
 
   static deleteTask(taskId: string): void {
-    const data = DatabaseService.getData();
-    data.tasks = data.tasks.filter((task: any) => task.taskId !== taskId);
+    const data: Database = DatabaseService.getData();
+    data.tasks = data.tasks.filter((task: Task) => task.taskId !== taskId);
     DatabaseService.setData(data);
   }
 
-  static completeTask(taskId: string): any {
-    const data = DatabaseService.getData();
-    const taskIndex = data.tasks.findIndex((task: any) => task.taskId === taskId);
+  static completeTask(taskId: string): Task {
+    const data: Database = DatabaseService.getData();
+    const taskIndex: number = data.tasks.findIndex((task: Task) => task.taskId === taskId);
     if (taskIndex === -1) throw new Error('Task not found');
     data.tasks[taskIndex].isComplete = true;
+
     DatabaseService.setData(data);
     return data.tasks[taskIndex];
   }

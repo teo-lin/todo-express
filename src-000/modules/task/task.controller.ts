@@ -1,10 +1,11 @@
 import express, { Request, Response, Router } from 'express';
 import TaskService from './task.service';
+import { Task } from '../interfaces';
 
 class TaskController {
   static createTask(req: Request, res: Response) {
     try {
-      const newTask = TaskService.createTask(req.body);
+      const newTask: Task = TaskService.createTask(req.body);
       res.status(201).json(newTask);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -13,7 +14,7 @@ class TaskController {
 
   static retrieveTask(req: Request, res: Response) {
     try {
-      const task = TaskService.retrieveTask(req.params.id);
+      const task: Task | undefined = TaskService.retrieveTask(req.params.id);
       if (!task) return res.status(404).json({ message: 'Task not found' });
       res.json(task);
     } catch (error) {
@@ -23,7 +24,7 @@ class TaskController {
 
   static updateTask(req: Request, res: Response) {
     try {
-      const updatedTask = TaskService.updateTask(req.params.id, req.body);
+      const updatedTask: Task = TaskService.updateTask(req.params.id, req.body);
       res.json(updatedTask);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -41,8 +42,8 @@ class TaskController {
 
   static completeTask(req: Request, res: Response) {
     try {
-      const taskId = req.params.id;
-      const task = TaskService.completeTask(taskId);
+      const taskId: string = req.params.id;
+      const task: Task = TaskService.completeTask(taskId);
       if (!task) return res.status(404).json({ message: 'Task not found' });
       res.json(task);
     } catch (error) {
