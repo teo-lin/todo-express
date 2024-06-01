@@ -231,9 +231,10 @@ class TaskService extends BaseService {
 
 class DatabaseService {
   private static db: Database;
+  private static filePath = path.join(__dirname, './db.json');
 
-  static init(filePath: string): void {
-    this.db = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  static init(): void {
+    this.db = JSON.parse(fs.readFileSync(this.filePath, 'utf8'));
   }
 
   static getData(): Database {
@@ -244,14 +245,13 @@ class DatabaseService {
     this.db = data;
   }
 
-  static saveToDisk(filePath: string): void {
-    fs.writeFileSync(filePath, JSON.stringify(this.db), 'utf8');
+  static saveToDisk(): void {
+    fs.writeFileSync(this.filePath, JSON.stringify(this.db), 'utf8');
   }
 }
 
 // DATABASE
-const PATH = path.join(__dirname, './db.json');
-DatabaseService.init(PATH);
+DatabaseService.init();
 
 // ROUTER
 const app = express();

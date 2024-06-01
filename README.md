@@ -2,22 +2,17 @@
 
 This repository will contain multiple versions of the same app, so that it can be easily benchmarked later on. The main version will always be the latest version, with all the features. Alternate versions will live in alternate source folders (src-*). A brief description of the alternative is visible as a top folder (beginning with double dot) in each src folder. These are NOT the same as tagged versions, they are forks of the main app. They should normally live in their own repository, but, for learning and comparison purposes, it's easier to host them here.
 
-Base implementations:
+Base versions, all with in-memory storage:
 
-- src: the latest version will always live here
+|          |     | modular | mono<br />(single-file) |                                                                              |
+| -------- | --- | ------- | ----------------------- | ---------------------------------------------------------------------------- |
+| OOP      | .ts | xx0     | xx1                     | DRY OOP, with abstract classes and inheritance                               |
+| OOP      | .js | xx2     | xx3                     | same                                                                         |
+| ~~OOP~~ | .js | xx4     | xx5                     | WET OOP, with lots of repeated code, but easier to understand and modularise |
+| FP       | .js | xx6     | xx7                     | Functional Programming versions                                              |
+| ...      | .?  | xx8     | xx9                     | Framework-specific versions                                                  |
 
-* **src-xx0** : modular OOP **.ts**- most comparable - our baseline.
-* **src-xx1** : single-file OOP **.ts**
-* **src-xx2** : modular OOP .js - won't do
-* **src-xx3** : single-file OOP .js
-* **src-xx4** : modular OOP flat .js
-* **src-xx5** : single-file OOP flat .js
-* **src-xx6** : modular FP .js
-* **src-xx7** : single-file FP .js
-* **src-xx8** :
-* **src-xx9** : modular framework specific
-
-In Stages 00x-04x, we'll benchmark the impact of using various types of hardware resources on performance and speed:
+00x-04x - benchmarking the impact of using various types of hardware resources on performance and speed:
 
 * **00x** : in memory
 * **01x** : on disk
@@ -27,7 +22,7 @@ In Stages 00x-04x, we'll benchmark the impact of using various types of hardware
 
 From here on, we'll revert to in-memory storage, to take network, I/O and compute out of the equation, and I'll incrementally add typical functionalities:
 
-* **05x:**error handling
+* **05x:** error handling
 * **06x:** input validation/sanitisation
 * **07x:** security: authentication
 * **08x:** security: authorisation
@@ -36,8 +31,6 @@ From here on, we'll revert to in-memory storage, to take network, I/O and comput
 * **11x:** middleware: undetermined yet
 * **12x:** documentation: openApi / swagger
 * **13x:** others, I was thinking about testing, but that is pre-production. We'll see.
-
-So, as an example, version 072 will be a modular OOP .ts version, with all the functionalities up to 070 security - authentication added on top.
 
 # SETUP
 
