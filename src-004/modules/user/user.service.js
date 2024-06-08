@@ -1,37 +1,38 @@
-const DatabaseService = require('../database/database.service')
+const db = require('../database/database.service')
 
-class UserService {
-  static createUser(userData) {
-    const data = DatabaseService.getData()
-    const nextUserId = `U${1 + Number(data.lastUserId.slice(1))}`
-    const newUser = { userId: nextUserId, ...userData }
-    data.users.push(newUser)
-    data.lastUserId = nextUserId
-    DatabaseService.setData(data)
-    delete newUser.password
-    return newUser
-  }
-  static retrieveUser(userId) {
-    const data = DatabaseService.getData()
-    const user = data.users.find((user) => user.userId === userId)
-    delete user.password
-    return user
-  }
-  static updateUser(userId, userData) {
-    const data = DatabaseService.getData()
-    const userIndex = data.users.findIndex((user) => user.userId === userId)
-    if (userIndex === -1) throw new Error('User not found')
-    data.users[userIndex] = { ...data.users[userIndex], ...userData }
-    DatabaseService.setData(data)
-    const user = data.users[userIndex]
-    delete user.password
-    return user
-  }
-  static deleteUser(userId) {
-    const data = DatabaseService.getData()
-    data.users = data.users.filter((user) => user.userId !== userId)
-    DatabaseService.setData(data)
-  }
+async function createUser(userData) {
+  const data = db.getData()
+  const nextUserId = `U${1 + Number(data.lastUserId.slice(1))}`
+  const newUser = { userId: nextUserId, ...userData }
+  data.users.push(newUser)
+  data.lastUserId = nextUserId
+  db.setData(data)
+  delete newUser.password
+  return newUser
 }
 
-module.exports = UserService
+async function retrieveUser(userId) {
+  const data = db.getData()
+  const user = data.users.find((user) => user.userId === userId)
+  delete user.password
+  return user
+}
+
+async function updateUser(userId, userData) {
+  const data = db.getData()
+  const userIndex = data.users.findIndex((user) => user.userId === userId)
+  if (userIndex === -1) throw new Error('User not found')
+  data.users[userIndex] = { ...data.users[userIndex], ...userData }
+  db.setData(data)
+  const user = data.users[userIndex]
+  delete user.password
+  return user
+}
+
+async function deleteUser(userId) {
+  const data = db.getData()
+  data.users = data.users.filter((user) => user.userId !== userId)
+  db.setData(data)
+}
+
+module.exports = { createUser, retrieveUser, updateUser, deleteUser }

@@ -1,25 +1,13 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require('fs')
+const path = require('path')
+const PATH = path.join(__dirname, './db.json')
 
-class DatabaseService {
-  static #db;
-  static #PATH = path.resolve(__dirname, './db.json');
-
-  static init() {
-    this.#db = JSON.parse(fs.readFileSync(this.#PATH, 'utf8'));
-  }
-
-  static getData() {
-    return this.#db;
-  }
-
-  static setData(data) {
-    this.#db = data;
-  }
-
-  static save() {
-    fs.writeFileSync(this.#PATH, JSON.stringify(this.#db), 'utf8');
-  }
+function getData() {
+  return JSON.parse(fs.readFileSync(PATH, 'utf8'))
 }
 
-module.exports = DatabaseService;
+function setData(data) {
+  fs.writeFileSync(PATH, JSON.stringify(data), 'utf8')
+}
+
+module.exports = { getData, setData }

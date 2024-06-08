@@ -6,10 +6,10 @@ Base versions, all with in-memory storage:
 
 |     |     | modular | mono<br />(single-file) |                                           |
 | --- | --- | ------- | ----------------------- | ----------------------------------------- |
-| OOP | .ts | xx0     | xx1                     | Object Oriented Programming in TypeScript |
-| OOP | .js | xx2     | xx3                     | Object Oriented Programming in JavaScript |
-| FP  | .ts | xx4     | xx5                     |                                           |
-| FP  | .js | xx6     | xx7                     | Functional Programming versions           |
+| OOP | .js | xx0     | xx1                     | Object Oriented Programming in JavaScript |
+| OOP | .ts | xx2     | xx3                     | Object Oriented Programming in TypeScript |
+| FP  | .ts | xx4     | xx5                     | Functional Programming versions           |
+| FP  | .js | xx6     | xx7                     |                                           |
 | ... | .?  | xx8     | xx9                     | Framework-specific versions               |
 
 00x-04x - benchmarking the impact of using various types of hardware resources on performance and speed:
