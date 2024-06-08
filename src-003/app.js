@@ -3,177 +3,211 @@ const fs = require('fs');
 const path = require('path');
 
 // CONTROLLERS
-class BaseController {
-  static handleRequest(method, code = 200, message = null) {
-    return async (req, res) => {
-      try {
-        const result = await method(req);
-        // if (result === null) return res.status(404).json({ message: 'Route not found' });
-        if (message) return res.status(code).json({ message });
-        res.status(code).json(result);
-      } catch (error) {
-        res.status(500).json({ message: error.message });
-      }
-    };
+class UserController {
+  static createUser(req, res) {
+    try {
+      const user = UserService.createUser(req.body);
+      res.status(201).json(user);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+  static retrieveUser(req, res) {
+    try {
+      const user = UserService.retrieveUser(req.params.id);
+      if (!user) return res.status(404).json({ message: 'User not found' });
+      res.json(user);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+  static updateUser(req, res) {
+    try {
+      const user = UserService.updateUser(req.params.id, req.body);
+      res.json(user);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+  static deleteUser(req, res) {
+    try {
+      UserService.deleteUser(req.params.id);
+      res.json({ message: 'User deleted successfully' });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
   }
 }
-class UserController extends BaseController {
-  static createUser = BaseController.handleRequest((req) => UserService.createUser(req.body), 201);
-
-  static retrieveUser = BaseController.handleRequest((req) =>
-    UserService.retrieveUser(req.params.id)
-  );
-
-  static updateUser = BaseController.handleRequest((req) =>
-    UserService.updateUser(req.params.id, req.body)
-  );
-
-  static deleteUser = BaseController.handleRequest(
-    (req) => UserService.deleteUser(req.params.id),
-    200,
-    'User deleted successfully'
-  );
+class TaskController {
+  static createTask(req, res) {
+    try {
+      const newTask = TaskService.createTask(req.body);
+      res.status(201).json(newTask);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+  static retrieveTask(req, res) {
+    try {
+      const task = TaskService.retrieveTask(req.params.id);
+      if (!task) return res.status(404).json({ message: 'Task not found' });
+      res.json(task);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+  static updateTask(req, res) {
+    try {
+      const updatedTask = TaskService.updateTask(req.params.id, req.body);
+      res.json(updatedTask);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+  static deleteTask(req, res) {
+    try {
+      TaskService.deleteTask(req.params.id);
+      res.json({ message: 'Task deleted successfully' });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+  static completeTask(req, res) {
+    try {
+      const taskId = req.params.id;
+      const task = TaskService.completeTask(taskId);
+      if (!task) return res.status(404).json({ message: 'Task not found' });
+      res.json(task);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
 }
-class TaskController extends BaseController {
-  static createTask = BaseController.handleRequest((req) => TaskService.createTask(req.body), 201);
-
-  static retrieveTask = BaseController.handleRequest((req) =>
-    TaskService.retrieveTask(req.params.id)
-  );
-
-  static updateTask = BaseController.handleRequest((req) =>
-    TaskService.updateTask(req.params.id, req.body)
-  );
-
-  static deleteTask = BaseController.handleRequest(
-    (req) => TaskService.deleteTask(req.params.id),
-    200,
-    'Task deleted successfully'
-  );
-
-  static completeTask = BaseController.handleRequest((req) =>
-    TaskService.completeTask(req.params.id)
-  );
-}
-class ListController extends BaseController {
-  static createList = BaseController.handleRequest((req) => ListService.createList(req.body), 201);
-
-  static retrieveList = BaseController.handleRequest((req) =>
-    ListService.retrieveList(req.params.id)
-  );
-
-  static updateList = BaseController.handleRequest((req) =>
-    ListService.updateList(req.params.id, req.body)
-  );
-
-  static deleteList = BaseController.handleRequest(
-    (req) => ListService.deleteList(req.params.id),
-    200,
-    'List deleted successfully'
-  );
+class ListController {
+  static createList(req, res) {
+    try {
+      const newList = ListService.createList(req.body);
+      res.status(201).json(newList);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+  static retrieveList(req, res) {
+    try {
+      const list = ListService.retrieveList(req.params.id);
+      if (!list) return res.status(404).json({ message: 'List not found' });
+      res.json(list);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+  static updateList(req, res) {
+    try {
+      const updatedList = ListService.updateList(req.params.id, req.body);
+      res.json(updatedList);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+  static deleteList(req, res) {
+    try {
+      ListService.deleteList(req.params.id);
+      res.json({ message: 'List deleted successfully' });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
 }
 
 // SERVICES
-class BaseService {
-  static generateNextId(data, lastIdKey, entityKey) {
-    const nextId = `${entityKey}${1 + Number(data[lastIdKey].slice(1))}`;
-    data[lastIdKey] = nextId;
-    return nextId;
-  }
-
-  static create(entityData, entityName, entityKey) {
-    const data = DatabaseService.getData();
-    const nextId = this.generateNextId(data, `last${entityName}Id`, entityKey);
-    const newEntity = { [`${entityName.toLowerCase()}Id`]: nextId, ...entityData };
-    data[`${entityName.toLowerCase()}s`].push(newEntity);
-    DatabaseService.setData(data);
-    return newEntity;
-  }
-
-  static retrieve(id, entityName) {
-    const data = DatabaseService.getData();
-    return data[`${entityName.toLowerCase()}s`].find(
-      (entity) => entity[`${entityName.toLowerCase()}Id`] === id
-    );
-  }
-
-  static update(id, entityData, entityName) {
-    const data = DatabaseService.getData();
-    const entities = data[`${entityName.toLowerCase()}s`];
-    const entityIndex = entities.findIndex(
-      (entity) => entity[`${entityName.toLowerCase()}Id`] === id
-    );
-    if (entityIndex === -1) throw new Error(`${entityName} not found`);
-    entities[entityIndex] = { ...entities[entityIndex], ...entityData };
-    DatabaseService.setData(data);
-    return entities[entityIndex];
-  }
-
-  static delete(id, entityName) {
-    const data = DatabaseService.getData();
-    data[`${entityName.toLowerCase()}s`] = data[`${entityName.toLowerCase()}s`].filter(
-      (entity) => entity[`${entityName.toLowerCase()}Id`] !== id
-    );
-    DatabaseService.setData(data);
-  }
-}
-class UserService extends BaseService {
+class UserService {
   static createUser(userData) {
-    const newUser = super.create(userData, 'User', 'U');
+    const data = DatabaseService.getData();
+    const nextUserId = `U${1 + Number(data.lastUserId.slice(1))}`;
+    const newUser = { userId: nextUserId, ...userData };
+    data.users.push(newUser);
+    data.lastUserId = nextUserId;
+    DatabaseService.setData(data);
     delete newUser.password;
     return newUser;
   }
-
   static retrieveUser(userId) {
-    const user = super.retrieve(userId, 'User');
-    if (user) delete user.password;
+    const data = DatabaseService.getData();
+    const user = data.users.find((user) => user.userId === userId);
+    delete user.password;
     return user;
   }
-
   static updateUser(userId, userData) {
-    const updatedUser = super.update(userId, userData, 'User');
-    delete updatedUser.password;
-    return updatedUser;
+    const data = DatabaseService.getData();
+    const userIndex = data.users.findIndex((user) => user.userId === userId);
+    if (userIndex === -1) throw new Error('User not found');
+    data.users[userIndex] = { ...data.users[userIndex], ...userData };
+    DatabaseService.setData(data);
+    const user = data.users[userIndex];
+    delete user.password;
+    return user;
   }
-
   static deleteUser(userId) {
-    super.delete(userId, 'User');
+    const data = DatabaseService.getData();
+    data.users = data.users.filter((user) => user.userId !== userId);
+    DatabaseService.setData(data);
   }
 }
-class ListService extends BaseService {
+class ListService {
   static createList(listData) {
-    return super.create(listData, 'List', 'L');
+    const data = DatabaseService.getData();
+    const nextListId = `L${1 + Number(data.lastListId.slice(1))}`;
+    const newList = { listId: nextListId, ...listData };
+    data.lists.push(newList);
+    data.lastListId = nextListId;
+    DatabaseService.setData(data);
+    return newList;
   }
-
   static retrieveList(listId) {
-    return super.retrieve(listId, 'List');
+    const data = DatabaseService.getData();
+    return data.lists.find((list) => list.listId === listId);
   }
-
   static updateList(listId, listData) {
-    return super.update(listId, listData, 'List');
+    const data = DatabaseService.getData();
+    const listIndex = data.lists.findIndex((list) => list.listId === listId);
+    if (listIndex === -1) throw new Error('List not found');
+    data.lists[listIndex] = { ...data.lists[listIndex], ...listData };
+    DatabaseService.setData(data);
+    return data.lists[listIndex];
   }
-
   static deleteList(listId) {
-    super.delete(listId, 'List');
+    const data = DatabaseService.getData();
+    data.lists = data.lists.filter((list) => list.listId !== listId);
+    DatabaseService.setData(data);
   }
 }
-class TaskService extends BaseService {
+class TaskService {
   static createTask(taskData) {
-    return super.create(taskData, 'Task', 'T');
+    const data = DatabaseService.getData();
+    const nextTaskId = `T${1 + Number(data.lastTaskId.slice(1))}`;
+    const newTask = { taskId: nextTaskId, ...taskData };
+    data.tasks.push(newTask);
+    data.lastTaskId = nextTaskId;
+    DatabaseService.setData(data);
+    return newTask;
   }
-
   static retrieveTask(taskId) {
-    return super.retrieve(taskId, 'Task');
+    const data = DatabaseService.getData();
+    return data.tasks.find((task) => task.taskId === taskId);
   }
-
   static updateTask(taskId, taskData) {
-    return super.update(taskId, taskData, 'Task');
+    const data = DatabaseService.getData();
+    const taskIndex = data.tasks.findIndex((task) => task.taskId === taskId);
+    if (taskIndex === -1) throw new Error('Task not found');
+    data.tasks[taskIndex] = { ...data.tasks[taskIndex], ...taskData };
+    DatabaseService.setData(data);
+    return data.tasks[taskIndex];
   }
-
   static deleteTask(taskId) {
-    super.delete(taskId, 'Task');
+    const data = DatabaseService.getData();
+    data.tasks = data.tasks.filter((task) => task.taskId !== taskId);
+    DatabaseService.setData(data);
   }
-
   static completeTask(taskId) {
     const data = DatabaseService.getData();
     const taskIndex = data.tasks.findIndex((task) => task.taskId === taskId);
