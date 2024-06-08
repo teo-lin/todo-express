@@ -6,8 +6,8 @@ const PATH = path.join(__dirname, './db.json');
 // ROUTING FUNCTIONS
 async function createUser(req, res) {
   try {
-    const newUser = await userService_createUser(req.body);
-    res.status(201).json(newUser);
+    const user = await userService_createUser(req.body);
+    res.status(201).json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -23,8 +23,8 @@ async function retrieveUser(req, res) {
 }
 async function updateUser(req, res) {
   try {
-    const updatedUser = await userService_updateUser(req.params.id, req.body);
-    res.json(updatedUser);
+    const user = await userService_updateUser(req.params.id, req.body);
+    res.json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -39,8 +39,8 @@ async function deleteUser(req, res) {
 }
 async function createTask(req, res) {
   try {
-    const newTask = await taskService_createTask(req.body);
-    res.status(201).json(newTask);
+    const task = await taskService_createTask(req.body);
+    res.status(201).json(task);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -56,8 +56,8 @@ async function retrieveTask(req, res) {
 }
 async function updateTask(req, res) {
   try {
-    const updatedTask = await taskService_updateTask(req.params.id, req.body);
-    res.json(updatedTask);
+    const task = await taskService_updateTask(req.params.id, req.body);
+    res.json(task);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -82,8 +82,8 @@ async function completeTask(req, res) {
 }
 async function createList(req, res) {
   try {
-    const newList = await listService_createList(req.body);
-    res.status(201).json(newList);
+    const list = await listService_createList(req.body);
+    res.status(201).json(list);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -99,8 +99,8 @@ async function retrieveList(req, res) {
 }
 async function updateList(req, res) {
   try {
-    const updatedList = await listService_updateList(req.params.id, req.body);
-    res.json(updatedList);
+    const list = await listService_updateList(req.params.id, req.body);
+    res.json(list);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -118,12 +118,12 @@ async function deleteList(req, res) {
 async function userService_createUser(userData) {
   const data = db_getData(PATH);
   const nextUserId = `U${1 + Number(data.lastUserId.slice(1))}`;
-  const newUser = { userId: nextUserId, ...userData };
-  data.users.push(newUser);
+  const user = { userId: nextUserId, ...userData };
+  data.users.push(user);
   data.lastUserId = nextUserId;
   db_setData(PATH, data);
-  delete newUser.password;
-  return newUser;
+  delete user.password;
+  return user;
 }
 async function userService_retrieveUser(userId) {
   const data = db_getData(PATH);
@@ -149,11 +149,11 @@ async function userService_deleteUser(userId) {
 async function listService_createList(listData) {
   const data = db_getData(PATH);
   const nextListId = `L${1 + Number(data.lastListId.slice(1))}`;
-  const newList = { listId: nextListId, ...listData };
-  data.lists.push(newList);
+  const list = { listId: nextListId, ...listData };
+  data.lists.push(list);
   data.lastListId = nextListId;
   db_setData(PATH, data);
-  return newList;
+  return list;
 }
 async function listService_retrieveList(listId) {
   const data = db_getData(PATH);
@@ -175,11 +175,11 @@ async function listService_deleteList(listId) {
 async function taskService_createTask(taskData) {
   const data = db_getData(PATH);
   const nextTaskId = `T${1 + Number(data.lastTaskId.slice(1))}`;
-  const newTask = { taskId: nextTaskId, ...taskData };
-  data.tasks.push(newTask);
+  const task = { taskId: nextTaskId, ...taskData };
+  data.tasks.push(task);
   data.lastTaskId = nextTaskId;
   db_setData(PATH, data);
-  return newTask;
+  return task;
 }
 async function taskService_retrieveTask(taskId) {
   const data = db_getData(PATH);

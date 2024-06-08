@@ -218,13 +218,13 @@ class TaskService {
   static createTask(taskData: NewTask): Task {
     const data: Database = DatabaseService.getData();
     const nextTaskId: string = `T${1 + Number(data.lastTaskId.slice(1))}`;
-    const newTask: Task = { taskId: nextTaskId, ...taskData };
+    const task: Task = { taskId: nextTaskId, ...taskData };
 
-    data.tasks.push(newTask);
+    data.tasks.push(task);
     data.lastTaskId = nextTaskId;
     DatabaseService.setData(data);
 
-    return newTask;
+    return task;
   }
 
   static retrieveTask(taskId: string): Task | undefined {
@@ -239,12 +239,12 @@ class TaskService {
     const data: Database = DatabaseService.getData();
     const taskIndex: number = data.tasks.findIndex((task: any) => task.taskId === taskId);
     if (taskIndex === -1) throw new Error('Not Found');
-    const updatedTask: Task = { ...data.tasks[taskIndex], ...taskData };
+    const task: Task = { ...data.tasks[taskIndex], ...taskData };
 
-    data.tasks[taskIndex] = updatedTask;
+    data.tasks[taskIndex] = task;
     DatabaseService.setData(data);
 
-    return updatedTask;
+    return task;
   }
 
   static deleteTask(taskId: string): void {
@@ -272,13 +272,13 @@ class ListService {
   static createList(listData: NewList): List {
     const data: Database = DatabaseService.getData();
     const nextListId: string = `L${1 + Number(data.lastListId.slice(1))}`;
-    const newList: List = { listId: nextListId, ...listData };
+    const list: List = { listId: nextListId, ...listData };
 
-    data.lists.push(newList);
+    data.lists.push(list);
     data.lastListId = nextListId;
     DatabaseService.setData(data);
 
-    return newList;
+    return list;
   }
 
   static retrieveList(listId: string): List | undefined {
@@ -293,12 +293,12 @@ class ListService {
     const data: Database = DatabaseService.getData();
     const listIndex: number = data.lists.findIndex((list: any) => list.listId === listId);
     if (listIndex === -1) throw new Error('Not Found');
-    const updatedList: List = { ...data.lists[listIndex], ...listData };
+    const list: List = { ...data.lists[listIndex], ...listData };
 
-    data.lists[listIndex] = updatedList;
+    data.lists[listIndex] = list;
     DatabaseService.setData(data);
 
-    return updatedList;
+    return list;
   }
 
   static deleteList(listId: string): void {

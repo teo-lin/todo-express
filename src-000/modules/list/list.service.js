@@ -4,13 +4,13 @@ class ListService {
   static createList(listData) {
     const data = DatabaseService.getData();
     const nextListId = `L${1 + Number(data.lastListId.slice(1))}`;
-    const newList = { listId: nextListId, ...listData };
+    const list = { listId: nextListId, ...listData };
 
-    data.lists.push(newList);
+    data.lists.push(list);
     data.lastListId = nextListId;
     DatabaseService.setData(data);
 
-    return newList;
+    return list;
   }
 
   static retrieveList(listId) {
@@ -25,12 +25,12 @@ class ListService {
     const data = DatabaseService.getData();
     const listIndex = data.lists.findIndex((list) => list.listId === listId);
     if (listIndex === -1) throw new Error('Not Found');
-    const updatedList = { ...data.lists[listIndex], ...listData };
+    const list = { ...data.lists[listIndex], ...listData };
 
-    data.lists[listIndex] = updatedList;
+    data.lists[listIndex] = list;
     DatabaseService.setData(data);
 
-    return updatedList;
+    return list;
   }
 
   static deleteList(listId) {

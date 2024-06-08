@@ -5,13 +5,13 @@ export default class ListService {
   static createList(listData: NewList): List {
     const data: Database = DatabaseService.getData();
     const nextListId: string = `L${1 + Number(data.lastListId.slice(1))}`;
-    const newList: List = { listId: nextListId, ...listData };
+    const list: List = { listId: nextListId, ...listData };
 
-    data.lists.push(newList);
+    data.lists.push(list);
     data.lastListId = nextListId;
     DatabaseService.setData(data);
 
-    return newList;
+    return list;
   }
 
   static retrieveList(listId: string): List | undefined {
@@ -26,12 +26,12 @@ export default class ListService {
     const data: Database = DatabaseService.getData();
     const listIndex: number = data.lists.findIndex((list: any) => list.listId === listId);
     if (listIndex === -1) throw new Error('Not Found');
-    const updatedList: List = { ...data.lists[listIndex], ...listData };
+    const list: List = { ...data.lists[listIndex], ...listData };
 
-    data.lists[listIndex] = updatedList;
+    data.lists[listIndex] = list;
     DatabaseService.setData(data);
 
-    return updatedList;
+    return list;
   }
 
   static deleteList(listId: string): void {

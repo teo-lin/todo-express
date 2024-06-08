@@ -119,9 +119,9 @@ class BaseService {
 }
 class UserService extends BaseService {
   static createUser(userData) {
-    const newUser = super.create(userData, 'User', 'U');
-    delete newUser.password;
-    return newUser;
+    const user = super.create(userData, 'User', 'U');
+    delete user.password;
+    return user;
   }
 
   static retrieveUser(userId) {
@@ -131,9 +131,9 @@ class UserService extends BaseService {
   }
 
   static updateUser(userId, userData) {
-    const updatedUser = super.update(userId, userData, 'User');
-    delete updatedUser.password;
-    return updatedUser;
+    const user = super.update(userId, userData, 'User');
+    delete user.password;
+    return user;
   }
 
   static deleteUser(userId) {

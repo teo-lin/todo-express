@@ -162,8 +162,8 @@ abstract class BaseService {
 
 class UserService extends BaseService {
   static async createUser(userData: Partial<User>): Promise<Partial<User>> {
-    const newUser = super.create<User>(userData, 'User');
-    const { password, ...userWithoutPassword } = newUser;
+    const user = super.create<User>(userData, 'User');
+    const { password, ...userWithoutPassword } = user;
     return userWithoutPassword;
   }
 
@@ -177,8 +177,8 @@ class UserService extends BaseService {
   }
 
   static async updateUser(userId: string, userData: Partial<User>): Promise<Partial<User>> {
-    const updatedUser = super.update<User>(userId, userData, 'User');
-    const { password, ...userWithoutPassword } = updatedUser;
+    const user = super.update<User>(userId, userData, 'User');
+    const { password, ...userWithoutPassword } = user;
     return userWithoutPassword;
   }
 

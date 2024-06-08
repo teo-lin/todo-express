@@ -4,8 +4,8 @@ const ListService = require('./list.service');
 class ListController {
   static createList(req, res) {
     try {
-      const newList = ListService.createList(req.body);
-      res.status(201).json(newList);
+      const list = ListService.createList(req.body);
+      res.status(201).json(list);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -21,8 +21,8 @@ class ListController {
   }
   static updateList(req, res) {
     try {
-      const updatedList = ListService.updateList(req.params.id, req.body);
-      res.json(updatedList);
+      const list = ListService.updateList(req.params.id, req.body);
+      res.json(list);
     } catch (error) {
       if (error.message === 'Not Found') res.status(404).json({ message: 'List not found' });
       else res.status(500).json({ message: error.message });

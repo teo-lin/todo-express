@@ -3,184 +3,228 @@ const fs = require('fs');
 const path = require('path');
 
 // ROUTING FUNCTIONS
-async function createUser(req, res) {
+function createUser(req, res) {
   try {
-    const newUser = await userService_createUser(req.body);
-    res.status(201).json(newUser);
+    const user = userService_createUser(req.body);
+    res.status(201).json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 }
-async function retrieveUser(req, res) {
+function retrieveUser(req, res) {
   try {
-    const user = await userService_retrieveUser(req.params.id);
-    if (!user) return res.status(404).json({ message: 'User not found' });
+    const user = userService_retrieveUser(req.params.id);
     res.json(user);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    if (error.message === 'Not Found') res.status(404).json({ message: 'User not found' });
+    else res.status(500).json({ message: error.message });
   }
 }
-async function updateUser(req, res) {
+function updateUser(req, res) {
   try {
-    const updatedUser = await userService_updateUser(req.params.id, req.body);
-    res.json(updatedUser);
+    const user = userService_updateUser(req.params.id, req.body);
+    res.json(user);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    if (error.message === 'Not Found') res.status(404).json({ message: 'User not found' });
+    else res.status(500).json({ message: error.message });
   }
 }
-async function deleteUser(req, res) {
+function deleteUser(req, res) {
   try {
-    await userService_deleteUser(req.params.id);
+    userService_deleteUser(req.params.id);
     res.json({ message: 'User deleted successfully' });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    if (error.message === 'Not Found') res.status(404).json({ message: 'User not found' });
+    else res.status(500).json({ message: error.message });
   }
 }
-async function createTask(req, res) {
+
+function createTask(req, res) {
   try {
-    const newTask = await taskService_createTask(req.body);
-    res.status(201).json(newTask);
+    const task = taskService_createTask(req.body);
+    res.status(201).json(task);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 }
-async function retrieveTask(req, res) {
+function retrieveTask(req, res) {
   try {
-    const task = await taskService_retrieveTask(req.params.id);
-    if (!task) return res.status(404).json({ message: 'Task not found' });
+    const task = taskService_retrieveTask(req.params.id);
     res.json(task);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    if (error.message === 'Not Found') res.status(404).json({ message: 'Task not found' });
+    else res.status(500).json({ message: error.message });
   }
 }
-async function updateTask(req, res) {
+function updateTask(req, res) {
   try {
-    const updatedTask = await taskService_updateTask(req.params.id, req.body);
-    res.json(updatedTask);
+    const task = taskService_updateTask(req.params.id, req.body);
+    res.json(task);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    if (error.message === 'Not Found') res.status(404).json({ message: 'Task not found' });
+    else res.status(500).json({ message: error.message });
   }
 }
-async function deleteTask(req, res) {
+function deleteTask(req, res) {
   try {
-    await taskService_deleteTask(req.params.id);
+    taskService_deleteTask(req.params.id);
     res.json({ message: 'Task deleted successfully' });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    if (error.message === 'Not Found') res.status(404).json({ message: 'Task not found' });
+    else res.status(500).json({ message: error.message });
   }
 }
-async function completeTask(req, res) {
+function completeTask(req, res) {
   try {
     const taskId = req.params.id;
-    const task = await taskService_completeTask(taskId);
-    if (!task) return res.status(404).json({ message: 'Task not found' });
+    const task = taskService_completeTask(taskId);
     res.json(task);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    if (error.message === 'Not Found') res.status(404).json({ message: 'Task not found' });
+    else res.status(500).json({ message: error.message });
   }
 }
-async function createList(req, res) {
+
+function createList(req, res) {
   try {
-    const newList = await listService_createList(req.body);
-    res.status(201).json(newList);
+    const list = listService_createList(req.body);
+    res.status(201).json(list);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 }
-async function retrieveList(req, res) {
+function retrieveList(req, res) {
   try {
-    const list = await listService_retrieveList(req.params.id);
-    if (!list) return res.status(404).json({ message: 'List not found' });
+    const list = listService_retrieveList(req.params.id);
     res.json(list);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    if (error.message === 'Not Found') res.status(404).json({ message: 'List not found' });
+    else res.status(500).json({ message: error.message });
   }
 }
-async function updateList(req, res) {
+function updateList(req, res) {
   try {
-    const updatedList = await listService_updateList(req.params.id, req.body);
-    res.json(updatedList);
+    const list = listService_updateList(req.params.id, req.body);
+    res.json(list);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    if (error.message === 'Not Found') res.status(404).json({ message: 'List not found' });
+    else res.status(500).json({ message: error.message });
   }
 }
-async function deleteList(req, res) {
+function deleteList(req, res) {
   try {
-    await listService_deleteList(req.params.id);
+    listService_deleteList(req.params.id);
     res.json({ message: 'List deleted successfully' });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    if (error.message === 'Not Found') res.status(404).json({ message: 'List not found' });
+    else res.status(500).json({ message: error.message });
   }
 }
 
 // SERVICES
-async function userService_createUser(userData) {
+function userService_createUser(userData) {
   const nextUserId = `U${1 + Number(data.lastUserId.slice(1))}`;
-  const newUser = { userId: nextUserId, ...userData };
-  data.users.push(newUser);
+  const user = { userId: nextUserId, ...userData };
+
+  data.users.push(user);
   data.lastUserId = nextUserId;
-  delete newUser.password;
-  return newUser;
+
+  const { password, ...maskedUser } = user;
+  return maskedUser;
 }
-async function userService_retrieveUser(userId) {
+function userService_retrieveUser(userId) {
   const user = data.users.find((user) => user.userId === userId);
-  delete user.password;
-  return user;
+
+  if (!user) throw new Error('Not Found');
+  else {
+    const { password, ...maskedUser } = user;
+    return maskedUser;
+  }
 }
-async function userService_updateUser(userId, userData) {
+function userService_updateUser(userId, userData) {
   const userIndex = data.users.findIndex((user) => user.userId === userId);
-  if (userIndex === -1) throw new Error('User not found');
-  data.users[userIndex] = { ...data.users[userIndex], ...userData };
-  const user = data.users[userIndex];
-  delete user.password;
-  return user;
+  if (userIndex === -1) throw new Error('Not Found');
+  const user = { ...data.users[userIndex], ...userData };
+
+  data.users[userIndex] = user;
+
+  const { password, ...maskedUser } = user;
+  return maskedUser;
 }
-async function userService_deleteUser(userId) {
+function userService_deleteUser(userId) {
+  const totalRecords = data.users.length;
+
   data.users = data.users.filter((user) => user.userId !== userId);
+  if (totalRecords === data.users.length) throw new Error('Not Found');
 }
-async function listService_createList(listData) {
-  const nextListId = `L${1 + Number(data.lastListId.slice(1))}`;
-  const newList = { listId: nextListId, ...listData };
-  data.lists.push(newList);
-  data.lastListId = nextListId;
-  return newList;
-}
-async function listService_retrieveList(listId) {
-  return data.lists.find((list) => list.listId === listId);
-}
-async function listService_updateList(listId, listData) {
-  const listIndex = data.lists.findIndex((list) => list.listId === listId);
-  if (listIndex === -1) throw new Error('List not found');
-  data.lists[listIndex] = { ...data.lists[listIndex], ...listData };
-  return data.lists[listIndex];
-}
-async function listService_deleteList(listId) {
-  data.lists = data.lists.filter((list) => list.listId !== listId);
-}
-async function taskService_createTask(taskData) {
+
+function taskService_createTask(taskData) {
   const nextTaskId = `T${1 + Number(data.lastTaskId.slice(1))}`;
-  const newTask = { taskId: nextTaskId, ...taskData };
-  data.tasks.push(newTask);
+  const task = { taskId: nextTaskId, ...taskData };
+
+  data.tasks.push(task);
   data.lastTaskId = nextTaskId;
-  return newTask;
+
+  return task;
 }
-async function taskService_retrieveTask(taskId) {
-  return data.tasks.find((task) => task.taskId === taskId);
+function taskService_retrieveTask(taskId) {
+  const task = data.tasks.find((task) => task.taskId === taskId);
+  if (!task) throw new Error('Not Found');
+  else return task;
 }
-async function taskService_updateTask(taskId, taskData) {
+function taskService_updateTask(taskId, taskData) {
   const taskIndex = data.tasks.findIndex((task) => task.taskId === taskId);
-  if (taskIndex === -1) throw new Error('Task not found');
-  data.tasks[taskIndex] = { ...data.tasks[taskIndex], ...taskData };
-  return data.tasks[taskIndex];
+  if (taskIndex === -1) throw new Error('Not Found');
+  const task = { ...data.tasks[taskIndex], ...taskData };
+
+  data.tasks[taskIndex] = task;
+
+  return task;
 }
-async function taskService_deleteTask(taskId) {
+function taskService_deleteTask(taskId) {
+  const totalRecords = data.tasks.length;
+
   data.tasks = data.tasks.filter((task) => task.taskId !== taskId);
+  if (totalRecords === data.tasks.length) throw new Error('Not Found');
 }
-async function taskService_completeTask(taskId) {
+function taskService_completeTask(taskId) {
   const taskIndex = data.tasks.findIndex((task) => task.taskId === taskId);
-  if (taskIndex === -1) throw new Error('Task not found');
-  data.tasks[taskIndex].isComplete = true;
-  return data.tasks[taskIndex];
+
+  if (taskIndex === -1) throw new Error('Not Found');
+  else {
+    data.tasks[taskIndex].isComplete = true;
+    return data.tasks[taskIndex];
+  }
+}
+
+function listService_createList(listData) {
+  const nextListId = `L${1 + Number(data.lastListId.slice(1))}`;
+  const list = { listId: nextListId, ...listData };
+
+  data.lists.push(list);
+  data.lastListId = nextListId;
+
+  return list;
+}
+function listService_retrieveList(listId) {
+  const list = data.lists.find((list) => list.listId === listId);
+  if (!list) throw new Error('Not Found');
+  else return list;
+}
+function listService_updateList(listId, listData) {
+  const listIndex = data.lists.findIndex((list) => list.listId === listId);
+  if (listIndex === -1) throw new Error('Not Found');
+  const list = { ...data.lists[listIndex], ...listData };
+
+  data.lists[listIndex] = list;
+
+  return list;
+}
+function listService_deleteList(listId) {
+  const totalRecords = data.lists.length;
+
+  data.lists = data.lists.filter((list) => list.listId !== listId);
+  if (totalRecords === data.lists.length) throw new Error('Not Found');
 }
 
 // DATABASE

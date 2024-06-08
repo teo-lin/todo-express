@@ -43,8 +43,8 @@ class UserController {
 class TaskController {
   static createTask(req, res) {
     try {
-      const newTask = TaskService.createTask(req.body);
-      res.status(201).json(newTask);
+      const task = TaskService.createTask(req.body);
+      res.status(201).json(task);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -89,8 +89,8 @@ class TaskController {
 class ListController {
   static createList(req, res) {
     try {
-      const newList = ListService.createList(req.body);
-      res.status(201).json(newList);
+      const list = ListService.createList(req.body);
+      res.status(201).json(list);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -106,8 +106,8 @@ class ListController {
   }
   static updateList(req, res) {
     try {
-      const updatedList = ListService.updateList(req.params.id, req.body);
-      res.json(updatedList);
+      const list = ListService.updateList(req.params.id, req.body);
+      res.json(list);
     } catch (error) {
       if (error.message === 'Not Found') res.status(404).json({ message: 'List not found' });
       else res.status(500).json({ message: error.message });
@@ -176,13 +176,13 @@ class TaskService {
   static createTask(taskData) {
     const data = DatabaseService.getData();
     const nextTaskId = `T${1 + Number(data.lastTaskId.slice(1))}`;
-    const newTask = { taskId: nextTaskId, ...taskData };
+    const task = { taskId: nextTaskId, ...taskData };
 
-    data.tasks.push(newTask);
+    data.tasks.push(task);
     data.lastTaskId = nextTaskId;
     DatabaseService.setData(data);
 
-    return newTask;
+    return task;
   }
 
   static retrieveTask(taskId) {
@@ -197,12 +197,12 @@ class TaskService {
     const data = DatabaseService.getData();
     const taskIndex = data.tasks.findIndex((task) => task.taskId === taskId);
     if (taskIndex === -1) throw new Error('Not Found');
-    const updatedTask = { ...data.tasks[taskIndex], ...taskData };
+    const task = { ...data.tasks[taskIndex], ...taskData };
 
-    data.tasks[taskIndex] = updatedTask;
+    data.tasks[taskIndex] = task;
     DatabaseService.setData(data);
 
-    return updatedTask;
+    return task;
   }
 
   static deleteTask(taskId) {
@@ -230,13 +230,13 @@ class ListService {
   static createList(listData) {
     const data = DatabaseService.getData();
     const nextListId = `L${1 + Number(data.lastListId.slice(1))}`;
-    const newList = { listId: nextListId, ...listData };
+    const list = { listId: nextListId, ...listData };
 
-    data.lists.push(newList);
+    data.lists.push(list);
     data.lastListId = nextListId;
     DatabaseService.setData(data);
 
-    return newList;
+    return list;
   }
 
   static retrieveList(listId) {
@@ -251,12 +251,12 @@ class ListService {
     const data = DatabaseService.getData();
     const listIndex = data.lists.findIndex((list) => list.listId === listId);
     if (listIndex === -1) throw new Error('Not Found');
-    const updatedList = { ...data.lists[listIndex], ...listData };
+    const list = { ...data.lists[listIndex], ...listData };
 
-    data.lists[listIndex] = updatedList;
+    data.lists[listIndex] = list;
     DatabaseService.setData(data);
 
-    return updatedList;
+    return list;
   }
 
   static deleteList(listId) {

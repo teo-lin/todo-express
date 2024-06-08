@@ -5,13 +5,13 @@ export default class TaskService {
   static createTask(taskData: NewTask): Task {
     const data: Database = DatabaseService.getData();
     const nextTaskId: string = `T${1 + Number(data.lastTaskId.slice(1))}`;
-    const newTask: Task = { taskId: nextTaskId, ...taskData };
+    const task: Task = { taskId: nextTaskId, ...taskData };
 
-    data.tasks.push(newTask);
+    data.tasks.push(task);
     data.lastTaskId = nextTaskId;
     DatabaseService.setData(data);
 
-    return newTask;
+    return task;
   }
 
   static retrieveTask(taskId: string): Task | undefined {
@@ -26,12 +26,12 @@ export default class TaskService {
     const data: Database = DatabaseService.getData();
     const taskIndex: number = data.tasks.findIndex((task: any) => task.taskId === taskId);
     if (taskIndex === -1) throw new Error('Not Found');
-    const updatedTask: Task = { ...data.tasks[taskIndex], ...taskData };
+    const task: Task = { ...data.tasks[taskIndex], ...taskData };
 
-    data.tasks[taskIndex] = updatedTask;
+    data.tasks[taskIndex] = task;
     DatabaseService.setData(data);
 
-    return updatedTask;
+    return task;
   }
 
   static deleteTask(taskId: string): void {

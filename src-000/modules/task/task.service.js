@@ -4,13 +4,13 @@ class TaskService {
   static createTask(taskData) {
     const data = DatabaseService.getData();
     const nextTaskId = `T${1 + Number(data.lastTaskId.slice(1))}`;
-    const newTask = { taskId: nextTaskId, ...taskData };
+    const task = { taskId: nextTaskId, ...taskData };
 
-    data.tasks.push(newTask);
+    data.tasks.push(task);
     data.lastTaskId = nextTaskId;
     DatabaseService.setData(data);
 
-    return newTask;
+    return task;
   }
 
   static retrieveTask(taskId) {
@@ -25,12 +25,12 @@ class TaskService {
     const data = DatabaseService.getData();
     const taskIndex = data.tasks.findIndex((task) => task.taskId === taskId);
     if (taskIndex === -1) throw new Error('Not Found');
-    const updatedTask = { ...data.tasks[taskIndex], ...taskData };
+    const task = { ...data.tasks[taskIndex], ...taskData };
 
-    data.tasks[taskIndex] = updatedTask;
+    data.tasks[taskIndex] = task;
     DatabaseService.setData(data);
 
-    return updatedTask;
+    return task;
   }
 
   static deleteTask(taskId) {

@@ -7,8 +7,8 @@ const PATH = path.join(__dirname, './db.json');
 class UserController {
   static async createUser(req, res) {
     try {
-      const newUser = await UserService.createUser(req.body);
-      res.status(201).json(newUser);
+      const user = await UserService.createUser(req.body);
+      res.status(201).json(user);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -24,8 +24,8 @@ class UserController {
   }
   static async updateUser(req, res) {
     try {
-      const updatedUser = await UserService.updateUser(req.params.id, req.body);
-      res.json(updatedUser);
+      const user = await UserService.updateUser(req.params.id, req.body);
+      res.json(user);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -42,8 +42,8 @@ class UserController {
 class TaskController {
   static async createTask(req, res) {
     try {
-      const newTask = await TaskService.createTask(req.body);
-      res.status(201).json(newTask);
+      const task = await TaskService.createTask(req.body);
+      res.status(201).json(task);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -59,8 +59,8 @@ class TaskController {
   }
   static async updateTask(req, res) {
     try {
-      const updatedTask = await TaskService.updateTask(req.params.id, req.body);
-      res.json(updatedTask);
+      const task = await TaskService.updateTask(req.params.id, req.body);
+      res.json(task);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -87,8 +87,8 @@ class TaskController {
 class ListController {
   static async createList(req, res) {
     try {
-      const newList = await ListService.createList(req.body);
-      res.status(201).json(newList);
+      const list = await ListService.createList(req.body);
+      res.status(201).json(list);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -104,8 +104,8 @@ class ListController {
   }
   static async updateList(req, res) {
     try {
-      const updatedList = await ListService.updateList(req.params.id, req.body);
-      res.json(updatedList);
+      const list = await ListService.updateList(req.params.id, req.body);
+      res.json(list);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -125,12 +125,12 @@ class UserService {
   static async createUser(userData) {
     const data = DatabaseService.getData(PATH);
     const nextUserId = `U${1 + Number(data.lastUserId.slice(1))}`;
-    const newUser = { userId: nextUserId, ...userData };
-    data.users.push(newUser);
+    const user = { userId: nextUserId, ...userData };
+    data.users.push(user);
     data.lastUserId = nextUserId;
     DatabaseService.setData(PATH, data);
-    delete newUser.password;
-    return newUser;
+    delete user.password;
+    return user;
   }
   static async retrieveUser(userId) {
     const data = DatabaseService.getData(PATH);
@@ -158,11 +158,11 @@ class ListService {
   static async createList(listData) {
     const data = DatabaseService.getData(PATH);
     const nextListId = `L${1 + Number(data.lastListId.slice(1))}`;
-    const newList = { listId: nextListId, ...listData };
-    data.lists.push(newList);
+    const list = { listId: nextListId, ...listData };
+    data.lists.push(list);
     data.lastListId = nextListId;
     DatabaseService.setData(PATH, data);
-    return newList;
+    return list;
   }
   static async retrieveList(listId) {
     const data = DatabaseService.getData(PATH);
@@ -186,11 +186,11 @@ class TaskService {
   static async createTask(taskData) {
     const data = DatabaseService.getData(PATH);
     const nextTaskId = `T${1 + Number(data.lastTaskId.slice(1))}`;
-    const newTask = { taskId: nextTaskId, ...taskData };
-    data.tasks.push(newTask);
+    const task = { taskId: nextTaskId, ...taskData };
+    data.tasks.push(task);
     data.lastTaskId = nextTaskId;
     DatabaseService.setData(PATH, data);
-    return newTask;
+    return task;
   }
   static async retrieveTask(taskId) {
     const data = DatabaseService.getData(PATH);
