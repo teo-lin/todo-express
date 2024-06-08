@@ -96,7 +96,8 @@
               "variable": [
                 {
                   "key": "id",
-                  "value": "U1"
+                  "value": "U1",
+                  "type": "string"
                 }
               ]
             }
@@ -169,7 +170,7 @@
                   "",
                   "    const responseBody = pm.response.json();",
                   "",
-                  "    pm.expect(responseBody.message).to.equal(\"User deleted successfully\");",
+                  "    pm.expect(responseBody.message).to.eql(\"User deleted successfully\");",
                   "});",
                   ""
                 ],
@@ -357,8 +358,8 @@
                   "",
                   "    const responseBody = pm.response.json();",
                   "",
-                  "    pm.expect(responseBody.listId).to.equal(\"L2\");",
-                  "    pm.expect(responseBody.taskName).to.equal(\"Buy more eggs\");",
+                  "    pm.expect(responseBody.listId).to.eql(\"L2\");",
+                  "    pm.expect(responseBody.taskName).to.eql(\"Buy more eggs\");",
                   "});",
                   ""
                 ],
@@ -410,7 +411,7 @@
                   "",
                   "    const responseBody = pm.response.json();",
                   "",
-                  "    pm.expect(responseBody.message).to.equal(\"Task deleted successfully\");",
+                  "    pm.expect(responseBody.message).to.eql(\"Task deleted successfully\");",
                   "});",
                   ""
                 ],
@@ -600,7 +601,7 @@
                   "",
                   "    const responseBody = pm.response.json();",
                   "",
-                  "    pm.expect(responseBody.message).to.equal(\"List deleted successfully\");",
+                  "    pm.expect(responseBody.message).to.eql(\"List deleted successfully\");",
                   "});",
                   ""
                 ],
@@ -723,7 +724,7 @@
                   "\r",
                   "pm.test(\"Response body contains expected error message\", function () {\r",
                   "    const responseBody = pm.response.text();\r",
-                  "    pm.expect(responseBody).to.contain(\"Expected double-quoted property name in JSON at position 88\");\r",
+                  "    pm.expect(responseBody).to.contain(\"Unexpected token } in JSON at position 88\");\r",
                   "});\r",
                   ""
                 ],
@@ -766,7 +767,7 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Status code is 400\", function () {\r",
+                  "pm.test(\"Status code is 400 when the body is missing (not yet implemented)\", function () {\r",
                   "    pm.response.to.have.status(201);\r",
                   "});\r",
                   "\r",
@@ -811,7 +812,7 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Should create a user with broken keys\", function () {\r",
+                  "pm.test(\"Should not create a user with broken keys (not yet implemented)\", function () {\r",
                   "    pm.response.to.have.status(201);\r",
                   "\r",
                   "    const responseBody = pm.response.json();\r",
@@ -998,7 +999,7 @@
           "response": []
         },
         {
-          "name": "400 malformatted body",
+          "name": "400 malformed body",
           "event": [
             {
               "listen": "test",
@@ -1011,7 +1012,7 @@
                   "pm.test(\"Should throw a syntax error for malformatted body\", function () {",
                   "    const responseBody = pm.response.text();",
                   "",
-                  "    pm.expect(responseBody).to.contain(\"SyntaxError: Expected double-quoted property name in JSON at position 54\");",
+                  "    pm.expect(responseBody).to.contain(\"SyntaxError: Unexpected token } in JSON at position 54\");",
                   "});"
                 ],
                 "type": "text/javascript"

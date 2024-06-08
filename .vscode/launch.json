@@ -5,20 +5,17 @@
       "type": "node",
       "request": "launch",
       "name": "nodemon:app",
-      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.12.2/bin/nodemon",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.14.0/bin/nodemon",
       "program": "${workspaceFolder}/src/app.js",
       "restart": true,
-      "console": "internalConsole",
+      "console": "internalConsole"
     },
     {
       "type": "node",
       "request": "launch",
       "name": "ts-node:001",
       "runtimeExecutable": "npm",
-      "runtimeArgs": [
-        "run-script",
-        "start:001"
-      ],
+      "runtimeArgs": ["run-script", "start:001"],
       "restart": true,
       "sourceMaps": true,
       "env": {
@@ -29,8 +26,8 @@
       "type": "node",
       "request": "launch",
       "name": "nodemon:002",
-      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.12.2/bin/nodemon",
-      "program": "${workspaceFolder}/src-02/app.js",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.14.0/bin/nodemon",
+      "program": "${workspaceFolder}/src-002/app.js",
       "restart": true,
       "console": "integratedTerminal",
       "env": {
@@ -41,8 +38,8 @@
       "type": "node",
       "request": "launch",
       "name": "nodemon:003",
-      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.12.2/bin/nodemon",
-      "program": "${workspaceFolder}/src-03/app.js",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.14.0/bin/nodemon",
+      "program": "${workspaceFolder}/src-003/app.js",
       "restart": true,
       "console": "integratedTerminal",
       "env": {

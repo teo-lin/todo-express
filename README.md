@@ -40,7 +40,7 @@ Before running it, you need to install dependencies and build the app:
 npm run setup
 
 # you may need to add nodemon to $PATH:
-export PATH="/Users/REPLACE.WITH.YOUR.USER.NAME/.nvm/versions/node/v20.12.2/bin:$PATH"
+export PATH="/Users/REPLACE.WITH.YOUR.USER.NAME/.nvm/versions/node/v20.14.0/bin:$PATH"
 ```
 
 The setup script will run all these commands for you:
@@ -69,8 +69,8 @@ npm run start:docker
 
 # one of the alternative implementations (these start with nodemon by default)
 npm run start:00
-npm run start:01
-npm run start:02
+npm run start:001
+npm run start:002
 # ... and so on
 ```
 
