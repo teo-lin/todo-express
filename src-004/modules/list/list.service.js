@@ -1,33 +1,52 @@
-const db = require('../database/database.service');
+const data = require('../database/database.service');
 
-async function createList(listData) {
-  const data = db.getData();
+function createList(listData) {
   const nextListId = `L${1 + Number(data.lastListId.slice(1))}`;
   const list = { listId: nextListId, ...listData };
+
   data.lists.push(list);
   data.lastListId = nextListId;
-  db.setData(data);
+
   return list;
 }
 
-async function retrieveList(listId) {
-  const data = db.getData();
-  return data.lists.find((list) => list.listId === listId);
+function retrieveList(listId) {
+  const list = data.lists.find((list) => list.listId === listId);
+  if (!list) throw new Error('Not Found');
+  else return list;
 }
 
-async function updateList(listId, listData) {
-  const data = db.getData();
+function updateList(listId, listData) {
   const listIndex = data.lists.findIndex((list) => list.listId === listId);
-  if (listIndex === -1) throw new Error('List not found');
-  data.lists[listIndex] = { ...data.lists[listIndex], ...listData };
-  db.setData(data);
-  return data.lists[listIndex];
+  if (listIndex === -1) throw new Error('Not Found');
+  const list = { ...data.lists[listIndex], ...listData };
+
+  data.lists[listIndex] = list;
+
+  return list;
 }
 
-async function deleteList(listId) {
-  const data = db.getData();
+function deleteList(listId) {
+  const totalRecords = data.lists.length;
+
   data.lists = data.lists.filter((list) => list.listId !== listId);
-  db.setData(data);
+  if (totalRecords === data.lists.length) throw new Error('Not Found');
 }
 
-module.exports = { createList, retrieveList, updateList, deleteList };
+function completeList(listId) {
+  const listIndex = data.lists.findIndex((list) => list.listId === listId);
+
+  if (listIndex === -1) throw new Error('Not Found');
+  else {
+    data.lists[listIndex].isComplete = true;
+    return data.lists[listIndex];
+  }
+}
+
+module.exports = {
+  createList,
+  retrieveList,
+  updateList,
+  deleteList,
+  completeList,
+};

@@ -13,7 +13,19 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "ts-node:001",
+      "name": "nodemon:000",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run-script", "start:000"],
+      "restart": true,
+      "sourceMaps": true,
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "nodemon:001",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run-script", "start:001"],
       "restart": true,
@@ -25,7 +37,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "nodemon:002",
+      "name": "ts-node:002",
       "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.14.0/bin/nodemon",
       "program": "${workspaceFolder}/src-002/app.js",
       "restart": true,
@@ -37,7 +49,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "nodemon:003",
+      "name": "ts-node:003",
       "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.14.0/bin/nodemon",
       "program": "${workspaceFolder}/src-003/app.js",
       "restart": true,

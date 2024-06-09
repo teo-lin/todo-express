@@ -1,20 +1,22 @@
 const express = require('express');
-const usersRouter = require('./modules/user/user.controller');
-const tasksRouter = require('./modules/task/task.controller');
-const listsRouter = require('./modules/list/list.controller');
+const userRouter = require('./modules/user/user.controller');
+const taskRouter = require('./modules/task/task.controller');
+const listRouter = require('./modules/list/list.controller');
 
-// DATABASE - onDisk
+// DATABASE - no initialisation needed in FP version
 
 // ROUTER
 const app = express();
+const router = express.Router();
 
 // MIDDLEWARE
 app.use(express.json());
+app.use('/api', router);
 
 // ROUTES
-app.use('/api/users', usersRouter);
-app.use('/api/tasks', tasksRouter);
-app.use('/api/lists', listsRouter);
+router.use('/users', userRouter);
+router.use('/tasks', taskRouter);
+router.use('/lists', listRouter);
 
 // SERVER
 const PORT = 3000;

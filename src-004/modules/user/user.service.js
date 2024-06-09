@@ -1,38 +1,47 @@
-const db = require('../database/database.service');
+const data = require('../database/database.service');
 
-async function createUser(userData) {
-  const data = db.getData();
+function createUser(userData) {
   const nextUserId = `U${1 + Number(data.lastUserId.slice(1))}`;
   const user = { userId: nextUserId, ...userData };
+
   data.users.push(user);
   data.lastUserId = nextUserId;
-  db.setData(data);
-  delete user.password;
-  return user;
+
+  const { password, ...maskedUser } = user;
+  return maskedUser;
 }
 
-async function retrieveUser(userId) {
-  const data = db.getData();
+function retrieveUser(userId) {
   const user = data.users.find((user) => user.userId === userId);
-  delete user.password;
-  return user;
+
+  if (!user) throw new Error('Not Found');
+  else {
+    const { password, ...maskedUser } = user;
+    return maskedUser;
+  }
 }
 
-async function updateUser(userId, userData) {
-  const data = db.getData();
+function updateUser(userId, userData) {
   const userIndex = data.users.findIndex((user) => user.userId === userId);
-  if (userIndex === -1) throw new Error('User not found');
-  data.users[userIndex] = { ...data.users[userIndex], ...userData };
-  db.setData(data);
-  const user = data.users[userIndex];
-  delete user.password;
-  return user;
+  if (userIndex === -1) throw new Error('Not Found');
+  const user = { ...data.users[userIndex], ...userData };
+
+  data.users[userIndex] = user;
+
+  const { password, ...maskedUser } = user;
+  return maskedUser;
 }
 
-async function deleteUser(userId) {
-  const data = db.getData();
+function deleteUser(userId) {
+  const totalRecords = data.users.length;
+
   data.users = data.users.filter((user) => user.userId !== userId);
-  db.setData(data);
+  if (totalRecords === data.users.length) throw new Error('Not Found');
 }
 
-module.exports = { createUser, retrieveUser, updateUser, deleteUser };
+module.exports = {
+  createUser,
+  retrieveUser,
+  updateUser,
+  deleteUser,
+};
