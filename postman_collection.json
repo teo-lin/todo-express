@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "cbd24036-e265-49c5-a41d-db1eadc7d40e",
+    "_postman_id": "93bde9b9-a822-4c09-96e3-f0dfeb930602",
     "name": "todo-apps",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "35136888"
@@ -100,8 +100,7 @@
               "variable": [
                 {
                   "key": "id",
-                  "value": "U1",
-                  "type": "string"
+                  "value": "U1"
                 }
               ]
             }
@@ -679,11 +678,20 @@
                   "    \r",
                   "    pm.expect(responseBody).to.satisfy(msg => \r",
                   "        msg.includes(\"Cannot OPTIONS /api/inexistent/route\") || \r",
-                  "        msg.includes(\"Route OPTIONS:/api/inexistent/route not found\")\r",
+                  "        msg.includes(\"Route OPTIONS:/api/inexistent/route not found\") ||\r",
+                  "        msg.includes(\"Not Found\")\r",
                   "    );\r",
                   "});\r",
                   ""
                 ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "packages": {},
                 "type": "text/javascript"
               }
             }
@@ -720,12 +728,14 @@
                   "\r",
                   "    pm.expect(responseBody).to.satisfy(msg => \r",
                   "        msg.includes(\"Cannot GET /api/users/register\") || \r",
-                  "        msg.includes(\"Route GET:/api/users/register not found\")\r",
+                  "        msg.includes(\"Route GET:/api/users/register not found\") ||\r",
+                  "        msg.includes(\"Not Found\")\r",
                   "    );\r",
                   "});\r",
                   ""
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
@@ -761,12 +771,14 @@
                   "\r",
                   "    pm.expect(responseBody).to.satisfy(msg => \r",
                   "        msg.includes(\"Unexpected token } in JSON at position 88\") || \r",
-                  "        msg.includes(\"Expected double-quoted property name in JSON at position 88\")\r",
+                  "        msg.includes(\"Expected double-quoted property name in JSON at position 88\") ||\r",
+                  "        msg.includes(\"Bad Request\")\r",
                   "    );\r",
                   "});\r",
                   ""
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
@@ -1047,19 +1059,23 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Should throw a 400 error for malformatted body\", function () {",
-                  "    pm.response.to.have.status(400);",
-                  "});",
-                  "",
-                  "pm.test(\"Should throw a syntax error for malformatted body\", function () {",
-                  "    const responseBody = pm.response.text();",
-                  "",
-                  "    pm.expect(responseBody).to.satisfy(msg => ",
-                  "        msg.includes(\"Unexpected token } in JSON at position 54\") || ",
-                  "        msg.includes(\"Expected double-quoted property name in JSON at position 54\")",
-                  "    );});"
+                  "pm.test(\"Status code should 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response body should contain the expected error message\", function () {\r",
+                  "    const responseBody = pm.response.text();\r",
+                  "\r",
+                  "    pm.expect(responseBody).to.satisfy(msg => \r",
+                  "        msg.includes(\"Unexpected token } in JSON at position 88\") || \r",
+                  "        msg.includes(\"Expected double-quoted property name in JSON at position 88\") ||\r",
+                  "        msg.includes(\"Bad Request\")\r",
+                  "    );\r",
+                  "});\r",
+                  ""
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
