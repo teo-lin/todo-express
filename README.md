@@ -1,6 +1,6 @@
 # Barebones Todo App built with multiple frameworks
 
-This repository will contain multiple versions of the same app, so that it can be easily benchmarked later on. The main version will always be the latest version, with all the features. Alternate versions will live in alternate source folders (src-*). A brief description of the alternative is visible as a top folder (beginning with double dot) in each src folder. These are NOT the same as tagged versions, they are forks of the main app. They should normally live in their own repository, but, for learning and comparison purposes, it's easier to host them here.
+This repository will contain multiple versions of the same app, so that it can be easily compared and benchmarked later on. The main version will always be the latest single common denominator among all frameworks analysed, the OOP modular TyperScript implementation (same as src-002). Alternate versions will live in alternate source folders (src-*). A brief description of the alternative is visible as a top folder (beginning with double dot) in each src folder. These are NOT the same as tagged versions, they are forks of the main app. They should normally live in their own repository, but, for learning and comparison purposes, it's easier to host them here.
 
 Base versions, all with in-memory storage:
 

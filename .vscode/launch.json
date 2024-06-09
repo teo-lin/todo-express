@@ -6,7 +6,7 @@
       "request": "launch",
       "name": "nodemon:app",
       "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.14.0/bin/nodemon",
-      "program": "${workspaceFolder}/src/app.js",
+      "program": "${workspaceFolder}/src/app.ts",
       "restart": true,
       "console": "internalConsole"
     },
@@ -37,7 +37,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "ts-node:002",
+      "name": "nodemon:002",
       "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.14.0/bin/nodemon",
       "program": "${workspaceFolder}/src-002/app.js",
       "restart": true,
@@ -49,7 +49,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "ts-node:003",
+      "name": "nodemon:003",
       "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.14.0/bin/nodemon",
       "program": "${workspaceFolder}/src-003/app.js",
       "restart": true,
@@ -59,10 +59,44 @@
       }
     },
     {
+      "type": "node",
+      "request": "launch",
+      "name": "nodemon:004",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run-script", "start:004"],
+      "restart": true,
+      "sourceMaps": true,
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "nodemon:005",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run-script", "start:005"],
+      "restart": true,
+      "sourceMaps": true,
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    {
       "command": "npm start",
       "name": "node",
       "request": "launch",
       "type": "node-terminal"
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "start:debug (attach to process)",
+      "port": 9229,
+      "restart": true,
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"]
     }
   ]
 }
