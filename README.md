@@ -4,13 +4,13 @@ This repository will contain multiple versions of the same app, so that it can b
 
 Base versions, all with in-memory storage:
 
-|     |     | modular | mono<br />(single-file) |                                           |
-| --- | --- | ------- | ----------------------- | ----------------------------------------- |
-| OOP | .js | xx0     | xx1                     | Object Oriented Programming in JavaScript |
-| OOP | .ts | xx2     | xx3                     | Object Oriented Programming in TypeScript |
-| FP  | .ts | xx4     | xx5                     | Functional Programming versions           |
-| FP  | .js | xx6     | xx7                     |                                           |
-| ... | .?  | xx8     | xx9                     | Framework-specific versions               |
+|     |         | modular | mono<br />(single-file) |                                           |
+| --- | ------- | ------- | ----------------------- | ----------------------------------------- |
+| OOP | .js     | xx0     | xx1                     | Object Oriented Programming in JavaScript |
+| OOP | .ts     | xx2     | xx3                     | Object Oriented Programming in TypeScript |
+| FP  | .ts     | xx4     | xx5                     | Functional Programming versions           |
+|     |         | xx6     | xx7                     | ... not yet used                          |
+| OOP | .js/.ts | xx8     | xx9                     | example of bad inheritance implementation |
 
 00x-04x - benchmarking the impact of using various types of hardware resources on performance and speed:
 

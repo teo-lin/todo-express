@@ -8,7 +8,6 @@ class BaseController {
     return async (req, res) => {
       try {
         const result = await method(req);
-        // if (result === null) return res.status(404).json({ message: 'Route not found' });
         if (message) return res.status(code).json({ message });
         res.status(code).json(result);
       } catch (error) {
