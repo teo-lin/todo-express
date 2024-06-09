@@ -302,6 +302,7 @@ app.use(express.json());
 app.use('/api', router);
 
 // ROUTES
+// router.get('/', (req, res) => res.json({ message: 'Hello World!' }));
 router.post('/users/register', UserController.createUser);
 router.get('/users/user/:id', UserController.retrieveUser);
 router.put('/users/user/:id', UserController.updateUser);

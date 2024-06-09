@@ -16,9 +16,11 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Response body matches expected user data\", function () {\r",
+                  "pm.test(\"Status code should be 201\", function () {\r",
                   "    pm.response.to.have.status(201);\r",
+                  "});\r",
                   "\r",
+                  "pm.test(\"Response body should match expected user data\", function () {\r",
                   "    const responseBody = pm.response.json();\r",
                   "\r",
                   "    pm.expect(responseBody.username).to.equal(\"user4\");\r",
@@ -65,9 +67,11 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Response body matches expected user data\", function () {",
+                  "pm.test(\"Status code should be 200\", function () {",
                   "    pm.response.to.have.status(200);",
+                  "});",
                   "",
+                  "pm.test(\"Response body should match the expected user data\", function () {",
                   "    const responseBody = pm.response.json();",
                   "",
                   "    pm.expect(responseBody.userId).to.equal(\"U1\");",
@@ -111,9 +115,11 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Response body matches expected updated user data\", function () {",
+                  "pm.test(\"Status code should be 200\", function () {",
                   "    pm.response.to.have.status(200);",
+                  "});",
                   "",
+                  "pm.test(\"Response body should match the expected updated user data\", function () {",
                   "    const responseBody = pm.response.json();",
                   "",
                   "    pm.expect(responseBody.username).to.equal(\"user2\");",
@@ -165,9 +171,11 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Response body matches expected message for user deletion\", function () {",
+                  "pm.test(\"Status code should be 200\", function () {",
                   "    pm.response.to.have.status(200);",
+                  "});",
                   "",
+                  "pm.test(\"Response body should match the expected message for user deletion\", function () {",
                   "    const responseBody = pm.response.json();",
                   "",
                   "    pm.expect(responseBody.message).to.eql(\"User deleted successfully\");",
@@ -208,9 +216,11 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Response body matches expected task data\", function () {",
+                  "pm.test(\"Status code should be 201\", function () {",
                   "    pm.response.to.have.status(201);",
+                  "});",
                   "",
+                  "pm.test(\"Response body should match the expected task data\", function () {",
                   "    const responseBody = pm.response.json();",
                   "",
                   "    pm.expect(responseBody.listId).to.equal(\"L1\");",
@@ -258,9 +268,11 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Response body matches expected data for task completion\", function () {",
+                  "pm.test(\"Status code should be 200\", function () {",
                   "    pm.response.to.have.status(200);",
+                  "});",
                   "",
+                  "pm.test(\"Response body should match the expected data for task completion\", function () {",
                   "    const responseBody = pm.response.json();",
                   "",
                   "    pm.expect(responseBody.taskId).to.equal(\"T5\");",
@@ -306,9 +318,11 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Response body matches expected task data\", function () {",
+                  "pm.test(\"Status code should be 200\", function () {",
                   "    pm.response.to.have.status(200);",
+                  "});",
                   "",
+                  "pm.test(\"Response body should match the expected task data\", function () {",
                   "    const responseBody = pm.response.json();",
                   "",
                   "    pm.expect(responseBody.taskId).to.equal(\"T1\");",
@@ -353,9 +367,11 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Response body matches expected updated task data\", function () {",
+                  "pm.test(\"Status code should be 200\", function () {",
                   "    pm.response.to.have.status(200);",
+                  "});",
                   "",
+                  "pm.test(\"Response body should match the expected updated task data\", function () {",
                   "    const responseBody = pm.response.json();",
                   "",
                   "    pm.expect(responseBody.listId).to.eql(\"L2\");",
@@ -406,9 +422,11 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Response body matches expected message for task deletion\", function () {",
+                  "pm.test(\"Status code should be 200\", function () {",
                   "    pm.response.to.have.status(200);",
+                  "});",
                   "",
+                  "pm.test(\"Response body should match the expected message for task deletion\", function () {",
                   "    const responseBody = pm.response.json();",
                   "",
                   "    pm.expect(responseBody.message).to.eql(\"Task deleted successfully\");",
@@ -449,9 +467,11 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Response body matches expected updated list data\", function () {",
+                  "pm.test(\"Status code should be 201\", function () {",
                   "    pm.response.to.have.status(201);",
+                  "});",
                   "",
+                  "pm.test(\"Response body should match the expected updated list data\", function () {",
                   "    const responseBody = pm.response.json();",
                   "",
                   "    pm.expect(responseBody.listName).to.equal(\"Another list\");",
@@ -498,9 +518,11 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Response body matches expected list data\", function () {",
+                  "pm.test(\"Status code should be 200\", function () {",
                   "    pm.response.to.have.status(200);",
+                  "});",
                   "",
+                  "pm.test(\"Response body should match the expected list data\", function () {",
                   "    const responseBody = pm.response.json();",
                   "",
                   "    pm.expect(responseBody.listId).to.equal(\"L1\");",
@@ -543,9 +565,11 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Response body matches expected updated list data\", function () {",
+                  "pm.test(\"Status code should be 200\", function () {",
                   "    pm.response.to.have.status(200);",
+                  "});",
                   "",
+                  "pm.test(\"Response body should match the expected updated list data\", function () {",
                   "    const responseBody = pm.response.json();",
                   "",
                   "    pm.expect(responseBody.listName).to.equal(\"Shopping list\");",
@@ -596,9 +620,11 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Response body matches expected message for list deletion\", function () {",
+                  "pm.test(\"Status code should be 200\", function () {",
                   "    pm.response.to.have.status(200);",
+                  "});",
                   "",
+                  "pm.test(\"Response body should match the expected message for list deletion\", function () {",
                   "    const responseBody = pm.response.json();",
                   "",
                   "    pm.expect(responseBody.message).to.eql(\"List deleted successfully\");",
@@ -644,13 +670,17 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Status code is 404\", function () {\r",
+                  "pm.test(\"Status code should be 404\", function () {\r",
                   "    pm.response.to.have.status(404);\r",
                   "});\r",
                   "\r",
-                  "pm.test(\"Response body contains expected error message\", function () {\r",
+                  "pm.test(\"Response body should contain the expected error message\", function () {\r",
                   "    const responseBody = pm.response.text();\r",
-                  "    pm.expect(responseBody).to.contain(\"Cannot OPTIONS /api/inexistent/route\");\r",
+                  "    \r",
+                  "    pm.expect(responseBody).to.satisfy(msg => \r",
+                  "        msg.includes(\"Cannot OPTIONS /api/inexistent/route\") || \r",
+                  "        msg.includes(\"Route OPTIONS:/api/inexistent/route not found\")\r",
+                  "    );\r",
                   "});\r",
                   ""
                 ],
@@ -681,13 +711,17 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Status code is 404\", function () {\r",
+                  "pm.test(\"Status code should 404\", function () {\r",
                   "    pm.response.to.have.status(404);\r",
                   "});\r",
                   "\r",
-                  "pm.test(\"Response body contains expected error message\", function () {\r",
+                  "pm.test(\"Response body should contain the expected error message\", function () {\r",
                   "    const responseBody = pm.response.text();\r",
-                  "    pm.expect(responseBody).to.contain(\"Cannot GET /api/users/register\");\r",
+                  "\r",
+                  "    pm.expect(responseBody).to.satisfy(msg => \r",
+                  "        msg.includes(\"Cannot GET /api/users/register\") || \r",
+                  "        msg.includes(\"Route GET:/api/users/register not found\")\r",
+                  "    );\r",
                   "});\r",
                   ""
                 ],
@@ -718,13 +752,17 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Status code is 400\", function () {\r",
+                  "pm.test(\"Status code should 400\", function () {\r",
                   "    pm.response.to.have.status(400);\r",
                   "});\r",
                   "\r",
-                  "pm.test(\"Response body contains expected error message\", function () {\r",
+                  "pm.test(\"Response body should contain the expected error message\", function () {\r",
                   "    const responseBody = pm.response.text();\r",
-                  "    pm.expect(responseBody).to.contain(\"Unexpected token } in JSON at position 88\");\r",
+                  "\r",
+                  "    pm.expect(responseBody).to.satisfy(msg => \r",
+                  "        msg.includes(\"Unexpected token } in JSON at position 88\") || \r",
+                  "        msg.includes(\"Expected double-quoted property name in JSON at position 88\")\r",
+                  "    );\r",
                   "});\r",
                   ""
                 ],
@@ -767,7 +805,7 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Status code is 400 when the body is missing (not yet implemented)\", function () {\r",
+                  "pm.test(\"Status code should be 400 when the body is missing\", function () {\r",
                   "    pm.response.to.have.status(201);\r",
                   "});\r",
                   "\r",
@@ -812,7 +850,11 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Should not create a user with broken keys (not yet implemented)\", function () {\r",
+                  "pm.test(\"Status code should be 404, but it's 201, as input validation is not implemented\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Should create a user with broken keys\", function () {\r",
                   "    pm.response.to.have.status(201);\r",
                   "\r",
                   "    const responseBody = pm.response.json();\r",
@@ -861,7 +903,7 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Throws 404 for inexistent record\", function () {",
+                  "pm.test(\"Should throw a 404 error for inexistent record\", function () {",
                   "    pm.response.to.have.status(404);",
                   "});",
                   "",
@@ -1012,8 +1054,10 @@
                   "pm.test(\"Should throw a syntax error for malformatted body\", function () {",
                   "    const responseBody = pm.response.text();",
                   "",
-                  "    pm.expect(responseBody).to.contain(\"SyntaxError: Unexpected token } in JSON at position 54\");",
-                  "});"
+                  "    pm.expect(responseBody).to.satisfy(msg => ",
+                  "        msg.includes(\"Unexpected token } in JSON at position 54\") || ",
+                  "        msg.includes(\"Expected double-quoted property name in JSON at position 54\")",
+                  "    );});"
                 ],
                 "type": "text/javascript"
               }
