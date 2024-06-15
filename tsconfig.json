@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "module": "CommonJS",
+    "module": "commonjs",
     "target": "ES2021",
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
@@ -20,5 +20,7 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true
-  }
+  },
+  "include": ["src/**/*.ts", "src/**/*.json"],
+  "exclude": ["node_modules", "build", "dist", "out", "coverage", "test-k6"]
 }
