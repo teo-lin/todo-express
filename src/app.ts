@@ -19,6 +19,7 @@ app.use('/api', router);
 router.use('/users', userRouter);
 router.use('/tasks', taskRouter);
 router.use('/lists', listRouter);
+router.get('/', (req, res) => res.send('Hello World!'));
 
 // SERVER
 const PORT = 3000;
