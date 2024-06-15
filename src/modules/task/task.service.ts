@@ -14,7 +14,7 @@ export default class TaskService {
     return task;
   }
 
-  static retrieveTask(taskId: string): Task | undefined {
+  static retrieveTask(taskId: string): Task {
     const data: Database = DatabaseService.getData();
 
     const task: Task | undefined = data.tasks.find((task: Task) => task.taskId === taskId);

@@ -15,7 +15,7 @@ export default class UserService {
     return maskedUser;
   }
 
-  static retrieveUser(userId: string): MaskedUser | undefined {
+  static retrieveUser(userId: string): MaskedUser {
     const data: Database = DatabaseService.getData();
     const user: User | undefined = data.users.find((user: User) => user.userId === userId);
 

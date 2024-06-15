@@ -14,7 +14,7 @@ export default class ListService {
     return list;
   }
 
-  static retrieveList(listId: string): List | undefined {
+  static retrieveList(listId: string): List {
     const data: Database = DatabaseService.getData();
 
     const list: List | undefined = data.lists.find((list: List) => list.listId === listId);
