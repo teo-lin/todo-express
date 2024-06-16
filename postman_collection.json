@@ -1,1191 +1,1190 @@
 {
-	"info": {
-		"_postman_id": "93bde9b9-a822-4c09-96e3-f0dfeb930602",
-		"name": "todo-apps",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "35136888"
-	},
-	"item": [
-		{
-			"name": "Happy Path",
-			"item": [
-				{
-					"name": "hello",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code should be 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"Should say Hello\", function () {",
-									"    pm.response.to.have.body(\"Hello World!\");",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{root}}",
-							"host": [
-								"{{root}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "create User",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code should be 201\", function () {\r",
-									"    pm.response.to.have.status(201);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Response body should match expected user data\", function () {\r",
-									"    const responseBody = pm.response.json();\r",
-									"\r",
-									"    pm.expect(responseBody.username).to.equal(\"user4\");\r",
-									"    pm.expect(responseBody.fullname).to.equal(\"Gillian Beck\");\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"user4\",\r\n    \"password\": \"pass4\",\r\n    \"fullname\": \"Gillian Beck\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{root}}/users/register",
-							"host": [
-								"{{root}}"
-							],
-							"path": [
-								"users",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "retrieve User",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code should be 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"Response body should match the expected user data\", function () {",
-									"    const responseBody = pm.response.json();",
-									"",
-									"    pm.expect(responseBody.userId).to.equal(\"U1\");",
-									"    pm.expect(responseBody.username).to.equal(\"user1\");",
-									"    pm.expect(responseBody.fullname).to.equal(\"John Doe\");",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{root}}/users/user/:id",
-							"host": [
-								"{{root}}"
-							],
-							"path": [
-								"users",
-								"user",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "U1"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update User",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code should be 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"Response body should match the expected updated user data\", function () {",
-									"    const responseBody = pm.response.json();",
-									"",
-									"    pm.expect(responseBody.username).to.equal(\"user2\");",
-									"    pm.expect(responseBody.fullname).to.equal(\"James Dean\");",
-									"    pm.expect(responseBody.isAdmin).to.equal(false);",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"fullname\": \"James Dean\",\n    \"isAdmin\": false\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{root}}/users/user/:id",
-							"host": [
-								"{{root}}"
-							],
-							"path": [
-								"users",
-								"user",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "U2"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete User",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code should be 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"Response body should match the expected message for user deletion\", function () {",
-									"    const responseBody = pm.response.json();",
-									"",
-									"    pm.expect(responseBody.message).to.eql(\"User deleted successfully\");",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{root}}/users/user/:id",
-							"host": [
-								"{{root}}"
-							],
-							"path": [
-								"users",
-								"user",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "U3"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "create Task",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code should be 201\", function () {",
-									"    pm.response.to.have.status(201);",
-									"});",
-									"",
-									"pm.test(\"Response body should match the expected task data\", function () {",
-									"    const responseBody = pm.response.json();",
-									"",
-									"    pm.expect(responseBody.listId).to.equal(\"L1\");",
-									"    pm.expect(responseBody.userId).to.equal(\"U1\");",
-									"    pm.expect(responseBody.taskName).to.equal(\"Buy eggs\");",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"listId\": \"L1\",\n    \"userId\": \"U1\",\n    \"taskName\": \"Buy eggs\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{root}}/tasks/create",
-							"host": [
-								"{{root}}"
-							],
-							"path": [
-								"tasks",
-								"create"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "complete Task",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code should be 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"Response body should match the expected data for task completion\", function () {",
-									"    const responseBody = pm.response.json();",
-									"",
-									"    pm.expect(responseBody.taskId).to.equal(\"T5\");",
-									"    pm.expect(responseBody.listId).to.equal(\"L3\");",
-									"    pm.expect(responseBody.userId).to.equal(\"U2\");",
-									"    pm.expect(responseBody.taskName).to.equal(\"Run Lola, Run\");",
-									"    pm.expect(responseBody.isComplete).to.equal(true);",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"url": {
-							"raw": "{{root}}/tasks/task/:id/complete",
-							"host": [
-								"{{root}}"
-							],
-							"path": [
-								"tasks",
-								"task",
-								":id",
-								"complete"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "T5"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "retrieve Task",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code should be 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"Response body should match the expected task data\", function () {",
-									"    const responseBody = pm.response.json();",
-									"",
-									"    pm.expect(responseBody.taskId).to.equal(\"T1\");",
-									"    pm.expect(responseBody.listId).to.equal(\"L1\");",
-									"    pm.expect(responseBody.userId).to.equal(\"U1\");",
-									"    pm.expect(responseBody.taskName).to.equal(\"Buy milk\");",
-									"    pm.expect(responseBody.isComplete).to.equal(true);",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{root}}/tasks/task/:id",
-							"host": [
-								"{{root}}"
-							],
-							"path": [
-								"tasks",
-								"task",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "T1"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update Task",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code should be 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"Response body should match the expected updated task data\", function () {",
-									"    const responseBody = pm.response.json();",
-									"",
-									"    pm.expect(responseBody.listId).to.eql(\"L2\");",
-									"    pm.expect(responseBody.taskName).to.eql(\"Buy more eggs\");",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"listId\": \"L2\",\n    \"taskName\": \"Buy more eggs\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{root}}/tasks/task/:id",
-							"host": [
-								"{{root}}"
-							],
-							"path": [
-								"tasks",
-								"task",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "T2"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete Task",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code should be 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"Response body should match the expected message for task deletion\", function () {",
-									"    const responseBody = pm.response.json();",
-									"",
-									"    pm.expect(responseBody.message).to.eql(\"Task deleted successfully\");",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{root}}/tasks/task/:id",
-							"host": [
-								"{{root}}"
-							],
-							"path": [
-								"tasks",
-								"task",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "T3"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "create List",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code should be 201\", function () {",
-									"    pm.response.to.have.status(201);",
-									"});",
-									"",
-									"pm.test(\"Response body should match the expected updated list data\", function () {",
-									"    const responseBody = pm.response.json();",
-									"",
-									"    pm.expect(responseBody.listName).to.equal(\"Another list\");",
-									"    pm.expect(responseBody.isShared).to.equal(false);",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n      \"listName\": \"Another list\",\n      \"isShared\": false\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{root}}/lists/create",
-							"host": [
-								"{{root}}"
-							],
-							"path": [
-								"lists",
-								"create"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "retrieve List",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code should be 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"Response body should match the expected list data\", function () {",
-									"    const responseBody = pm.response.json();",
-									"",
-									"    pm.expect(responseBody.listId).to.equal(\"L1\");",
-									"    pm.expect(responseBody.listName).to.equal(\"Grocery list\");",
-									"    pm.expect(responseBody.isShared).to.equal(false);",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{root}}/lists/list/:id",
-							"host": [
-								"{{root}}"
-							],
-							"path": [
-								"lists",
-								"list",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "L1"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update List",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code should be 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"Response body should match the expected updated list data\", function () {",
-									"    const responseBody = pm.response.json();",
-									"",
-									"    pm.expect(responseBody.listName).to.equal(\"Shopping list\");",
-									"    pm.expect(responseBody.isShared).to.equal(true);",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n      \"isShared\": true\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{root}}/lists/list/:id",
-							"host": [
-								"{{root}}"
-							],
-							"path": [
-								"lists",
-								"list",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "L2"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete List",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code should be 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"Response body should match the expected message for list deletion\", function () {",
-									"    const responseBody = pm.response.json();",
-									"",
-									"    pm.expect(responseBody.message).to.eql(\"List deleted successfully\");",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{root}}/lists/list/:id",
-							"host": [
-								"{{root}}"
-							],
-							"path": [
-								"lists",
-								"list",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "L3"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Errors before Error handling",
-			"item": [
-				{
-					"name": "404 inexistent method !405",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code should be 404\", function () {\r",
-									"    pm.response.to.have.status(404);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Response body should contain the expected error message\", function () {\r",
-									"    const responseBody = pm.response.text();\r",
-									"    \r",
-									"    pm.expect(responseBody).to.satisfy(msg => \r",
-									"        msg.includes(\"Cannot OPTIONS /api/inexistent/route\") || \r",
-									"        msg.includes(\"Route OPTIONS:/api/inexistent/route not found\") ||\r",
-									"        msg.includes(\"Not Found\")\r",
-									"    );\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"packages": {},
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "OPTIONS",
-						"header": [],
-						"url": {
-							"raw": "{{root}}/inexistent/route",
-							"host": [
-								"{{root}}"
-							],
-							"path": [
-								"inexistent",
-								"route"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "404 unpermitted method",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code should 404\", function () {\r",
-									"    pm.response.to.have.status(404);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Response body should contain the expected error message\", function () {\r",
-									"    const responseBody = pm.response.text();\r",
-									"\r",
-									"    pm.expect(responseBody).to.satisfy(msg => \r",
-									"        msg.includes(\"Cannot GET /api/users/register\") || \r",
-									"        msg.includes(\"Route GET:/api/users/register not found\") ||\r",
-									"        msg.includes(\"Not Found\")\r",
-									"    );\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{root}}/users/register",
-							"host": [
-								"{{root}}"
-							],
-							"path": [
-								"users",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "400 malformed body",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code should 400\", function () {\r",
-									"    pm.response.to.have.status(400);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Response body should contain the expected error message\", function () {\r",
-									"    const responseBody = pm.response.text();\r",
-									"\r",
-									"    pm.expect(responseBody).to.satisfy(msg => \r",
-									"        msg.includes(\"Unexpected token } in JSON at position\") || \r",
-									"        msg.includes(\"Expected double-quoted property name in JSON at position\") ||\r",
-									"        msg.includes(\"Bad Request\")\r",
-									"    );\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"user4\",\r\n    \"password\": \"pass4\",\r\n    \"fullname\": \"Gillian Beck\",\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{root}}/users/register",
-							"host": [
-								"{{root}}"
-							],
-							"path": [
-								"users",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "200! missing body !400",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code should be 400 when the body is missing\", function () {\r",
-									"    pm.response.to.have.status(201);\r",
-									"});\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{root}}/users/register",
-							"host": [
-								"{{root}}"
-							],
-							"path": [
-								"users",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "201! incorrect body !400",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code should be 404, but it's 201, as input validation is not implemented\", function () {\r",
-									"    pm.response.to.have.status(201);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Should create a user with broken keys\", function () {\r",
-									"    pm.response.to.have.status(201);\r",
-									"\r",
-									"    const responseBody = pm.response.json();\r",
-									"\r",
-									"    // It should not create an user, but it does, since input validation is not yet implemented\r",
-									"    pm.expect(responseBody.noname).to.equal(\"user\"); \r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"noname\": \"user\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{root}}/users/register",
-							"host": [
-								"{{root}}"
-							],
-							"path": [
-								"users",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "404 Inexistent user",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Should throw a 404 error for inexistent record\", function () {",
-									"    pm.response.to.have.status(404);",
-									"});",
-									"",
-									"pm.test(\"Should throw Not found Error\", function() {",
-									"    const responseBody = pm.response.json();",
-									"",
-									"    pm.expect(responseBody.message).to.equal(\"User not found\");",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{root}}/users/user/:id",
-							"host": [
-								"{{root}}"
-							],
-							"path": [
-								"users",
-								"user",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "X"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "404 inexistent user",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Should throw 404 for inexistent user\", function () {",
-									"    pm.response.to.have.status(404);",
-									"});",
-									"",
-									"pm.test(\"Should throw Not found Error\", function() {",
-									"    const responseBody = pm.response.json();",
-									"",
-									"    pm.expect(responseBody.message).to.equal(\"User not found\");",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"fullname\": \"James Dean\",\n    \"isAdmin\": false\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{root}}/users/user/:id",
-							"host": [
-								"{{root}}"
-							],
-							"path": [
-								"users",
-								"user",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "X"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "404 inexistent user",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Should throw 404 for inexistent user\", function () {",
-									"    pm.response.to.have.status(404);",
-									"});",
-									"",
-									"pm.test(\"Should throw Not found Error\", function() {",
-									"    const responseBody = pm.response.json();",
-									"",
-									"    pm.expect(responseBody.message).to.equal(\"User not found\");",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{root}}/users/user/:id",
-							"host": [
-								"{{root}}"
-							],
-							"path": [
-								"users",
-								"user",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "X"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "400 malformed body",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Should throw a 400 error for malformatted body\", function () {",
-									"    pm.response.to.have.status(400);",
-									"});",
-									"",
-									"pm.test(\"Should throw a syntax error for malformatted body\", function () {",
-									"    const responseBody = pm.response.text();",
-									"",
-									"    pm.expect(responseBody).to.satisfy(msg => ",
-									"        msg.includes(\"Unexpected token } in JSON at position\") || ",
-									"        msg.includes(\"Expected double-quoted property name in JSON at position\") ||",
-									"        msg.includes(\"Bad Request\")",
-									"    );});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"fullname\": \"James Dean\",\n    \"isAdmin\": false,\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{root}}/users/user/:id",
-							"host": [
-								"{{root}}"
-							],
-							"path": [
-								"users",
-								"user",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "U3"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "404 inexistent task",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Should throw 404 for inexistent user\", function () {",
-									"    pm.response.to.have.status(404);",
-									"});",
-									"",
-									"pm.test(\"Should throw Not found Error\", function() {",
-									"    const responseBody = pm.response.json();",
-									"",
-									"    pm.expect(responseBody.message).to.equal(\"Task not found\");",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"url": {
-							"raw": "{{root}}/tasks/task/:id/complete",
-							"host": [
-								"{{root}}"
-							],
-							"path": [
-								"tasks",
-								"task",
-								":id",
-								"complete"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "X"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		}
-	]
+  "info": {
+    "_postman_id": "93bde9b9-a822-4c09-96e3-f0dfeb930602",
+    "name": "todo-apps",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "35136888"
+  },
+  "item": [
+    {
+      "name": "Happy Path",
+      "item": [
+        {
+          "name": "hello",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code should be 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Should say Hello\", function () {",
+                  "    pm.response.to.have.body(\"Hello World!\");",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{root}}",
+              "host": [
+                "{{root}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code should be 201\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response body should match expected user data\", function () {\r",
+                  "    const responseBody = pm.response.json();\r",
+                  "\r",
+                  "    pm.expect(responseBody.username).to.equal(\"user4\");\r",
+                  "    pm.expect(responseBody.fullname).to.equal(\"Gillian Beck\");\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"user4\",\r\n    \"password\": \"pass4\",\r\n    \"fullname\": \"Gillian Beck\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{root}}/users/register",
+              "host": [
+                "{{root}}"
+              ],
+              "path": [
+                "users",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "retrieve User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code should be 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response body should match the expected user data\", function () {",
+                  "    const responseBody = pm.response.json();",
+                  "",
+                  "    pm.expect(responseBody.userId).to.equal(\"U1\");",
+                  "    pm.expect(responseBody.username).to.equal(\"user1\");",
+                  "    pm.expect(responseBody.fullname).to.equal(\"John Doe\");",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{root}}/users/user/:id",
+              "host": [
+                "{{root}}"
+              ],
+              "path": [
+                "users",
+                "user",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "U1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code should be 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response body should match the expected updated user data\", function () {",
+                  "    const responseBody = pm.response.json();",
+                  "",
+                  "    pm.expect(responseBody.username).to.equal(\"user2\");",
+                  "    pm.expect(responseBody.fullname).to.equal(\"James Dean\");",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"fullname\": \"James Dean\",\n    \"isAdmin\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{root}}/users/user/:id",
+              "host": [
+                "{{root}}"
+              ],
+              "path": [
+                "users",
+                "user",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "U2"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code should be 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response body should match the expected message for user deletion\", function () {",
+                  "    const responseBody = pm.response.json();",
+                  "",
+                  "    pm.expect(responseBody.message).to.eql(\"User deleted successfully\");",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{root}}/users/user/:id",
+              "host": [
+                "{{root}}"
+              ],
+              "path": [
+                "users",
+                "user",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "U3"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create Task",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code should be 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response body should match the expected task data\", function () {",
+                  "    const responseBody = pm.response.json();",
+                  "",
+                  "    pm.expect(responseBody.listId).to.equal(\"L1\");",
+                  "    pm.expect(responseBody.userId).to.equal(\"U1\");",
+                  "    pm.expect(responseBody.taskName).to.equal(\"Buy eggs\");",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"listId\": \"L1\",\n    \"userId\": \"U1\",\n    \"taskName\": \"Buy eggs\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{root}}/tasks/create",
+              "host": [
+                "{{root}}"
+              ],
+              "path": [
+                "tasks",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "complete Task",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code should be 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response body should match the expected data for task completion\", function () {",
+                  "    const responseBody = pm.response.json();",
+                  "",
+                  "    pm.expect(responseBody.taskId).to.equal(\"T5\");",
+                  "    pm.expect(responseBody.listId).to.equal(\"L3\");",
+                  "    pm.expect(responseBody.userId).to.equal(\"U2\");",
+                  "    pm.expect(responseBody.taskName).to.equal(\"Run Lola, Run\");",
+                  "    pm.expect(responseBody.isComplete).to.equal(true);",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{root}}/tasks/task/:id/complete",
+              "host": [
+                "{{root}}"
+              ],
+              "path": [
+                "tasks",
+                "task",
+                ":id",
+                "complete"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "T5"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "retrieve Task",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code should be 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response body should match the expected task data\", function () {",
+                  "    const responseBody = pm.response.json();",
+                  "",
+                  "    pm.expect(responseBody.taskId).to.equal(\"T1\");",
+                  "    pm.expect(responseBody.listId).to.equal(\"L1\");",
+                  "    pm.expect(responseBody.userId).to.equal(\"U1\");",
+                  "    pm.expect(responseBody.taskName).to.equal(\"Buy milk\");",
+                  "    pm.expect(responseBody.isComplete).to.equal(true);",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{root}}/tasks/task/:id",
+              "host": [
+                "{{root}}"
+              ],
+              "path": [
+                "tasks",
+                "task",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "T1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update Task",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code should be 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response body should match the expected updated task data\", function () {",
+                  "    const responseBody = pm.response.json();",
+                  "",
+                  "    pm.expect(responseBody.listId).to.eql(\"L2\");",
+                  "    pm.expect(responseBody.taskName).to.eql(\"Buy more eggs\");",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"listId\": \"L2\",\n    \"taskName\": \"Buy more eggs\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{root}}/tasks/task/:id",
+              "host": [
+                "{{root}}"
+              ],
+              "path": [
+                "tasks",
+                "task",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "T2"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete Task",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code should be 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response body should match the expected message for task deletion\", function () {",
+                  "    const responseBody = pm.response.json();",
+                  "",
+                  "    pm.expect(responseBody.message).to.eql(\"Task deleted successfully\");",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{root}}/tasks/task/:id",
+              "host": [
+                "{{root}}"
+              ],
+              "path": [
+                "tasks",
+                "task",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "T3"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create List",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code should be 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response body should match the expected updated list data\", function () {",
+                  "    const responseBody = pm.response.json();",
+                  "",
+                  "    pm.expect(responseBody.listName).to.equal(\"Another list\");",
+                  "    pm.expect(responseBody.isShared).to.equal(false);",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n      \"listName\": \"Another list\",\n      \"isShared\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{root}}/lists/create",
+              "host": [
+                "{{root}}"
+              ],
+              "path": [
+                "lists",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "retrieve List",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code should be 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response body should match the expected list data\", function () {",
+                  "    const responseBody = pm.response.json();",
+                  "",
+                  "    pm.expect(responseBody.listId).to.equal(\"L1\");",
+                  "    pm.expect(responseBody.listName).to.equal(\"Grocery list\");",
+                  "    pm.expect(responseBody.isShared).to.equal(false);",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{root}}/lists/list/:id",
+              "host": [
+                "{{root}}"
+              ],
+              "path": [
+                "lists",
+                "list",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "L1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update List",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code should be 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response body should match the expected updated list data\", function () {",
+                  "    const responseBody = pm.response.json();",
+                  "",
+                  "    pm.expect(responseBody.listName).to.equal(\"Shopping list\");",
+                  "    pm.expect(responseBody.isShared).to.equal(true);",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n      \"isShared\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{root}}/lists/list/:id",
+              "host": [
+                "{{root}}"
+              ],
+              "path": [
+                "lists",
+                "list",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "L2"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete List",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code should be 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response body should match the expected message for list deletion\", function () {",
+                  "    const responseBody = pm.response.json();",
+                  "",
+                  "    pm.expect(responseBody.message).to.eql(\"List deleted successfully\");",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{root}}/lists/list/:id",
+              "host": [
+                "{{root}}"
+              ],
+              "path": [
+                "lists",
+                "list",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "L3"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Errors before Error handling",
+      "item": [
+        {
+          "name": "404 inexistent method !405",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code should be 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response body should contain the expected error message\", function () {\r",
+                  "    const responseBody = pm.response.text();\r",
+                  "    \r",
+                  "    pm.expect(responseBody).to.satisfy(msg => \r",
+                  "        msg.includes(\"Cannot OPTIONS /api/inexistent/route\") || \r",
+                  "        msg.includes(\"Route OPTIONS:/api/inexistent/route not found\") ||\r",
+                  "        msg.includes(\"Not Found\")\r",
+                  "    );\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "packages": {},
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "OPTIONS",
+            "header": [],
+            "url": {
+              "raw": "{{root}}/inexistent/route",
+              "host": [
+                "{{root}}"
+              ],
+              "path": [
+                "inexistent",
+                "route"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "404 unpermitted method",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code should 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response body should contain the expected error message\", function () {\r",
+                  "    const responseBody = pm.response.text();\r",
+                  "\r",
+                  "    pm.expect(responseBody).to.satisfy(msg => \r",
+                  "        msg.includes(\"Cannot GET /api/users/register\") || \r",
+                  "        msg.includes(\"Route GET:/api/users/register not found\") ||\r",
+                  "        msg.includes(\"Not Found\")\r",
+                  "    );\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{root}}/users/register",
+              "host": [
+                "{{root}}"
+              ],
+              "path": [
+                "users",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 malformed body",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code should 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response body should contain the expected error message\", function () {\r",
+                  "    const responseBody = pm.response.text();\r",
+                  "\r",
+                  "    pm.expect(responseBody).to.satisfy(msg => \r",
+                  "        msg.includes(\"Unexpected token } in JSON at position\") || \r",
+                  "        msg.includes(\"Expected double-quoted property name in JSON at position\") ||\r",
+                  "        msg.includes(\"Bad Request\")\r",
+                  "    );\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"user4\",\r\n    \"password\": \"pass4\",\r\n    \"fullname\": \"Gillian Beck\",\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{root}}/users/register",
+              "host": [
+                "{{root}}"
+              ],
+              "path": [
+                "users",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "200! missing body !400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code should be 400 when the body is missing\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{root}}/users/register",
+              "host": [
+                "{{root}}"
+              ],
+              "path": [
+                "users",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "201! incorrect body !400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code should be 404, but it's 201, as input validation is not implemented\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Should create a user with broken keys\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "\r",
+                  "    const responseBody = pm.response.json();\r",
+                  "\r",
+                  "    // It should not create an user, but it does, since input validation is not yet implemented\r",
+                  "    pm.expect(responseBody.noname).to.equal(\"user\"); \r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"noname\": \"user\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{root}}/users/register",
+              "host": [
+                "{{root}}"
+              ],
+              "path": [
+                "users",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "404 Inexistent user",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Should throw a 404 error for inexistent record\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"Should throw Not found Error\", function() {",
+                  "    const responseBody = pm.response.json();",
+                  "",
+                  "    pm.expect(responseBody.message).to.equal(\"User not found\");",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{root}}/users/user/:id",
+              "host": [
+                "{{root}}"
+              ],
+              "path": [
+                "users",
+                "user",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "X"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "404 inexistent user",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Should throw 404 for inexistent user\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"Should throw Not found Error\", function() {",
+                  "    const responseBody = pm.response.json();",
+                  "",
+                  "    pm.expect(responseBody.message).to.equal(\"User not found\");",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"fullname\": \"James Dean\",\n    \"isAdmin\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{root}}/users/user/:id",
+              "host": [
+                "{{root}}"
+              ],
+              "path": [
+                "users",
+                "user",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "X"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "404 inexistent user",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Should throw 404 for inexistent user\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"Should throw Not found Error\", function() {",
+                  "    const responseBody = pm.response.json();",
+                  "",
+                  "    pm.expect(responseBody.message).to.equal(\"User not found\");",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{root}}/users/user/:id",
+              "host": [
+                "{{root}}"
+              ],
+              "path": [
+                "users",
+                "user",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "X"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 malformed body",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Should throw a 400 error for malformatted body\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"Should throw a syntax error for malformatted body\", function () {",
+                  "    const responseBody = pm.response.text();",
+                  "",
+                  "    pm.expect(responseBody).to.satisfy(msg => ",
+                  "        msg.includes(\"Unexpected token } in JSON at position\") || ",
+                  "        msg.includes(\"Expected double-quoted property name in JSON at position\") ||",
+                  "        msg.includes(\"Bad Request\")",
+                  "    );});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"fullname\": \"James Dean\",\n    \"isAdmin\": false,\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{root}}/users/user/:id",
+              "host": [
+                "{{root}}"
+              ],
+              "path": [
+                "users",
+                "user",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "U3"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "404 inexistent task",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Should throw 404 for inexistent user\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"Should throw Not found Error\", function() {",
+                  "    const responseBody = pm.response.json();",
+                  "",
+                  "    pm.expect(responseBody.message).to.equal(\"Task not found\");",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{root}}/tasks/task/:id/complete",
+              "host": [
+                "{{root}}"
+              ],
+              "path": [
+                "tasks",
+                "task",
+                ":id",
+                "complete"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "X"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
 }
