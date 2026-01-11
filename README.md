@@ -40,7 +40,7 @@ Before running it, you need to install dependencies and build the app:
 npm run setup
 
 # you may need to add nodemon to $PATH:
-export PATH="/Users/REPLACE.WITH.YOUR.USER.NAME/.nvm/versions/node/v20.14.0/bin:$PATH"
+export PATH="/Users/REPLACE.WITH.YOUR.USER.NAME/.nvm/versions/node/v20.18.0/bin:$PATH"
 ```
 
 The setup script will run all these commands for you:

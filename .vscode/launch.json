@@ -5,7 +5,7 @@
       "type": "node",
       "request": "launch",
       "name": "express:app",
-      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.14.0/bin/nodemon",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.18.0/bin/nodemon",
       "program": "${workspaceFolder}/src/app.ts",
       "restart": true,
       "console": "internalConsole"
